@@ -36,7 +36,7 @@ export default function Preview({image, header, link}: Params) {
         <Pressable
           style={({pressed}) => (pressed ? styles.buttonPressed : null)}
           onPress={() => {
-            navigation.navigate('Home');
+            navigation.navigate('SignIn');
           }}>
           <Text>SKIP</Text>
         </Pressable>

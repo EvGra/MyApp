@@ -18,6 +18,7 @@ export const COLORS = {
   grayLight: '#7A8D9C',
   blueDark: '#126881',
   blueLight: '#7BCFE9',
+  blueButton: '#1877F2',
   yellow: '#FBBA32',
   orange: '#FFA771',
   pink: '#E4126B',
