@@ -7,12 +7,14 @@ interface Params {
   text: string;
   textColorWhite: boolean;
   colorBg?: boolean;
+  onPress: () => void;
 }
 
-const Button = ({text, textColorWhite, colorBg}: Params) => {
+const Button = ({text, textColorWhite, colorBg, onPress}: Params) => {
   return (
     <View>
       <Pressable
+        onPress={onPress}
         style={({pressed}) => [
           styles.buttonWrapper,
           colorBg ? styles.colorBgblueDark : styles.colorBgBlueLight,
