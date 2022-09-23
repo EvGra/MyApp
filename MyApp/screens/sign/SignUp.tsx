@@ -1,23 +1,41 @@
-import {StyleSheet, Text, View, TextInput, ScrollView} from 'react-native';
-import React from 'react';
+import {StyleSheet, Text, View, ScrollView, Alert} from 'react-native';
+import React, {useState, useContext} from 'react';
 
 import {COLORS} from '../../src/data';
 import Button from '../../components/sign/Button';
 import Header from '../../components/sign/Header';
+import {AuthContext} from '../../src/auth-context';
+import {createUser} from '../../src/auth';
+import LoadingOverlay from '../../components/sign/LoadingOverlay';
+import AuthContent from '../../Auth/AuthContent';
 
 const SignUp = () => {
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
+
+  const authCtx = useContext(AuthContext);
+
+  const signupHandler = async ({email, password}) => {
+    setIsAuthenticating(true);
+    try {
+      const token = await createUser(email, password);
+      authCtx.authenticate(token);
+    } catch (error) {
+      Alert.alert('Failed');
+      setIsAuthenticating(false);
+    }
+  };
+
+  if (isAuthenticating) {
+    return <LoadingOverlay message="Creating user..." />;
+  }
   return (
     <ScrollView>
       <View>
         <Header header="Sign up" button="SIGN IN" link="SignIn" />
         <View style={styles.inputContainer}>
-          <TextInput placeholder="Your name" />
-          <TextInput placeholder="Your email" />
-          <TextInput placeholder="Your password" />
-          <TextInput placeholder="Confirm password" />
+          <AuthContent onAuthenticate={signupHandler} />
         </View>
         <View style={styles.buttonsContainer}>
-          <Button text="SIGN UP" textColorWhite={true} colorBg={true} />
           <Text style={styles.textSocial}>Or Sign in with social media</Text>
           <View style={{marginBottom: 20}}>
             <Button
@@ -49,7 +67,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   textSocial: {
-    marginTop: 40,
+    marginTop: 20,
     marginBottom: 30,
     fontSize: 12,
     color: COLORS.grayLight,

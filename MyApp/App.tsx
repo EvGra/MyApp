@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext} from 'react';
 import {StatusBar, StyleSheet} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -9,6 +9,7 @@ import OnboadingPageThird from './screens/preview/OnboadingPageThird';
 import Home from './screens/main/Home';
 import SignIn from './screens/sign/SignIn';
 import SignUp from './screens/sign/SignUp';
+import {AuthContext, AuthContextProvider} from './src/auth-context';
 
 export type StackParams = {
   OnboardingPageFirst: undefined;
@@ -54,6 +55,7 @@ const PreviewScreens = () => {
 };
 
 // const AuthenticatedScreen = () => {
+//   const authCtx = useContext(AuthContext);
 //   return (
 //     <Stack.Navigator>
 //       <Stack.Screen
@@ -66,18 +68,20 @@ const PreviewScreens = () => {
 // };
 
 const Root = () => {
-  const [isTryingLogin, setIsTryingLogin] = useState(false);
+  const authCtx = useContext(AuthContext);
 
   return (
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Group>
-          {!isTryingLogin && PreviewScreens({})}
-          <Stack.Screen
-            name="Home"
-            component={Home}
-            options={{headerShown: false}}
-          />
+          {!authCtx.isAuthenticated && PreviewScreens({})}
+          {authCtx.isAuthenticated && (
+            <Stack.Screen
+              name="Home"
+              component={Home}
+              options={{headerShown: false}}
+            />
+          )}
         </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>
@@ -88,7 +92,9 @@ const App: React.FC = () => {
   return (
     <>
       <StatusBar barStyle="dark-content" backgroundColor="#FFF" />
-      <Root />
+      <AuthContextProvider>
+        <Root />
+      </AuthContextProvider>
     </>
   );
 };

@@ -1,20 +1,40 @@
-import {StyleSheet, Text, View, TextInput} from 'react-native';
-import React from 'react';
+import {StyleSheet, Text, View, TextInput, Alert} from 'react-native';
+import React, {useState, useContext} from 'react';
 
 import {COLORS} from '../../src/data';
 import Button from '../../components/sign/Button';
 import Header from '../../components/sign/Header';
+import AuthContent from '../../Auth/AuthContent';
+import LoadingOverlay from '../../components/sign/LoadingOverlay';
+import {AuthContext} from '../../src/auth-context';
+import {login} from '../../src/auth';
 
 const SignIn = () => {
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
+
+  const authCtx = useContext(AuthContext);
+
+  const loginHandler = async ({email, password}) => {
+    setIsAuthenticating(true);
+    try {
+      const token = await login(email, password);
+      authCtx.authenticate(token);
+    } catch (error) {
+      Alert.alert('Failed');
+      setIsAuthenticating(false);
+    }
+  };
+
+  if (isAuthenticating) {
+    return <LoadingOverlay message="Login up..." />;
+  }
   return (
     <View>
       <Header header="Sign in" button="SIGN UP" link="SignUp" />
       <View style={styles.inputContainer}>
-        <TextInput placeholder="your name" />
-        <TextInput placeholder="your password" />
+        <AuthContent isLogin onAuthenticate={loginHandler} />
       </View>
       <View style={styles.buttonsContainer}>
-        <Button text="SIGN IN" textColorWhite={true} colorBg={true} />
         <Text style={styles.textSocial}>Or Sign in with social media</Text>
         <View style={{marginBottom: 20}}>
           <Button
@@ -45,7 +65,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   textSocial: {
-    marginTop: 40,
+    marginTop: 20,
     marginBottom: 30,
     fontSize: 12,
     color: COLORS.grayLight,
