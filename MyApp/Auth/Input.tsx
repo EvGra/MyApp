@@ -1,11 +1,12 @@
-import {View, Text, TextInput, StyleSheet} from 'react-native';
+import {useState} from 'react';
+import {View, TextInput, StyleSheet} from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 interface Params {
   keyboardType?: any;
   secure: boolean;
   onUpdateValue?: () => void;
   value: string;
-  label: string;
   isInvalid: boolean;
   placeHolder: string;
 }
@@ -16,19 +17,28 @@ const Input = ({
   onUpdateValue,
   value,
   isInvalid,
-  label,
   placeHolder,
 }: Params) => {
+  const [hidePass, setHidePass] = useState(true);
   return (
     <View style={styles.inputContainer}>
       <TextInput
         style={[styles.input, isInvalid && styles.inputInvalid]}
         keyboardType={keyboardType}
-        secureTextEntry={secure}
+        secureTextEntry={hidePass ? true : false}
         onChangeText={onUpdateValue}
         value={value}
         placeholder={placeHolder}
       />
+      <View style={{marginTop: 20}}>
+        {secure && (
+          <Icon
+            name="eye-slash"
+            size={20}
+            onPress={() => setHidePass(!hidePass)}
+          />
+        )}
+      </View>
     </View>
   );
 };
@@ -36,7 +46,10 @@ const Input = ({
 export default Input;
 
 const styles = StyleSheet.create({
-  inputContainer: {},
+  inputContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
   input: {
     width: 300,
     height: 60,
