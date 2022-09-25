@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 interface Params {
   keyboardType?: any;
   secure: boolean;
-  onUpdateValue?: () => void;
+  onUpdateValue: () => void;
   value: string;
   isInvalid: boolean;
   placeHolder: string;
@@ -23,7 +23,11 @@ const Input = ({
   return (
     <View style={styles.inputContainer}>
       <TextInput
-        style={[styles.input, isInvalid && styles.inputInvalid]}
+        style={[
+          styles.input,
+          isInvalid && styles.inputInvalid,
+          secure && {marginLeft: 20},
+        ]}
         keyboardType={keyboardType}
         secureTextEntry={hidePass ? true : false}
         onChangeText={onUpdateValue}
@@ -55,6 +59,6 @@ const styles = StyleSheet.create({
     height: 60,
   },
   inputInvalid: {
-    backgroundColor: 'white',
+    borderColor: 'red',
   },
 });
