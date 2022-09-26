@@ -5,7 +5,20 @@ import AuthForm from './AuthForm';
 
 interface Params {
   isLogin: boolean;
-  onAuthenticate: undefined;
+  onAuthenticate: ({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) => void;
+}
+
+interface Props {
+  email: string;
+  confirmEmail: string;
+  password: string;
+  confirmPassword: string;
 }
 
 function AuthContent({isLogin, onAuthenticate}: Params) {
@@ -16,9 +29,12 @@ function AuthContent({isLogin, onAuthenticate}: Params) {
     confirmPassword: false,
   });
 
-  function submitHandler(credentials) {
-    let {email, confirmEmail, password, confirmPassword} = credentials;
-
+  const submitHandler = ({
+    email,
+    confirmEmail,
+    password,
+    confirmPassword,
+  }: Props) => {
     email = email.trim();
     password = password.trim();
 
@@ -42,7 +58,7 @@ function AuthContent({isLogin, onAuthenticate}: Params) {
       return;
     }
     onAuthenticate({email, password});
-  }
+  };
   return (
     <View>
       <AuthForm

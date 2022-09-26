@@ -25,8 +25,15 @@ export const COLORS = {
   red: '#E41A4A',
 };
 
-class Button {
-  constructor(id, icon, text) {
+interface Params {
+  this: any;
+}
+
+class Button<Type> {
+  id: Type;
+  icon: Type;
+  text: Type;
+  constructor(id: Type, icon: Type, text: Type) {
     this.id = id;
     this.icon = icon;
     this.text = text;

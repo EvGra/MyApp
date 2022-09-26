@@ -7,7 +7,7 @@ interface Params {
   text: string;
   textColorWhite: boolean;
   colorBg?: boolean;
-  onPress: () => void;
+  onPress?: () => void;
 }
 
 const Button = ({text, textColorWhite, colorBg, onPress}: Params) => {

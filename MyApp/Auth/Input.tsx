@@ -1,11 +1,11 @@
 import {useState} from 'react';
-import {View, TextInput, StyleSheet} from 'react-native';
+import {View, TextInput, StyleSheet, KeyboardTypeOptions} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 interface Params {
-  keyboardType?: any;
-  secure: boolean;
-  onUpdateValue: () => void;
+  keyboardType?: KeyboardTypeOptions;
+  secure?: boolean;
+  onUpdateValue: (text: string) => void;
   value: string;
   isInvalid: boolean;
   placeHolder: string;
@@ -20,6 +20,7 @@ const Input = ({
   placeHolder,
 }: Params) => {
   const [hidePass, setHidePass] = useState(true);
+
   return (
     <View style={styles.inputContainer}>
       <TextInput

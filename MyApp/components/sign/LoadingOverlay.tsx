@@ -1,13 +1,17 @@
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
 
-function LoadingOverlay({ message }) {
+interface Params {
+  message: string;
+}
+
+const LoadingOverlay = ({message}: Params) => {
   return (
     <View style={styles.rootContainer}>
       <Text style={styles.message}>{message}</Text>
       <ActivityIndicator size="large" />
     </View>
   );
-}
+};
 
 export default LoadingOverlay;
 
