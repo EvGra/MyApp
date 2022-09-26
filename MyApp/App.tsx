@@ -71,6 +71,13 @@ const AuthenticatedScreen = () => {
         tabBarShowLabel: false,
         tabBarInactiveTintColor: COLORS.grayLight,
         tabBarActiveTintColor: COLORS.blueDark,
+        tabBarStyle: {
+          marginHorizontal: 30,
+          borderRadius: 50,
+          borderColor: COLORS.grayDark,
+          height: 60,
+          elevation: 0,
+        },
       }}>
       <Tab.Screen
         name="Home"

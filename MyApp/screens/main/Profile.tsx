@@ -1,34 +1,54 @@
 import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
-import {PROFILEBUTTONS} from '../../src/data';
+import React, {useEffect, useState} from 'react';
+import axios from 'axios';
+import {COLORS, PROFILEBUTTONS} from '../../src/data';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Profile = () => {
+  const [fetchedMail, setFetchedMail] = useState('mail');
+
+  // useEffect(() => {
+  //   axios
+  //     .get('')
+  //     .then(response => {
+  //       setFetchedMail(response.data);
+  //     });
+  // }, []);
+
   const pressHandler = () => {
-    console.log(itemData.item.text);
+    console.log('click profile button');
   };
 
   const ProfileButton = itemData => {
     return (
-      <View style={styles.buttonWrapper}>
-        <Pressable>
-          <Ionicons name={itemData.item.icon} />
-          <Text>{itemData.item.text}</Text>
-        </Pressable>
-      </View>
+      <Pressable
+        style={({pressed}) => [
+          styles.buttonWrapper,
+          pressed && styles.buttonPressed,
+        ]}
+        onPress={pressHandler}>
+        <View style={styles.button}>
+          <Ionicons
+            name={itemData.item.icon}
+            size={25}
+            color={COLORS.blueDark}
+          />
+          <Text style={styles.buttonText}>{itemData.item.text}</Text>
+        </View>
+      </Pressable>
     );
   };
 
   return (
-    <View style={styles.profileWrapper}>
-      <View>
-        <Text style={styles.personText}>mail</Text>
+    <View>
+      <View style={styles.personWrapper}>
+        <View style={styles.personPhoto} />
+        <Text style={styles.personText}>{fetchedMail}</Text>
       </View>
       <FlatList
         data={PROFILEBUTTONS}
         keyExtractor={item => item.id}
         renderItem={ProfileButton}
-        onPress={pressHandler}
       />
     </View>
   );
@@ -37,10 +57,43 @@ const Profile = () => {
 export default Profile;
 
 const styles = StyleSheet.create({
-  profileWrapper: {},
+  personWrapper: {
+    alignItems: 'center',
+    marginTop: 80,
+  },
+  personPhoto: {
+    height: 80,
+    width: 80,
+    borderRadius: 50,
+    borderColor: COLORS.grayLight,
+    borderWidth: 5,
+  },
   personText: {
-    marginTop: 120,
+    marginTop: 10,
     fontSize: 18,
   },
-  buttonWrapper: {},
+  buttonWrapper: {
+    justifyContent: 'center',
+    marginVertical: 5,
+    paddingLeft: 25,
+    height: 60,
+    marginHorizontal: 25,
+    borderRadius: 7,
+    borderWidth: 0.2,
+    borderColor: COLORS.grayLight,
+  },
+  button: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  buttonPressed: {
+    backgroundColor: COLORS.grayLight,
+  },
+  buttonText: {
+    marginLeft: 15,
+    color: COLORS.blueDark,
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  ionicon: {},
 });
