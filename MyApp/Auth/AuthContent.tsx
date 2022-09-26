@@ -3,7 +3,25 @@ import {Alert, StyleSheet, View} from 'react-native';
 
 import AuthForm from './AuthForm';
 
-function AuthContent({isLogin, onAuthenticate}) {
+interface Params {
+  isLogin: boolean;
+  onAuthenticate: ({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) => void;
+}
+
+interface Props {
+  email: string;
+  confirmEmail: string;
+  password: string;
+  confirmPassword: string;
+}
+
+function AuthContent({isLogin, onAuthenticate}: Params) {
   const [credentialsInvalid, setCredentialsInvalid] = useState({
     email: false,
     password: false,
@@ -11,14 +29,17 @@ function AuthContent({isLogin, onAuthenticate}) {
     confirmPassword: false,
   });
 
-  function submitHandler(credentials) {
-    let {email, confirmEmail, password, confirmPassword} = credentials;
-
+  const submitHandler = ({
+    email,
+    confirmEmail,
+    password,
+    confirmPassword,
+  }: Props) => {
     email = email.trim();
     password = password.trim();
 
     const emailIsValid = email.includes('@');
-    const passwordIsValid = password.length > 6;
+    const passwordIsValid = password.length > 3;
     const emailsAreEqual = email === confirmEmail;
     const passwordsAreEqual = password === confirmPassword;
 
@@ -37,7 +58,7 @@ function AuthContent({isLogin, onAuthenticate}) {
       return;
     }
     onAuthenticate({email, password});
-  }
+  };
   return (
     <View>
       <AuthForm

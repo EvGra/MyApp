@@ -14,7 +14,13 @@ const SignIn = () => {
 
   const authCtx = useContext(AuthContext);
 
-  const loginHandler = async ({email, password}) => {
+  const signHandler = async ({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) => {
     setIsAuthenticating(true);
     try {
       const token = await login(email, password);
@@ -32,7 +38,7 @@ const SignIn = () => {
     <View>
       <Header header="Sign in" button="SIGN UP" link="SignUp" />
       <View style={styles.inputContainer}>
-        <AuthContent isLogin onAuthenticate={loginHandler} />
+        <AuthContent isLogin onAuthenticate={signHandler} />
       </View>
       <View style={styles.buttonsContainer}>
         <Text style={styles.textSocial}>Or Sign in with social media</Text>

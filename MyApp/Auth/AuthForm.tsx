@@ -6,12 +6,20 @@ import Input from './Input';
 
 interface Params {
   isLogin: boolean;
-  onSubmit;
-  credentialsInvalid;
-  inputType: string;
-  enteredValue: string;
+  onSubmit: (credentials: {
+    email: string;
+    confirmEmail: string;
+    password: string;
+    confirmPassword: string;
+  }) => void;
+  credentialsInvalid: {
+    email: boolean;
+    confirmEmail: boolean;
+    password: boolean;
+    confirmPassword: boolean;
+  };
 }
-function AuthForm({isLogin, onSubmit, credentialsInvalid}: Params) {
+const AuthForm = ({isLogin, onSubmit, credentialsInvalid}: Params) => {
   const [enteredEmail, setEnteredEmail] = useState('');
   const [enteredConfirmEmail, setEnteredConfirmEmail] = useState('');
   const [enteredPassword, setEnteredPassword] = useState('');
@@ -24,7 +32,7 @@ function AuthForm({isLogin, onSubmit, credentialsInvalid}: Params) {
     confirmPassword: passwordsDontMatch,
   } = credentialsInvalid;
 
-  function updateInputValueHandler(inputType, enteredValue) {
+  const updateInputValueHandler = (inputType: string, enteredValue: string) => {
     switch (inputType) {
       case 'email':
         setEnteredEmail(enteredValue);
@@ -39,22 +47,21 @@ function AuthForm({isLogin, onSubmit, credentialsInvalid}: Params) {
         setEnteredConfirmPassword(enteredValue);
         break;
     }
-  }
+  };
 
-  function submitHandler() {
+  const submitHandler = () => {
     onSubmit({
       email: enteredEmail,
       confirmEmail: enteredConfirmEmail,
       password: enteredPassword,
       confirmPassword: enteredConfirmPassword,
     });
-  }
+  };
 
   return (
     <View style={styles.authWrapper}>
       <View style={styles.inputContainer}>
         <Input
-          label="Email Address"
           onUpdateValue={updateInputValueHandler.bind(this, 'email')}
           value={enteredEmail}
           keyboardType="email-address"
@@ -63,7 +70,6 @@ function AuthForm({isLogin, onSubmit, credentialsInvalid}: Params) {
         />
         {!isLogin && (
           <Input
-            label="Confirm Email Address"
             onUpdateValue={updateInputValueHandler.bind(this, 'confirmEmail')}
             value={enteredConfirmEmail}
             keyboardType="email-address"
@@ -72,7 +78,6 @@ function AuthForm({isLogin, onSubmit, credentialsInvalid}: Params) {
           />
         )}
         <Input
-          label="Password"
           onUpdateValue={updateInputValueHandler.bind(this, 'password')}
           secure
           value={enteredPassword}
@@ -81,7 +86,6 @@ function AuthForm({isLogin, onSubmit, credentialsInvalid}: Params) {
         />
         {!isLogin && (
           <Input
-            label="Confirm Password"
             onUpdateValue={updateInputValueHandler.bind(
               this,
               'confirmPassword',
@@ -103,7 +107,7 @@ function AuthForm({isLogin, onSubmit, credentialsInvalid}: Params) {
       </View>
     </View>
   );
-}
+};
 
 export default AuthForm;
 
