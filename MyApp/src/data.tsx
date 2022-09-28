@@ -16,6 +16,7 @@ export const imagesPreview = [
 export const COLORS = {
   grayDark: '#57636F',
   grayLight: '#7A8D9C',
+  grayBackground: '#F6F6F7',
   blueDark: '#126881',
   blueLight: '#7BCFE9',
   blueButton: '#1877F2',
@@ -24,10 +25,6 @@ export const COLORS = {
   pink: '#E4126B',
   red: '#E41A4A',
 };
-
-interface Params {
-  this: any;
-}
 
 class Button<Type> {
   id: Type;
@@ -47,4 +44,21 @@ export const PROFILEBUTTONS = [
   new Button('b4', 'heart-outline', 'My Favourites'),
   new Button('b5', 'wallet-outline', 'Payment'),
   new Button('b6', 'settings-outline', 'Settings'),
+];
+
+export const CATEGORIES = [
+  {
+    id: 'Women Fashion',
+    image: '',
+  },
+  {id: 'Men Fashion', image: ''},
+  {
+    id: 'Child Fashion',
+    image: '',
+  },
+  {id: 'Food & Drink', image: ''},
+  {id: 'Kitchen Tools', image: ''},
+  {id: 'Furniture', image: ''},
+  {id: 'Hobby', image: ''},
+  {id: 'Electronic', image: ''},
 ];
