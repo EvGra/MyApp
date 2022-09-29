@@ -69,6 +69,7 @@ const PreviewScreens = () => {
 };
 
 const CategoryScreens = () => {
+  const authCtx = useContext(AuthContext);
   return (
     <Stack.Group>
       <Stack.Screen name="CategoryScreen" component={CategoryScreen} />
