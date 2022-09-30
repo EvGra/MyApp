@@ -14,7 +14,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {CATEGORIES, COLORS} from '../../src/data';
 import CategoryElement from '../../components/main/CategoryElement';
 import SaleDiscountElement from '../../components/main/SaleDiscountElement';
-import PopularItem from '../../components/main/PopularItem';
+import RenderPopularItem from '../../components/main/RenderPopularItem';
+import PopularList from '../../components/PopularList';
 
 export default function Home({navigation}) {
   const [items, setItems] = useState([]);
@@ -29,8 +30,8 @@ export default function Home({navigation}) {
       });
   }, []);
 
-  let saleList = [];
-  let popularList = [];
+  let saleList: [] = [];
+  let popularList: [] = [];
 
   for (let i = 0; i < items.length; i++) {
     if (items[i].sale == 'true') {
@@ -42,7 +43,13 @@ export default function Home({navigation}) {
   }
   const renderCategoryItem = itemData => {
     const pressHandler = () => {
-      navigation.navigate('CategoryScreens', {screen: 'CategoryScreen'});
+      navigation.navigate('HomeScreens', {
+        screen: 'CategoryScreen',
+        params: {
+          items: items,
+          category: itemData.item.id,
+        },
+      });
     };
 
     return <CategoryElement title={itemData.item.id} onPress={pressHandler} />;
@@ -52,20 +59,6 @@ export default function Home({navigation}) {
     const pressHandler = () => {};
     return (
       <SaleDiscountElement
-        title={itemData.item.name}
-        price={itemData.item.price}
-        image={itemData.item.imageUrl[0]}
-        onPress={pressHandler}
-      />
-    );
-  };
-
-  const renderPopularItem = itemData => {
-    const pressHandler = () => {
-      console.log('popularitem');
-    };
-    return (
-      <PopularItem
         title={itemData.item.name}
         price={itemData.item.price}
         image={itemData.item.imageUrl[0]}
@@ -93,19 +86,24 @@ export default function Home({navigation}) {
                   pressed ? styles.buttonPressed : null,
                 ]}
                 onPress={() => {
-                  navigation.navigate('CategoryScreens', {
+                  navigation.navigate('HomeScreens', {
                     screen: 'SearchScreen',
                   });
                 }}>
-                <Ionicons name="search-outline" size={20} />
+                <Ionicons name="search-outline" size={20} color="white" />
               </Pressable>
             </View>
             <Pressable
               style={({pressed}) => [
                 styles.cartButton,
                 pressed ? styles.buttonPressed : null,
-              ]}>
-              <Ionicons name="cart-outline" size={25} />
+              ]}
+              onPress={() => {
+                navigation.navigate('HomeScreens', {
+                  screen: 'CartScreen',
+                });
+              }}>
+              <Ionicons name="cart-outline" size={25} color="white" />
             </Pressable>
           </View>
           <View>
@@ -166,14 +164,7 @@ export default function Home({navigation}) {
             />
           </View>
         </View>
-        <View style={{paddingLeft: 20}}>
-          <Text style={styles.categoryText}>Popular</Text>
-          <FlatList
-            data={popularList}
-            keyExtractor={item => item.id}
-            renderItem={renderPopularItem}
-          />
-        </View>
+        <PopularList popularList={popularList} />
       </View>
     </ScrollView>
   );
@@ -205,6 +196,7 @@ const styles = StyleSheet.create({
   searchButton: {
     justifyContent: 'center',
     alignItems: 'center',
+    marginRight: 5,
     width: 50,
     height: 40,
     borderRadius: 20,

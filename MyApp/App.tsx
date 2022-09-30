@@ -17,6 +17,7 @@ import Messagies from './screens/main/Messagies';
 import {COLORS} from './src/data';
 import CategoryScreen from './screens/main/CategoryScreen';
 import SearchScreen from './screens/main/SearchScreen';
+import CartScreen from './screens/main/CartScreen';
 
 export type StackParams = {
   OnboardingPageFirst: undefined;
@@ -29,8 +30,9 @@ export type StackParams = {
   Profile: undefined;
   AuthenticatedScreen: undefined;
   CategoryScreen: undefined;
-  CategoryScreens: undefined;
+  HomeScreens: undefined;
   SearchScreen: undefined;
+  CartScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParams>();
@@ -68,17 +70,28 @@ const PreviewScreens = () => {
   );
 };
 
-const CategoryScreens = () => {
+const HomeScreens = () => {
   const authCtx = useContext(AuthContext);
   return (
-    <Stack.Group>
-      <Stack.Screen name="CategoryScreen" component={CategoryScreen} />
+    <Stack.Navigator>
+      <Stack.Screen
+        name="CategoryScreen"
+        component={CategoryScreen}
+        // options={{
+        //   headerBackImageSource:
+        // }}
+      />
       <Stack.Screen
         name="SearchScreen"
         component={SearchScreen}
         options={{headerShown: false}}
       />
-    </Stack.Group>
+      <Stack.Screen
+        name="CartScreen"
+        component={CartScreen}
+        options={{headerShown: false}}
+      />
+    </Stack.Navigator>
   );
 };
 
@@ -152,8 +165,8 @@ const Root = () => {
                 options={{headerShown: false}}
               />
               <Stack.Screen
-                name="CategoryScreens"
-                component={CategoryScreens}
+                name="HomeScreens"
+                component={HomeScreens}
                 options={{headerShown: false}}
               />
             </>
