@@ -15,6 +15,8 @@ import {AuthContext, AuthContextProvider} from './src/auth-context';
 import Profile from './screens/main/Profile';
 import Messagies from './screens/main/Messagies';
 import {COLORS} from './src/data';
+import CategoryScreen from './screens/main/CategoryScreen';
+import SearchScreen from './screens/main/SearchScreen';
 
 export type StackParams = {
   OnboardingPageFirst: undefined;
@@ -26,6 +28,9 @@ export type StackParams = {
   Messagies: undefined;
   Profile: undefined;
   AuthenticatedScreen: undefined;
+  CategoryScreen: undefined;
+  CategoryScreens: undefined;
+  SearchScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParams>();
@@ -63,53 +68,71 @@ const PreviewScreens = () => {
   );
 };
 
+const CategoryScreens = () => {
+  const authCtx = useContext(AuthContext);
+  return (
+    <Stack.Group>
+      <Stack.Screen name="CategoryScreen" component={CategoryScreen} />
+      <Stack.Screen
+        name="SearchScreen"
+        component={SearchScreen}
+        options={{headerShown: false}}
+      />
+    </Stack.Group>
+  );
+};
+
 const AuthenticatedScreen = () => {
   const authCtx = useContext(AuthContext);
   return (
-    <Tab.Navigator
-      screenOptions={{
-        tabBarShowLabel: false,
-        tabBarInactiveTintColor: COLORS.grayLight,
-        tabBarActiveTintColor: COLORS.blueDark,
-        tabBarStyle: {
-          marginHorizontal: 30,
-          borderRadius: 50,
-          borderColor: COLORS.grayDark,
-          height: 60,
-          elevation: 0,
-        },
-      }}>
-      <Tab.Screen
-        name="Home"
-        component={Home}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({color, size}) => (
-            <Ionicons name="home" color={color} size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Messagies"
-        component={Messagies}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({color, size}) => (
-            <Ionicons name="notifications" color={color} size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={Profile}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({color, size}) => (
-            <Ionicons name="ellipse-outline" color={color} size={size} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
+    <>
+      <Tab.Navigator
+        screenOptions={{
+          tabBarShowLabel: false,
+          tabBarInactiveTintColor: COLORS.grayLight,
+          tabBarActiveTintColor: COLORS.blueDark,
+          tabBarStyle: {
+            position: 'absolute',
+            bottom: 0,
+            marginHorizontal: 30,
+            borderRadius: 50,
+            borderColor: COLORS.grayDark,
+            height: 60,
+            elevation: 0,
+          },
+        }}>
+        <Tab.Screen
+          name="Home"
+          component={Home}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({color, size}) => (
+              <Ionicons name="home" color={color} size={size} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Messagies"
+          component={Messagies}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({color, size}) => (
+              <Ionicons name="notifications" color={color} size={size} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Profile"
+          component={Profile}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({color, size}) => (
+              <Ionicons name="ellipse-outline" color={color} size={size} />
+            ),
+          }}
+        />
+      </Tab.Navigator>
+    </>
   );
 };
 
@@ -120,13 +143,20 @@ const Root = () => {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Group>
-          {!authCtx.isAuthenticated && PreviewScreens({})}
+          {!authCtx.isAuthenticated && PreviewScreens()}
           {authCtx.isAuthenticated && (
-            <Stack.Screen
-              name="AuthenticatedScreen"
-              component={AuthenticatedScreen}
-              options={{headerShown: false}}
-            />
+            <>
+              <Stack.Screen
+                name="AuthenticatedScreen"
+                component={AuthenticatedScreen}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="CategoryScreens"
+                component={CategoryScreens}
+                options={{headerShown: false}}
+              />
+            </>
           )}
         </Stack.Group>
       </Stack.Navigator>

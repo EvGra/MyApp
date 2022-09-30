@@ -43,7 +43,7 @@ const SignUp = () => {
         </View>
         <View style={styles.buttonsContainer}>
           <Text style={styles.textSocial}>Or Sign in with social media</Text>
-          <View style={{marginBottom: 20}}>
+          <View style={styles.buttonMargin}>
             <Button
               text="CONTINUE WITH GOOGLE"
               textColorWhite={false}
@@ -66,6 +66,9 @@ export default SignUp;
 const styles = StyleSheet.create({
   buttonsContainer: {
     alignItems: 'center',
+  },
+  buttonMargin: {
+    marginBottom: 20,
   },
   inputContainer: {
     marginTop: 35,

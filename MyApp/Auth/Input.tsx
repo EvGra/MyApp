@@ -27,7 +27,7 @@ const Input = ({
         style={[
           styles.input,
           isInvalid && styles.inputInvalid,
-          secure && {marginLeft: 20},
+          secure && styles.secureMargin,
         ]}
         keyboardType={keyboardType}
         secureTextEntry={hidePass ? true : false}
@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
   },
+  secureMargin: {marginLeft: 20},
   input: {
     width: 300,
     height: 60,
