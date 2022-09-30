@@ -18,7 +18,7 @@ const SaleDiscountElement = ({
       <View style={styles.saleElementWrapper}>
         <Image
           source={{
-            uri: 'https://basket-09.wb.ru/vol1201/part120161/120161344/images/c246x328/1.jpg',
+            uri: image,
           }}
           style={{height: '100%'}}
         />

@@ -7,6 +7,7 @@ import {
   FlatList,
   StatusBar,
 } from 'react-native';
+import {ScrollView} from 'react-native-virtualized-view';
 import React, {useState, useEffect} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -34,7 +35,8 @@ export default function Home({navigation}) {
   for (let i = 0; i < items.length; i++) {
     if (items[i].sale == 'true') {
       saleList.push(items[i]);
-    } else if (items[i].popular == 'true') {
+    }
+    if (items[i].popular == 'true') {
       popularList.push(items[i]);
     }
   }
@@ -52,6 +54,7 @@ export default function Home({navigation}) {
       <SaleDiscountElement
         title={itemData.item.name}
         price={itemData.item.price}
+        image={itemData.item.imageUrl[0]}
         onPress={pressHandler}
       />
     );
@@ -65,107 +68,114 @@ export default function Home({navigation}) {
       <PopularItem
         title={itemData.item.name}
         price={itemData.item.price}
+        image={itemData.item.imageUrl[0]}
         onPress={pressHandler}
       />
     );
   };
 
   return (
-    <View style={styles.homeWrapper}>
-      <View style={styles.header}>
-        <StatusBar backgroundColor={COLORS.grayBackground} />
-        <View style={styles.buttons}>
-          <View style={styles.searchWrapper}>
-            <TextInput
-              placeholder="Search"
-              style={{
-                width: 200,
-              }}
-            />
+    <ScrollView directionalLockEnabled={false}>
+      <View style={styles.homeWrapper}>
+        <View style={styles.header}>
+          <StatusBar backgroundColor={COLORS.grayBackground} />
+          <View style={styles.buttons}>
+            <View style={styles.searchWrapper}>
+              <TextInput
+                placeholder="Search"
+                style={{
+                  width: 200,
+                }}
+              />
+              <Pressable
+                style={({pressed}) => [
+                  styles.searchButton,
+                  pressed ? styles.buttonPressed : null,
+                ]}
+                onPress={() => {
+                  navigation.navigate('CategoryScreens', {
+                    screen: 'SearchScreen',
+                  });
+                }}>
+                <Ionicons name="search-outline" size={20} />
+              </Pressable>
+            </View>
             <Pressable
               style={({pressed}) => [
-                styles.searchButton,
+                styles.cartButton,
                 pressed ? styles.buttonPressed : null,
-              ]}
-              onPress={() => {
-                navigation.navigate('CategoryScreens', {
-                  screen: 'SearchScreen',
-                });
-              }}>
-              <Ionicons name="search-outline" size={20} />
+              ]}>
+              <Ionicons name="cart-outline" size={25} />
             </Pressable>
           </View>
+          <View>
+            <Text style={styles.categoryText}>Category</Text>
+            <FlatList
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+              data={CATEGORIES}
+              keyExtractor={item => item.id}
+              renderItem={renderCategoryItem}
+            />
+          </View>
+        </View>
+        <View style={styles.userInfoWrapper}>
           <Pressable
-            style={({pressed}) => [
-              styles.cartButton,
-              pressed ? styles.buttonPressed : null,
-            ]}>
-            <Ionicons name="cart-outline" size={25} />
+            style={({pressed}) => (pressed ? styles.buttonPressed : null)}>
+            <View style={styles.walletButton}>
+              <Ionicons name="wallet-outline" size={20} color="white" />
+              <Text style={styles.textButtonInUserInfo}>{'\u0024'}</Text>
+              <Text style={styles.textButtonInUserInfo}>1.500</Text>
+            </View>
+          </Pressable>
+          <Pressable
+            style={({pressed}) => (pressed ? styles.buttonPressed : null)}>
+            <View style={styles.buttonsInUserInfo}>
+              <Ionicons
+                name="arrow-up-circle-outline"
+                size={20}
+                color="white"
+              />
+              <Text style={styles.textButtonInUserInfo}>Pay</Text>
+            </View>
+          </Pressable>
+          <Pressable
+            style={({pressed}) => (pressed ? styles.buttonPressed : null)}>
+            <View style={styles.buttonsInUserInfo}>
+              <Ionicons name="add-circle-outline" size={20} color="white" />
+              <Text style={styles.textButtonInUserInfo}>Top Up</Text>
+            </View>
+          </Pressable>
+          <Pressable
+            style={({pressed}) => (pressed ? styles.buttonPressed : null)}>
+            <View style={styles.buttonsInUserInfo}>
+              <Ionicons name="list-circle-outline" size={20} color="white" />
+              <Text style={styles.textButtonInUserInfo}>More</Text>
+            </View>
           </Pressable>
         </View>
-        <View>
-          <Text style={styles.categoryText}>Category</Text>
+        <View style={{paddingLeft: 20}}>
+          <Text style={styles.categoryText}>Sale Discount</Text>
+          <View>
+            <FlatList
+              showsHorizontalScrollIndicator={false}
+              horizontal={true}
+              data={saleList}
+              keyExtractor={item => item.id}
+              renderItem={renderSaleItem}
+            />
+          </View>
+        </View>
+        <View style={{paddingLeft: 20}}>
+          <Text style={styles.categoryText}>Popular</Text>
           <FlatList
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            data={CATEGORIES}
+            data={popularList}
             keyExtractor={item => item.id}
-            renderItem={renderCategoryItem}
+            renderItem={renderPopularItem}
           />
         </View>
       </View>
-      <View style={styles.userInfoWrapper}>
-        <Pressable
-          style={({pressed}) => (pressed ? styles.buttonPressed : null)}>
-          <View style={styles.walletButton}>
-            <Ionicons name="wallet-outline" size={20} color="white" />
-            <Text style={styles.textButtonInUserInfo}>{'\u0024'}</Text>
-            <Text style={styles.textButtonInUserInfo}>1.500</Text>
-          </View>
-        </Pressable>
-        <Pressable
-          style={({pressed}) => (pressed ? styles.buttonPressed : null)}>
-          <View style={styles.buttonsInUserInfo}>
-            <Ionicons name="arrow-up-circle-outline" size={20} color="white" />
-            <Text style={styles.textButtonInUserInfo}>Pay</Text>
-          </View>
-        </Pressable>
-        <Pressable
-          style={({pressed}) => (pressed ? styles.buttonPressed : null)}>
-          <View style={styles.buttonsInUserInfo}>
-            <Ionicons name="add-circle-outline" size={20} color="white" />
-            <Text style={styles.textButtonInUserInfo}>Top Up</Text>
-          </View>
-        </Pressable>
-        <Pressable
-          style={({pressed}) => (pressed ? styles.buttonPressed : null)}>
-          <View style={styles.buttonsInUserInfo}>
-            <Ionicons name="list-circle-outline" size={20} color="white" />
-            <Text style={styles.textButtonInUserInfo}>More</Text>
-          </View>
-        </Pressable>
-      </View>
-      <View style={{paddingLeft: 20}}>
-        <Text style={styles.categoryText}>Sale Discount</Text>
-        <View>
-          <FlatList
-            showsHorizontalScrollIndicator={false}
-            horizontal={true}
-            data={saleList}
-            keyExtractor={item => item.id}
-            renderItem={renderSaleItem}
-          />
-        </View>
-      </View>
-      <View style={{paddingLeft: 20}}>
-        <Text style={styles.categoryText}>Popular</Text>
-        <FlatList
-          data={saleList}
-          keyExtractor={item => item.id}
-          renderItem={renderPopularItem}
-        />
-      </View>
-    </View>
+    </ScrollView>
   );
 }
 
