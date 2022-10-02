@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {StatusBar, StyleSheet} from 'react-native';
+import {StatusBar, StyleSheet, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -18,6 +18,8 @@ import {COLORS} from './src/data';
 import CategoryScreen from './screens/main/CategoryScreen';
 import SearchScreen from './screens/main/SearchScreen';
 import CartScreen from './screens/main/CartScreen';
+import CartButton from './components/CartButton';
+import GoBackButton from './components/CategoryScreen/GoBackButton';
 
 export type StackParams = {
   OnboardingPageFirst: undefined;
@@ -70,16 +72,36 @@ const PreviewScreens = () => {
   );
 };
 
-const HomeScreens = () => {
+const HomeScreens = ({navigation}) => {
   const authCtx = useContext(AuthContext);
+
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="CategoryScreen"
         component={CategoryScreen}
-        // options={{
-        //   headerBackImageSource:
-        // }}
+        options={{
+          headerRight: () => (
+            <CartButton
+              onPress={() => {
+                navigation.navigate('CartScreen');
+              }}
+            />
+          ),
+          headerLeft: () => (
+            <GoBackButton
+              onPress={() => {
+                navigation.navigate('Home');
+              }}
+            />
+          ),
+          headerStyle: {
+            backgroundColor: '#transparent',
+          },
+          headerTitleStyle: {
+            color: COLORS.grayDark,
+          },
+        }}
       />
       <Stack.Screen
         name="SearchScreen"

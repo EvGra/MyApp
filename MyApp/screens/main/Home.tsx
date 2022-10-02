@@ -16,6 +16,7 @@ import CategoryElement from '../../components/main/CategoryElement';
 import SaleDiscountElement from '../../components/main/SaleDiscountElement';
 import RenderPopularItem from '../../components/main/RenderPopularItem';
 import PopularList from '../../components/PopularList';
+import CartButton from '../../components/CartButton';
 
 export default function Home({navigation}) {
   const [items, setItems] = useState([]);
@@ -93,18 +94,13 @@ export default function Home({navigation}) {
                 <Ionicons name="search-outline" size={20} color="white" />
               </Pressable>
             </View>
-            <Pressable
-              style={({pressed}) => [
-                styles.cartButton,
-                pressed ? styles.buttonPressed : null,
-              ]}
+            <CartButton
               onPress={() => {
                 navigation.navigate('HomeScreens', {
                   screen: 'CartScreen',
                 });
-              }}>
-              <Ionicons name="cart-outline" size={25} color="white" />
-            </Pressable>
+              }}
+            />
           </View>
           <View>
             <Text style={styles.categoryText}>Category</Text>
@@ -202,14 +198,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: COLORS.blueLight,
   },
-  cartButton: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: COLORS.blueLight,
-  },
+
   categoryText: {
     marginVertical: 20,
     fontSize: 20,
