@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {StatusBar, StyleSheet, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -20,6 +20,7 @@ import SearchScreen from './screens/main/SearchScreen';
 import CartScreen from './screens/main/CartScreen';
 import CartButton from './components/CartButton';
 import GoBackButton from './components/CategoryScreen/GoBackButton';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export type StackParams = {
   OnboardingPageFirst: undefined;
@@ -119,6 +120,7 @@ const HomeScreens = ({navigation}) => {
 
 const AuthenticatedScreen = () => {
   const authCtx = useContext(AuthContext);
+
   return (
     <>
       <Tab.Navigator
@@ -173,6 +175,17 @@ const AuthenticatedScreen = () => {
 
 const Root = () => {
   const authCtx = useContext(AuthContext);
+
+  useEffect(() => {
+    const fetchToken = async () => {
+      const storedToken = await AsyncStorage.getItem('token');
+
+      if (storedToken) {
+        authCtx.authenticate(storedToken);
+      }
+    };
+    fetchToken();
+  }, []);
 
   return (
     <NavigationContainer>
