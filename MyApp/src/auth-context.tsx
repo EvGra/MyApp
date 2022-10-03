@@ -6,10 +6,23 @@ export const AuthContext = createContext({
   isAuthenticated: false,
   authenticate: (token: string) => {},
   logout: () => {},
+  items: {},
 });
 
 export const AuthContextProvider = ({children}) => {
   const [authToken, setAuthToken] = useState();
+
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    fetch('https://6332f8cc573c03ab0b551d3e.mockapi.io/items')
+      .then(res => {
+        return res.json();
+      })
+      .then(arr => {
+        setItems(arr);
+      });
+  }, []);
 
   const authenticate = token => {
     setAuthToken(token);
@@ -25,6 +38,7 @@ export const AuthContextProvider = ({children}) => {
     isAuthenticated: !!authToken,
     authenticate: authenticate,
     logout: logout,
+    items: items,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

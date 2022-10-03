@@ -8,28 +8,20 @@ import {
   StatusBar,
 } from 'react-native';
 import {ScrollView} from 'react-native-virtualized-view';
-import React, {useState, useEffect} from 'react';
+import React, {useContext} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {CATEGORIES, COLORS} from '../../src/data';
 import CategoryElement from '../../components/main/CategoryElement';
 import SaleDiscountElement from '../../components/main/SaleDiscountElement';
-import RenderPopularItem from '../../components/main/RenderPopularItem';
 import PopularList from '../../components/PopularList';
-import CartButton from '../../components/CartButton';
+import SearchHeader from '../../components/SearchHeader';
+import {AuthContext} from '../../src/auth-context';
 
 export default function Home({navigation}) {
-  const [items, setItems] = useState([]);
+  const Context = useContext(AuthContext);
 
-  useEffect(() => {
-    fetch('https://6332f8cc573c03ab0b551d3e.mockapi.io/items')
-      .then(res => {
-        return res.json();
-      })
-      .then(arr => {
-        setItems(arr);
-      });
-  }, []);
+  const items = Context.items;
 
   let saleList: [] = [];
   let popularList: [] = [];
@@ -72,36 +64,7 @@ export default function Home({navigation}) {
     <ScrollView directionalLockEnabled={false}>
       <View style={styles.homeWrapper}>
         <View style={styles.header}>
-          <StatusBar backgroundColor={COLORS.grayBackground} />
-          <View style={styles.buttons}>
-            <View style={styles.searchWrapper}>
-              <TextInput
-                placeholder="Search"
-                style={{
-                  width: 200,
-                }}
-              />
-              <Pressable
-                style={({pressed}) => [
-                  styles.searchButton,
-                  pressed ? styles.buttonPressed : null,
-                ]}
-                onPress={() => {
-                  navigation.navigate('HomeScreens', {
-                    screen: 'SearchScreen',
-                  });
-                }}>
-                <Ionicons name="search-outline" size={20} color="white" />
-              </Pressable>
-            </View>
-            <CartButton
-              onPress={() => {
-                navigation.navigate('HomeScreens', {
-                  screen: 'CartScreen',
-                });
-              }}
-            />
-          </View>
+          <SearchHeader navigation={navigation} />
           <View>
             <Text style={styles.categoryText}>Category</Text>
             <FlatList
@@ -182,23 +145,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     paddingRight: 10,
   },
-  searchWrapper: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    border: 1,
-    borderColor: COLORS.blueLight,
-    borderRadius: 5,
-  },
-  searchButton: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 5,
-    width: 50,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: COLORS.blueLight,
-  },
-
   categoryText: {
     marginVertical: 20,
     fontSize: 20,

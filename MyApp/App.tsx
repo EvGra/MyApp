@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useEffect, createContext} from 'react';
 import {StatusBar, StyleSheet, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -74,8 +74,6 @@ const PreviewScreens = () => {
 };
 
 const HomeScreens = ({navigation}) => {
-  const authCtx = useContext(AuthContext);
-
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -119,8 +117,6 @@ const HomeScreens = ({navigation}) => {
 };
 
 const AuthenticatedScreen = () => {
-  const authCtx = useContext(AuthContext);
-
   return (
     <>
       <Tab.Navigator
