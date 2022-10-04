@@ -8,23 +8,30 @@ const PopularItem = ({
   title,
   price,
   image,
-  onPress,
+  navigation,
 }: {
   title: string;
   price: string;
   image: string;
-  onPress: () => void;
+  navigation: any;
 }) => {
   return (
     <View style={styles.popularElementWrapper}>
-      <View style={{backgroundColor: COLORS.grayBackground, width: 90}}>
-        <Image
-          source={{
-            uri: image,
-          }}
-          style={styles.popularImage}
-        />
-      </View>
+      <Pressable
+        onPress={() => {
+          navigation.navigate('HomeScreens', {
+            screen: 'ItemScreen',
+          });
+        }}>
+        <View style={{backgroundColor: COLORS.grayBackground, width: 90}}>
+          <Image
+            source={{
+              uri: image,
+            }}
+            style={styles.popularImage}
+          />
+        </View>
+      </Pressable>
       <View style={styles.infoWrapper}>
         <View style={styles.infoItem}>
           <Text style={styles.infoItemName}>{title}</Text>

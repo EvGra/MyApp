@@ -1,12 +1,12 @@
 import {StyleSheet, Text, View, Pressable, FlatList} from 'react-native';
 import React, {useContext, useState} from 'react';
 import SearchHeader from '../../components/SearchHeader';
-import {AuthContext, AuthContextProvider} from '../../src/auth-context';
+import {AuthContext} from '../../src/auth-context';
 import SearchItem from '../../components/main/SearchItem';
 
 const SearchScreen = ({navigation}: {navigation: any}) => {
   const Context = useContext(AuthContext);
-  const [inputText, setInputText] = useState();
+  const [inputText, setInputText] = useState('');
 
   let items = Context.items;
 
@@ -17,12 +17,16 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
         title={itemData.item.name}
         price={itemData.item.price}
         image={itemData.item.imageUrl[0]}
-        onPress={pressHandler}
+        onPress={() => {
+          navigation.navigate('HomeScreens', {
+            screen: 'ItemScreen',
+          });
+        }}
       />
     );
   };
 
-  const pickedTextHandler = (pickedText: any) => {
+  const pickedTextHandler = (pickedText: string) => {
     setInputText(pickedText);
   };
 
@@ -38,17 +42,18 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
 
   return (
     <View style={styles.searchPageWrapper}>
-      <SearchHeader onPickText={pickedTextHandler} navigation={navigation} />
+      <SearchHeader onPickText={pickedTextHandler} />
       <View>
         <View style={styles.headerWrapper}>
-          <Text>{items.length} Items Found</Text>
+          <Text>
+            {newItems.length ? newItems.length : items.length} Items Found
+          </Text>
           <Pressable>
             <Text>Filters</Text>
           </Pressable>
         </View>
         <View style={styles.itemsWrapper}>
           <FlatList
-            style={{}}
             data={inputText ? newItems : items}
             keyExtractor={item => item.id}
             renderItem={renderItem}

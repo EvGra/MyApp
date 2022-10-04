@@ -8,7 +8,7 @@ import {
   StatusBar,
 } from 'react-native';
 import {ScrollView} from 'react-native-virtualized-view';
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {CATEGORIES, COLORS} from '../../src/data';
@@ -18,8 +18,9 @@ import PopularList from '../../components/PopularList';
 import SearchHeader from '../../components/SearchHeader';
 import {AuthContext} from '../../src/auth-context';
 
-export default function Home({navigation}) {
+export default function Home({navigation}: {navigation: any}) {
   const Context = useContext(AuthContext);
+  const [inputText, setInputText] = useState('');
 
   const items = Context.items;
 
@@ -33,6 +34,19 @@ export default function Home({navigation}) {
     if (items[i].popular == 'true') {
       popularList.push(items[i]);
     }
+  }
+  const pickedTextHandler = (pickedText: string) => {
+    setInputText(pickedText);
+  };
+
+  const newItems: [] = [];
+
+  if (inputText) {
+    items.filter(item => {
+      if (item.name.toLowerCase().includes(inputText.toLowerCase())) {
+        newItems.push(item);
+      }
+    });
   }
   const renderCategoryItem = itemData => {
     const pressHandler = () => {
@@ -50,21 +64,17 @@ export default function Home({navigation}) {
 
   const renderSaleItem = itemData => {
     const pressHandler = () => {};
-    return (
-      <SaleDiscountElement
-        title={itemData.item.name}
-        price={itemData.item.price}
-        image={itemData.item.imageUrl[0]}
-        onPress={pressHandler}
-      />
-    );
+    return <SaleDiscountElement item={itemData.item} navigation={navigation} />;
   };
 
   return (
     <ScrollView directionalLockEnabled={false}>
       <View style={styles.homeWrapper}>
         <View style={styles.header}>
-          <SearchHeader navigation={navigation} />
+          <SearchHeader
+            onPickText={pickedTextHandler}
+            navigation={navigation}
+          />
           <View>
             <Text style={styles.categoryText}>Category</Text>
             <FlatList

@@ -13,8 +13,8 @@ import {COLORS} from '../src/data';
 import CartButton from './CartButton';
 
 interface Params {
-  navigation: any;
-  onPickText;
+  navigation?: any;
+  onPickText?: any;
 }
 const SearchHeader = ({onPickText, navigation}: Params) => {
   const [inputText, setInputText] = useState('');
@@ -26,6 +26,8 @@ const SearchHeader = ({onPickText, navigation}: Params) => {
   const confirmInputHandler = () => {
     onPickText(inputText);
   };
+
+  const onPress = () => {};
 
   return (
     <View>
@@ -48,13 +50,13 @@ const SearchHeader = ({onPickText, navigation}: Params) => {
               pressed ? styles.buttonPressed : null,
             ]}
             onPress={
-              inputText
-                ? confirmInputHandler
-                : () => {
+              navigation
+                ? () => {
                     navigation.navigate('HomeScreens', {
                       screen: 'SearchScreen',
                     });
                   }
+                : confirmInputHandler
             }>
             <Ionicons name="search-outline" size={20} color="white" />
           </Pressable>

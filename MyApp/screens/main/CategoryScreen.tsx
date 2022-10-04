@@ -1,11 +1,10 @@
 import {StyleSheet, Text, View, FlatList, StatusBar} from 'react-native';
 import React, {useState, useLayoutEffect} from 'react';
 import SubCategory from '../../components/CategoryScreen/SubCategory';
-import RenderPopularItem from '../../components/main/RenderPopularItem';
 import PopularList from '../../components/PopularList';
 import {COLORS} from '../../src/data';
 
-const CategoryScreen = ({route, navigation}) => {
+const CategoryScreen = ({route, navigation}: {route: any; navigation: any}) => {
   const {items, category} = route.params;
 
   let categoryItems = [];

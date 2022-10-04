@@ -21,6 +21,7 @@ import CartScreen from './screens/main/CartScreen';
 import CartButton from './components/CartButton';
 import GoBackButton from './components/CategoryScreen/GoBackButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import ItemScreen from './screens/main/ItemScreen';
 
 export type StackParams = {
   OnboardingPageFirst: undefined;
@@ -36,6 +37,7 @@ export type StackParams = {
   HomeScreens: undefined;
   SearchScreen: undefined;
   CartScreen: undefined;
+  ItemScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParams>();
@@ -73,7 +75,7 @@ const PreviewScreens = () => {
   );
 };
 
-const HomeScreens = ({navigation}) => {
+const HomeScreens = ({navigation}: {navigation: any}) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -110,6 +112,11 @@ const HomeScreens = ({navigation}) => {
       <Stack.Screen
         name="CartScreen"
         component={CartScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="ItemScreen"
+        component={ItemScreen}
         options={{headerShown: false}}
       />
     </Stack.Navigator>
