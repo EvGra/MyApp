@@ -1,29 +1,25 @@
 import {StyleSheet, Text, View, Pressable, FlatList} from 'react-native';
 import React, {useContext, useState} from 'react';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+
 import SearchHeader from '../../components/SearchHeader';
 import {AuthContext} from '../../src/auth-context';
 import SearchItem from '../../components/main/SearchItem';
+import {StackParams} from '../../App';
 
-const SearchScreen = ({navigation}: {navigation: any}) => {
+type searchScreenProp = StackNavigationProp<StackParams, 'SearchScreen'>;
+
+const SearchScreen = () => {
+  const navigation = useNavigation<searchScreenProp>();
+
   const Context = useContext(AuthContext);
   const [inputText, setInputText] = useState('');
 
   let items = Context.items;
 
   const renderItem = itemData => {
-    const pressHandler = () => {};
-    return (
-      <SearchItem
-        title={itemData.item.name}
-        price={itemData.item.price}
-        image={itemData.item.imageUrl[0]}
-        onPress={() => {
-          navigation.navigate('HomeScreens', {
-            screen: 'ItemScreen',
-          });
-        }}
-      />
-    );
+    return <SearchItem item={itemData.item} />;
   };
 
   const pickedTextHandler = (pickedText: string) => {

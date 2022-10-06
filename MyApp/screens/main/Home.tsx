@@ -10,6 +10,8 @@ import {
 import {ScrollView} from 'react-native-virtualized-view';
 import React, {useContext, useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
 
 import {CATEGORIES, COLORS} from '../../src/data';
 import CategoryElement from '../../components/main/CategoryElement';
@@ -18,7 +20,14 @@ import PopularList from '../../components/PopularList';
 import SearchHeader from '../../components/SearchHeader';
 import {AuthContext} from '../../src/auth-context';
 
-export default function Home({navigation}: {navigation: any}) {
+type StackParamList = {
+  HomeScreens: {screen: string; params: {}} | undefined;
+};
+
+type NavigationProps = StackNavigationProp<StackParamList>;
+
+const Home = () => {
+  const navigation = useNavigation<NavigationProps>();
   const Context = useContext(AuthContext);
   const [inputText, setInputText] = useState('');
 
@@ -49,6 +58,8 @@ export default function Home({navigation}: {navigation: any}) {
     });
   }
   const renderCategoryItem = itemData => {
+    console.log(typeof itemData);
+
     const pressHandler = () => {
       navigation.navigate('HomeScreens', {
         screen: 'CategoryScreen',
@@ -63,18 +74,14 @@ export default function Home({navigation}: {navigation: any}) {
   };
 
   const renderSaleItem = itemData => {
-    const pressHandler = () => {};
-    return <SaleDiscountElement item={itemData.item} navigation={navigation} />;
+    return <SaleDiscountElement item={itemData.item} />;
   };
 
   return (
     <ScrollView directionalLockEnabled={false}>
       <View style={styles.homeWrapper}>
         <View style={styles.header}>
-          <SearchHeader
-            onPickText={pickedTextHandler}
-            navigation={navigation}
-          />
+          <SearchHeader onPickText={pickedTextHandler} />
           <View>
             <Text style={styles.categoryText}>Category</Text>
             <FlatList
@@ -137,7 +144,9 @@ export default function Home({navigation}: {navigation: any}) {
       </View>
     </ScrollView>
   );
-}
+};
+
+export default Home;
 
 const styles = StyleSheet.create({
   homeWrapper: {},

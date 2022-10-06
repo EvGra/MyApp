@@ -1,32 +1,35 @@
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
 
 import {COLORS} from '../../src/data';
 
-const PopularItem = ({
-  title,
-  price,
-  image,
-  navigation,
-}: {
-  title: string;
-  price: string;
-  image: string;
-  navigation: any;
-}) => {
+type StackParamList = {
+  HomeScreens: {screen: string; params: {}} | undefined;
+};
+
+type NavigationProps = StackNavigationProp<StackParamList>;
+
+const PopularItem = ({item}) => {
+  const navigation = useNavigation<NavigationProps>();
+
   return (
     <View style={styles.popularElementWrapper}>
       <Pressable
         onPress={() => {
           navigation.navigate('HomeScreens', {
             screen: 'ItemScreen',
+            params: {
+              item: item,
+            },
           });
         }}>
-        <View style={{backgroundColor: COLORS.grayBackground, width: 90}}>
+        <View style={styles.imageWrapper}>
           <Image
             source={{
-              uri: image,
+              uri: item.imageUrl[0],
             }}
             style={styles.popularImage}
           />
@@ -34,10 +37,10 @@ const PopularItem = ({
       </Pressable>
       <View style={styles.infoWrapper}>
         <View style={styles.infoItem}>
-          <Text style={styles.infoItemName}>{title}</Text>
+          <Text style={styles.infoItemName}>{item.name}</Text>
           <Text style={styles.infoItemPrice}>
             {'\u0024'}
-            {price}
+            {item.price}
           </Text>
           <Text>rating</Text>
         </View>
@@ -64,6 +67,7 @@ const styles = StyleSheet.create({
     height: 130,
     marginBottom: 15,
   },
+  imageWrapper: {backgroundColor: COLORS.grayBackground, width: 90},
   popularImage: {
     height: '100%',
     borderRadius: 5,

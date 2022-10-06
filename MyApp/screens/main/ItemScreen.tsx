@@ -9,15 +9,23 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import SwipeUpDown from 'react-native-swipe-up-down';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {useRoute} from '@react-navigation/native';
 
 import TitleAndPriceForElement from '../../components/main/TitleAndPriceForElement';
+import {StackParams} from '../../App';
 import {COLORS} from '../../src/data';
 import Button from '../../components/sign/Button';
-import CartButton from '../../components/CartButton';
-import GoBackButton from '../../components/CategoryScreen/GoBackButton';
+import HeaderButton from '../../components/CategoryScreen/HeaderButton';
 
-const ItemScreen = ({route, navigation}: {route: any; navigation: any}) => {
-  const {item} = route.params;
+type itemScreenProp = StackNavigationProp<StackParams, 'ItemScreen'>;
+
+const ItemScreen = () => {
+  const navigation = useNavigation<itemScreenProp>();
+
+  const route = useRoute();
+  const [item] = useState(route.params?.item);
 
   const windowWidth = Dimensions.get('window').width;
   const windowHeight = Dimensions.get('window').height;
@@ -140,16 +148,16 @@ const ItemScreen = ({route, navigation}: {route: any; navigation: any}) => {
   return (
     <View style={styles.itemWrapper}>
       <View style={styles.headerButtons}>
-        <GoBackButton
+        <HeaderButton
+          name="arrow-back-outline"
           onPress={() => {
             navigation.navigate('Home');
           }}
         />
-        <CartButton
+        <HeaderButton
+          name="cart-outline"
           onPress={() => {
-            navigation.navigate('HomeScreens', {
-              screen: 'CartScreen',
-            });
+            navigation.navigate('CartScreen');
           }}
         />
       </View>

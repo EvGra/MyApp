@@ -1,31 +1,30 @@
-import {StyleSheet, Text, View, Pressable} from 'react-native';
+import {StyleSheet, Pressable} from 'react-native';
 import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {COLORS} from '../../src/data';
 
-const GoBackButton = ({onPress}: {onPress: () => void}) => {
+const HeaderButton = ({name, onPress}: {name: string; onPress: () => void}) => {
   return (
     <Pressable
       style={({pressed}) => [
-        styles.goBackButton,
+        styles.HeaderButton,
         pressed ? styles.buttonPressed : null,
       ]}
       onPress={onPress}>
-      <Ionicons name="arrow-back-outline" size={25} color="white" />
+      <Ionicons name={name} size={25} color="white" />
     </Pressable>
   );
 };
 
-export default GoBackButton;
+export default HeaderButton;
 
 const styles = StyleSheet.create({
-  goBackButton: {
+  HeaderButton: {
     justifyContent: 'center',
     alignItems: 'center',
     width: 40,
     height: 40,
     borderRadius: 20,
-    marginRight: 60,
     backgroundColor: COLORS.blueLight,
   },
   buttonPressed: {

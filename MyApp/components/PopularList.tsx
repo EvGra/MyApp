@@ -1,14 +1,18 @@
 import {StyleSheet, Text, View, FlatList} from 'react-native';
 import React from 'react';
-import RenderPopularItem from './main/RenderPopularItem';
+import PopularItem from './main/PopularItem';
 
 const PopularList = ({popularList}: {popularList: []}) => {
+  const RenderPopularItem = itemData => {
+    const pressHandler = () => {};
+    return <PopularItem item={itemData.item} />;
+  };
   return (
     <View style={{paddingLeft: 20}}>
       <Text style={styles.categoryText}>Popular</Text>
       <FlatList
         data={popularList}
-        keyExtractor={item => item.id}
+        keyExtractor={(item, index) => 'key' + index}
         renderItem={RenderPopularItem}
       />
     </View>

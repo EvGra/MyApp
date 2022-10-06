@@ -19,7 +19,7 @@ const Profile = () => {
     console.log('click profile button');
   };
 
-  const ProfileButton = (itemData: any) => {
+  const ProfileButton = itemData => {
     return (
       <Pressable
         style={({pressed}) => [

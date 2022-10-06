@@ -1,23 +1,34 @@
 import {
   StyleSheet,
-  Text,
   View,
   TextInput,
   Pressable,
   StatusBar,
+  Dimensions,
 } from 'react-native';
 import React, {useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
 
 import {COLORS} from '../src/data';
-import CartButton from './CartButton';
+import HeaderButton from './CategoryScreen/HeaderButton';
 
 interface Params {
-  navigation?: any;
-  onPickText?: any;
+  onPickText: (inputText: string) => void;
 }
-const SearchHeader = ({onPickText, navigation}: Params) => {
+
+type StackParamList = {
+  HomeScreens: {screen: string} | undefined;
+};
+
+type NavigationProps = StackNavigationProp<StackParamList>;
+
+const SearchHeader = ({onPickText}: Params) => {
   const [inputText, setInputText] = useState('');
+  const navigation = useNavigation<NavigationProps>();
+
+  const windowHeight = Dimensions.get('window').height;
 
   const textInputHandler = (enteredText: string) => {
     setInputText(enteredText);
@@ -61,7 +72,8 @@ const SearchHeader = ({onPickText, navigation}: Params) => {
             <Ionicons name="search-outline" size={20} color="white" />
           </Pressable>
         </View>
-        <CartButton
+        <HeaderButton
+          name="cart-outline"
           onPress={() => {
             navigation.navigate('HomeScreens', {
               screen: 'CartScreen',

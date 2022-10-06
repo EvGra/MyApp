@@ -5,6 +5,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import {COLORS} from '../../src/data';
 import {StackParams} from '../../App';
+import {StackNavigationProp} from '@react-navigation/stack';
 
 interface Params {
   image: number;
@@ -12,8 +13,14 @@ interface Params {
   link: string;
 }
 
+type StackParamList = {
+  SignIn: {screen: string} | undefined;
+};
+
+type NavigationProps = StackNavigationProp<StackParamList>;
+
 export default function Preview({image, header, link}: Params) {
-  const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
+  const navigation = useNavigation<NavigationProps>();
 
   const [imageUrl, setImageUrl] = useState([
     require('../../src/images/preview/first.png'),

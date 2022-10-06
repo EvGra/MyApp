@@ -1,29 +1,38 @@
-import {StyleSheet, Text, View, Image, Pressable} from 'react-native';
+import {StyleSheet, View, Image, Pressable} from 'react-native';
 import React from 'react';
-import {COLORS} from '../../src/data';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+
 import TitleAndPriceForElement from './TitleAndPriceForElement';
 
-const SearchItem = ({
-  title,
-  price,
-  image,
-  onPress,
-}: {
-  title: string;
-  price: string;
-  image: string;
-  onPress: () => void;
-}) => {
+type StackParamList = {
+  HomeScreens: {screen: string; params: {}} | undefined;
+};
+
+type NavigationProps = StackNavigationProp<StackParamList>;
+
+const SearchItem = ({item}: {item}) => {
+  console.log(typeof item);
+
+  const navigation = useNavigation<NavigationProps>();
   return (
     <View style={styles.searchItemWrapper}>
-      <Pressable onPress={onPress}>
+      <Pressable
+        onPress={() => {
+          navigation.navigate('HomeScreens', {
+            screen: 'ItemScreen',
+            params: {
+              item: item,
+            },
+          });
+        }}>
         <Image
           style={styles.itemImage}
           source={{
-            uri: image,
+            uri: item.imageUrl[0],
           }}
         />
-        <TitleAndPriceForElement title={title} price={price} />
+        <TitleAndPriceForElement title={item.name} price={item.price} />
       </Pressable>
     </View>
   );

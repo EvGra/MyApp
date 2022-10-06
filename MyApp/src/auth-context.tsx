@@ -12,10 +12,12 @@ export const AuthContext = createContext({
 export const AuthContextProvider = ({children}) => {
   const [authToken, setAuthToken] = useState();
 
+  const URI = 'https://6332f8cc573c03ab0b551d3e.mockapi.io/items';
+
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    fetch('https://6332f8cc573c03ab0b551d3e.mockapi.io/items')
+    fetch(URI)
       .then(res => {
         return res.json();
       })

@@ -1,14 +1,18 @@
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+
 import {COLORS} from '../../src/data';
 
-const SaleDiscountElement = ({
-  item,
-  navigation,
-}: {
-  item: any;
-  navigation: any;
-}) => {
+type StackParamList = {
+  HomeScreens: {screen: string; params: {}} | undefined;
+};
+
+type NavigationProps = StackNavigationProp<StackParamList>;
+
+const SaleDiscountElement = ({item}: {item: any}) => {
+  const navigation = useNavigation<NavigationProps>();
   return (
     <Pressable
       onPress={() => {

@@ -4,6 +4,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {useNavigation} from '@react-navigation/native';
 
 import OnboardingPageFirst from './screens/preview/OnboardingPageFirst';
 import OnboardingPageSecond from './screens/preview/OnboardingPageSecond';
@@ -18,10 +19,9 @@ import {COLORS} from './src/data';
 import CategoryScreen from './screens/main/CategoryScreen';
 import SearchScreen from './screens/main/SearchScreen';
 import CartScreen from './screens/main/CartScreen';
-import CartButton from './components/CartButton';
-import GoBackButton from './components/CategoryScreen/GoBackButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ItemScreen from './screens/main/ItemScreen';
+import HeaderButton from './components/CategoryScreen/HeaderButton';
 
 export type StackParams = {
   OnboardingPageFirst: undefined;
@@ -38,10 +38,13 @@ export type StackParams = {
   SearchScreen: undefined;
   CartScreen: undefined;
   ItemScreen: undefined;
+  PopularItem: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParams>();
 const Tab = createBottomTabNavigator<StackParams>();
+
+const headerFalse = {headerShown: false};
 
 const PreviewScreens = () => {
   return (
@@ -49,77 +52,73 @@ const PreviewScreens = () => {
       <Stack.Screen
         name="OnboardingPageFirst"
         component={OnboardingPageFirst}
-        options={{headerShown: false}}
+        options={headerFalse}
       />
       <Stack.Screen
         name="OnboardingPageSecond"
         component={OnboardingPageSecond}
-        options={{headerShown: false}}
+        options={headerFalse}
       />
       <Stack.Screen
         name="OnboadingPageThird"
         component={OnboadingPageThird}
-        options={{headerShown: false}}
+        options={headerFalse}
       />
-      <Stack.Screen
-        name="SignIn"
-        component={SignIn}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="SignUp"
-        component={SignUp}
-        options={{headerShown: false}}
-      />
+      <Stack.Screen name="SignIn" component={SignIn} options={headerFalse} />
+      <Stack.Screen name="SignUp" component={SignUp} options={headerFalse} />
     </Stack.Group>
   );
 };
 
-const HomeScreens = ({navigation}: {navigation: any}) => {
+const HomeScreens = () => {
+  const navigation = useNavigation();
+
+  const categoryScreenOptions = {
+    headerRight: () => (
+      <HeaderButton
+        name="cart-outline"
+        onPress={() => {
+          navigation.navigate('CartScreen');
+        }}
+      />
+    ),
+    headerLeft: () => (
+      <HeaderButton
+        name="arrow-back-outline"
+        onPress={() => {
+          navigation.navigate('Home');
+        }}
+      />
+    ),
+    headerStyle: {
+      backgroundColor: '#transparent',
+    },
+    headerTitleStyle: {
+      color: COLORS.grayDark,
+    },
+  };
+
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="CategoryScreen"
         component={CategoryScreen}
-        options={{
-          headerRight: () => (
-            <CartButton
-              onPress={() => {
-                navigation.navigate('CartScreen');
-              }}
-            />
-          ),
-          headerLeft: () => (
-            <GoBackButton
-              onPress={() => {
-                navigation.navigate('Home');
-              }}
-            />
-          ),
-          headerStyle: {
-            backgroundColor: '#transparent',
-          },
-          headerTitleStyle: {
-            color: COLORS.grayDark,
-          },
-        }}
+        options={categoryScreenOptions}
       />
       <Stack.Screen
         name="SearchScreen"
         component={SearchScreen}
-        options={{headerShown: false}}
+        options={headerFalse}
       />
       <Stack.Screen
         name="CartScreen"
         component={CartScreen}
-        options={{headerShown: false}}
+        options={headerFalse}
       />
       <Stack.Screen
         name="ItemScreen"
         component={ItemScreen}
-        options={{
-          headerShown: false,
-        }}
+        options={headerFalse}
       />
     </Stack.Navigator>
   );
