@@ -11,9 +11,15 @@ type StackParamList = {
 
 type NavigationProps = StackNavigationProp<StackParamList>;
 
-const SearchItem = ({item}: {item}) => {
-  console.log(typeof item);
+interface Props {
+  item: {
+    imageUrl: string;
+    name: string;
+    price: string;
+  };
+}
 
+const SearchItem: React.FC<Props> = ({item}) => {
   const navigation = useNavigation<NavigationProps>();
   return (
     <View style={styles.searchItemWrapper}>

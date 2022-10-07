@@ -38,14 +38,14 @@ const CategoryScreen = () => {
     });
   }, [navigation]);
 
-  const renderSubCategory = itemData => {
-    const pressHandler = () => {};
+  const renderSubCategory = (itemData: {
+    item: {category: string; imageUrl: string; id: string};
+  }) => {
     return (
       <SubCategory
         title={itemData.item.category[1]}
         image={itemData.item.imageUrl[0]}
         number="0"
-        // onPress={pressHandler}
       />
     );
   };

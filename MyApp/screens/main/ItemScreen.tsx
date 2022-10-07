@@ -43,7 +43,10 @@ const ItemScreen = () => {
   };
 
   const Slider = () => {
-    const ItemSlider = ({item}) => {
+    interface Props {
+      item: string;
+    }
+    const ItemSlider: React.FC<Props> = ({item}) => {
       return (
         <View>
           <Image
@@ -67,10 +70,10 @@ const ItemScreen = () => {
           renderItem={({item}) => <ItemSlider item={item} />}
         />
         <View style={styles.dotWrapper}>
-          {item.imageUrl.map((e, index) => (
+          {item.imageUrl.map((e: string, index: number) => (
             <Text
               style={imgActive == index ? styles.dotActive : styles.dot}
-              key={e}>
+              key={index + 'key'}>
               ⬤
             </Text>
           ))}

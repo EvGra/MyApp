@@ -11,7 +11,15 @@ type StackParamList = {
 
 type NavigationProps = StackNavigationProp<StackParamList>;
 
-const SaleDiscountElement = ({item}: {item: any}) => {
+interface Props {
+  item: {
+    imageUrl: string;
+    name: string;
+    price: string;
+  };
+}
+
+const SaleDiscountElement: React.FC<Props> = ({item}) => {
   const navigation = useNavigation<NavigationProps>();
   return (
     <Pressable

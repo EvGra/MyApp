@@ -18,7 +18,9 @@ const SearchScreen = () => {
 
   let items = Context.items;
 
-  const renderItem = itemData => {
+  const renderItem = (itemData: {
+    item: {id: string; imageUrl: string; name: string; price: string};
+  }) => {
     return <SearchItem item={itemData.item} />;
   };
 
@@ -26,10 +28,10 @@ const SearchScreen = () => {
     setInputText(pickedText);
   };
 
-  const newItems: [] = [];
+  const newItems: any[] = [];
 
   if (inputText) {
-    items.filter(item => {
+    items.filter((item: {name: string}) => {
       if (item.name.toLowerCase().includes(inputText.toLowerCase())) {
         newItems.push(item);
       }

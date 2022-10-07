@@ -1,11 +1,9 @@
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {StackNavigationProp} from '@react-navigation/stack';
 
 import {COLORS} from '../../src/data';
-import {StackParams} from '../../App';
-import {StackNavigationProp} from '@react-navigation/stack';
 
 interface Params {
   image: number;
@@ -19,7 +17,7 @@ type StackParamList = {
 
 type NavigationProps = StackNavigationProp<StackParamList>;
 
-export default function Preview({image, header, link}: Params) {
+const Preview = ({image, header, link}: Params) => {
   const navigation = useNavigation<NavigationProps>();
 
   const [imageUrl, setImageUrl] = useState([
@@ -60,7 +58,9 @@ export default function Preview({image, header, link}: Params) {
       </View>
     </View>
   );
-}
+};
+
+export default Preview;
 
 const styles = StyleSheet.create({
   screenContainer: {

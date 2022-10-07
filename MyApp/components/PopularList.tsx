@@ -3,8 +3,13 @@ import React from 'react';
 import PopularItem from './main/PopularItem';
 
 const PopularList = ({popularList}: {popularList: []}) => {
-  const RenderPopularItem = itemData => {
-    const pressHandler = () => {};
+  const RenderPopularItem = (itemData: {
+    item: {
+      imageUrl: string;
+      name: string;
+      price: string;
+    };
+  }) => {
     return <PopularItem item={itemData.item} />;
   };
   return (

@@ -1,8 +1,8 @@
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, View, Pressable, Text} from 'react-native';
 import React from 'react';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {COLORS} from '../../src/data';
 
@@ -12,7 +12,15 @@ type StackParamList = {
 
 type NavigationProps = StackNavigationProp<StackParamList>;
 
-const PopularItem = ({item}) => {
+interface Props {
+  item: {
+    imageUrl: string;
+    name: string;
+    price: string;
+  };
+}
+
+const PopularItem: React.FC<Props> = ({item}) => {
   const navigation = useNavigation<NavigationProps>();
 
   return (

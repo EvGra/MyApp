@@ -1,12 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Pressable,
-  FlatList,
-  StatusBar,
-} from 'react-native';
+import {StyleSheet, Text, View, Pressable, FlatList} from 'react-native';
 import {ScrollView} from 'react-native-virtualized-view';
 import React, {useContext, useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -31,7 +23,7 @@ const Home = () => {
   const Context = useContext(AuthContext);
   const [inputText, setInputText] = useState('');
 
-  const items = Context.items;
+  const items: any[] = Context.items;
 
   let saleList: [] = [];
   let popularList: [] = [];
@@ -57,9 +49,8 @@ const Home = () => {
       }
     });
   }
-  const renderCategoryItem = itemData => {
-    console.log(typeof itemData);
 
+  const renderCategoryItem = (itemData: {item: {id: string}}) => {
     const pressHandler = () => {
       navigation.navigate('HomeScreens', {
         screen: 'CategoryScreen',
@@ -73,8 +64,16 @@ const Home = () => {
     return <CategoryElement title={itemData.item.id} onPress={pressHandler} />;
   };
 
-  const renderSaleItem = itemData => {
-    return <SaleDiscountElement item={itemData.item} />;
+  const renderSaleItem = (itemData: {
+    item: {
+      imageUrl: string;
+      name: string;
+      price: string;
+      id: string;
+    };
+  }) => {
+    const item = itemData.item;
+    return <SaleDiscountElement item={item} />;
   };
 
   return (
