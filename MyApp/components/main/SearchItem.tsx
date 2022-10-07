@@ -4,6 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 
 import TitleAndPriceForElement from './TitleAndPriceForElement';
+import HeartButton from '../HeartButton';
 
 type StackParamList = {
   HomeScreens: {screen: string; params: {}} | undefined;
@@ -32,12 +33,17 @@ const SearchItem: React.FC<Props> = ({item}) => {
             },
           });
         }}>
-        <Image
-          style={styles.itemImage}
-          source={{
-            uri: item.imageUrl[0],
-          }}
-        />
+        <View>
+          <Image
+            style={styles.itemImage}
+            source={{
+              uri: item.imageUrl[0],
+            }}
+          />
+          <View style={styles.heartButton}>
+            <HeartButton color="white" />
+          </View>
+        </View>
         <TitleAndPriceForElement title={item.name} price={item.price} />
       </Pressable>
     </View>
@@ -52,6 +58,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     marginHorizontal: 5,
     marginVertical: 7,
+  },
+  heartButton: {
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
   },
   itemImage: {
     borderRadius: 10,

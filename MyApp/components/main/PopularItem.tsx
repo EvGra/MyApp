@@ -5,6 +5,7 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {COLORS} from '../../src/data';
+import HeartButton from '../HeartButton';
 
 type StackParamList = {
   HomeScreens: {screen: string; params: {}} | undefined;
@@ -54,7 +55,7 @@ const PopularItem: React.FC<Props> = ({item}) => {
         </View>
         <View style={styles.infoButtons}>
           <Pressable>
-            <Ionicons name="heart-outline" size={25} color={COLORS.red} />
+            <HeartButton color={COLORS.red} />
           </Pressable>
           <Pressable>
             <View style={styles.cartButton}>

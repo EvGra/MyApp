@@ -18,6 +18,7 @@ import {StackParams} from '../../App';
 import {COLORS} from '../../src/data';
 import Button from '../../components/sign/Button';
 import HeaderButton from '../../components/CategoryScreen/HeaderButton';
+import HeartButton from '../../components/HeartButton';
 
 type itemScreenProp = StackNavigationProp<StackParams, 'ItemScreen'>;
 
@@ -164,7 +165,12 @@ const ItemScreen = () => {
           }}
         />
       </View>
-      <Slider />
+      <View>
+        <View style={styles.heartButton}>
+          <HeartButton color="white" />
+        </View>
+        <Slider />
+      </View>
       <SwipeUpDown
         itemMini={() => <Item description={false} />}
         itemFull={() => <Item description={true} />}
@@ -190,6 +196,12 @@ const styles = StyleSheet.create({
   },
   itemWrapper: {
     flex: 1,
+  },
+  heartButton: {
+    position: 'absolute',
+    zIndex: 1,
+    bottom: 30,
+    right: 20,
   },
   image: {
     height: '60%',
