@@ -41,7 +41,7 @@ const SearchItem: React.FC<Props> = ({item}) => {
             }}
           />
           <View style={styles.heartButton}>
-            <HeartButton color="white" />
+            <HeartButton name={item.name} color="white" />
           </View>
         </View>
         <TitleAndPriceForElement title={item.name} price={item.price} />

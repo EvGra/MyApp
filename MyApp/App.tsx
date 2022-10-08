@@ -5,6 +5,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
+import {Provider} from 'react-redux';
 
 import OnboardingPageFirst from './screens/preview/OnboardingPageFirst';
 import OnboardingPageSecond from './screens/preview/OnboardingPageSecond';
@@ -22,6 +23,8 @@ import CartScreen from './screens/main/CartScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ItemScreen from './screens/main/ItemScreen';
 import HeaderButton from './components/CategoryScreen/HeaderButton';
+import FavoriteScreen from './screens/profile/FavoriteScreen';
+import {store} from './src/redux/store';
 
 export type StackParams = {
   OnboardingPageFirst: undefined;
@@ -39,6 +42,7 @@ export type StackParams = {
   CartScreen: undefined;
   ItemScreen: undefined;
   PopularItem: undefined;
+  FavoriteScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParams>();
@@ -118,6 +122,11 @@ const HomeScreens = () => {
       <Stack.Screen
         name="ItemScreen"
         component={ItemScreen}
+        options={headerFalse}
+      />
+      <Stack.Screen
+        name="FavoriteScreen"
+        component={FavoriteScreen}
         options={headerFalse}
       />
     </Stack.Navigator>
@@ -221,7 +230,9 @@ const App: React.FC = () => {
     <>
       <StatusBar barStyle="dark-content" backgroundColor="#FFF" />
       <AuthContextProvider>
-        <Root />
+        <Provider store={store}>
+          <Root />
+        </Provider>
       </AuthContextProvider>
     </>
   );

@@ -167,7 +167,7 @@ const ItemScreen = () => {
       </View>
       <View>
         <View style={styles.heartButton}>
-          <HeartButton color="white" />
+          <HeartButton name={item.name} color="white" />
         </View>
         <Slider />
       </View>

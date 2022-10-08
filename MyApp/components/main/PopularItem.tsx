@@ -55,7 +55,7 @@ const PopularItem: React.FC<Props> = ({item}) => {
         </View>
         <View style={styles.infoButtons}>
           <Pressable>
-            <HeartButton color={COLORS.red} />
+            <HeartButton name={item.name} color={COLORS.red} />
           </Pressable>
           <Pressable>
             <View style={styles.cartButton}>
