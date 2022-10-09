@@ -2,10 +2,10 @@ import {Image, StyleSheet, View, Pressable, Text} from 'react-native';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {COLORS} from '../../src/data';
 import HeartButton from '../HeartButton';
+import AddToCartButton from '../AddToCartButton';
 
 type StackParamList = {
   HomeScreens: {screen: string; params: {}} | undefined;
@@ -58,9 +58,7 @@ const PopularItem: React.FC<Props> = ({item}) => {
             <HeartButton name={item.name} color={COLORS.red} />
           </Pressable>
           <Pressable>
-            <View style={styles.cartButton}>
-              <Ionicons name="cart-outline" size={25} color="white" />
-            </View>
+            <AddToCartButton name={item.name} />
           </Pressable>
         </View>
       </View>
@@ -105,11 +103,5 @@ const styles = StyleSheet.create({
   infoButtons: {
     alignItems: 'flex-end',
     marginRight: 18,
-  },
-  cartButton: {
-    backgroundColor: COLORS.blueLight,
-    marginTop: 30,
-    paddingHorizontal: 15,
-    borderRadius: 20,
   },
 });

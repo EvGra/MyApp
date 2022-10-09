@@ -13,7 +13,7 @@ const PopularList = ({popularList}: {popularList: []}) => {
     return <PopularItem item={itemData.item} />;
   };
   return (
-    <View style={{paddingLeft: 20}}>
+    <View style={styles.popularListWrapper}>
       <Text style={styles.categoryText}>Popular</Text>
       <FlatList
         data={popularList}
@@ -27,6 +27,10 @@ const PopularList = ({popularList}: {popularList: []}) => {
 export default PopularList;
 
 const styles = StyleSheet.create({
+  popularListWrapper: {
+    paddingLeft: 20,
+    marginBottom: 50,
+  },
   categoryText: {
     marginVertical: 20,
     fontSize: 20,

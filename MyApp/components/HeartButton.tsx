@@ -17,6 +17,7 @@ const HeartButton: React.FC<Props> = ({name, color}) => {
   const items: any[] = Context.items;
 
   const favoriteItemNames = useSelector(state => state.favoriteItems.names);
+
   const dispatch = useDispatch();
 
   const itemIsFavorite = favoriteItemNames.includes(name);
