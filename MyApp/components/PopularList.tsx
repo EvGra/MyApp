@@ -2,14 +2,16 @@ import {StyleSheet, Text, View, FlatList} from 'react-native';
 import React from 'react';
 import PopularItem from './main/PopularItem';
 
+interface Props {
+  item: {
+    imageUrl: string;
+    name: string;
+    price: string;
+  };
+}
+
 const PopularList = ({popularList}: {popularList: []}) => {
-  const RenderPopularItem = (itemData: {
-    item: {
-      imageUrl: string;
-      name: string;
-      price: string;
-    };
-  }) => {
+  const RenderPopularItem = (itemData: Props) => {
     return <PopularItem item={itemData.item} />;
   };
   return (

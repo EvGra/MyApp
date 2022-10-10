@@ -30,10 +30,6 @@ const SearchHeader = ({onPickText}: Params) => {
 
   const windowHeight = Dimensions.get('window').height;
 
-  const textInputHandler = (enteredText: string) => {
-    setInputText(enteredText);
-  };
-
   const confirmInputHandler = () => {
     onPickText(inputText);
   };
@@ -53,7 +49,7 @@ const SearchHeader = ({onPickText}: Params) => {
             autoCapitalize="none"
             autoCorrect={false}
             value={inputText}
-            onChangeText={textInputHandler}
+            onChangeText={setInputText}
           />
           <Pressable
             style={({pressed}) => [

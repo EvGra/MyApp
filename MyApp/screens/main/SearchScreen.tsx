@@ -10,6 +10,15 @@ import {StackParams} from '../../App';
 
 type searchScreenProp = StackNavigationProp<StackParams, 'SearchScreen'>;
 
+interface Props {
+  item: {
+    imageUrl: string;
+    name: string;
+    price: string;
+    id: string;
+  };
+}
+
 const SearchScreen = () => {
   const navigation = useNavigation<searchScreenProp>();
 
@@ -18,9 +27,7 @@ const SearchScreen = () => {
 
   let items = Context.items;
 
-  const renderItem = (itemData: {
-    item: {id: string; imageUrl: string; name: string; price: string};
-  }) => {
+  const renderItem = (itemData: Props) => {
     return <SearchItem item={itemData.item} />;
   };
 

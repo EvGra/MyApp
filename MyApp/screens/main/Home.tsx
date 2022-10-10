@@ -18,6 +18,19 @@ type StackParamList = {
 
 type NavigationProps = StackNavigationProp<StackParamList>;
 
+interface renderSaleItemProps {
+  item: {
+    imageUrl: string;
+    name: string;
+    price: string;
+    id: string;
+  };
+}
+
+interface renderCategoryItemProps {
+  item: {id: string};
+}
+
 const Home = () => {
   const navigation = useNavigation<NavigationProps>();
   const Context = useContext(AuthContext);
@@ -50,7 +63,7 @@ const Home = () => {
     });
   }
 
-  const renderCategoryItem = (itemData: {item: {id: string}}) => {
+  const renderCategoryItem: React.FC<renderCategoryItemProps> = itemData => {
     const pressHandler = () => {
       navigation.navigate('HomeScreens', {
         screen: 'CategoryScreen',
@@ -64,14 +77,7 @@ const Home = () => {
     return <CategoryElement title={itemData.item.id} onPress={pressHandler} />;
   };
 
-  const renderSaleItem = (itemData: {
-    item: {
-      imageUrl: string;
-      name: string;
-      price: string;
-      id: string;
-    };
-  }) => {
+  const renderSaleItem: React.FC<renderSaleItemProps> = itemData => {
     const item = itemData.item;
     return <SaleDiscountElement item={item} />;
   };

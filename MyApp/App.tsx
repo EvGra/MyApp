@@ -48,7 +48,7 @@ export type StackParams = {
 const Stack = createNativeStackNavigator<StackParams>();
 const Tab = createBottomTabNavigator<StackParams>();
 
-const headerFalse = {headerShown: false};
+const headerSettings = {headerShown: false};
 
 const PreviewScreens = () => {
   return (
@@ -56,20 +56,20 @@ const PreviewScreens = () => {
       <Stack.Screen
         name="OnboardingPageFirst"
         component={OnboardingPageFirst}
-        options={headerFalse}
+        options={headerSettings}
       />
       <Stack.Screen
         name="OnboardingPageSecond"
         component={OnboardingPageSecond}
-        options={headerFalse}
+        options={headerSettings}
       />
       <Stack.Screen
         name="OnboadingPageThird"
         component={OnboadingPageThird}
-        options={headerFalse}
+        options={headerSettings}
       />
-      <Stack.Screen name="SignIn" component={SignIn} options={headerFalse} />
-      <Stack.Screen name="SignUp" component={SignUp} options={headerFalse} />
+      <Stack.Screen name="SignIn" component={SignIn} options={headerSettings} />
+      <Stack.Screen name="SignUp" component={SignUp} options={headerSettings} />
     </Stack.Group>
   );
 };
@@ -112,22 +112,22 @@ const HomeScreens = () => {
       <Stack.Screen
         name="SearchScreen"
         component={SearchScreen}
-        options={headerFalse}
+        options={headerSettings}
       />
       <Stack.Screen
         name="CartScreen"
         component={CartScreen}
-        options={headerFalse}
+        options={headerSettings}
       />
       <Stack.Screen
         name="ItemScreen"
         component={ItemScreen}
-        options={headerFalse}
+        options={headerSettings}
       />
       <Stack.Screen
         name="FavoriteScreen"
         component={FavoriteScreen}
-        options={headerFalse}
+        options={headerSettings}
       />
     </Stack.Navigator>
   );

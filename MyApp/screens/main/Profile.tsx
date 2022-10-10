@@ -1,5 +1,5 @@
-import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import {FlatList, Pressable, StyleSheet, Text, View} from 'react-native';
+import React, {useState} from 'react';
 import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -10,6 +10,10 @@ import {COLORS, PROFILEBUTTONS} from '../../src/data';
 type StackParamList = {
   HomeScreens: {screen: string} | undefined;
 };
+
+interface Props {
+  item: {icon: string; text: string};
+}
 
 type NavigationProps = StackNavigationProp<StackParamList>;
 
@@ -26,7 +30,7 @@ const Profile = () => {
   //     });
   // }, []);
 
-  const ProfileButton = (itemData: {item: {icon: string; text: string}}) => {
+  const ProfileButton = (itemData: Props) => {
     const pressHandler = (name: string) => {
       if (name == 'My Favourites') {
         navigation.navigate('HomeScreens', {
