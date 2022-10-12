@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   itemName: {
-    fontSize: 18,
+    fontSize: 14,
     color: COLORS.grayDark,
   },
   itemPrice: {

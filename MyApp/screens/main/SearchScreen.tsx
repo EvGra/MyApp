@@ -1,14 +1,9 @@
 import {StyleSheet, Text, View, Pressable, FlatList} from 'react-native';
 import React, {useContext, useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
-import {StackNavigationProp} from '@react-navigation/stack';
 
 import SearchHeader from '../../components/SearchHeader';
 import {AuthContext} from '../../src/auth-context';
 import SearchItem from '../../components/main/SearchItem';
-import {StackParams} from '../../App';
-
-type searchScreenProp = StackNavigationProp<StackParams, 'SearchScreen'>;
 
 interface Props {
   item: {
@@ -20,8 +15,6 @@ interface Props {
 }
 
 const SearchScreen = () => {
-  const navigation = useNavigation<searchScreenProp>();
-
   const Context = useContext(AuthContext);
   const [inputText, setInputText] = useState('');
 
@@ -47,7 +40,7 @@ const SearchScreen = () => {
 
   return (
     <View style={styles.searchPageWrapper}>
-      <SearchHeader onPickText={pickedTextHandler} />
+      <SearchHeader onPickText={pickedTextHandler} onPress={'search'} />
       <View>
         <View style={styles.headerWrapper}>
           <Text>

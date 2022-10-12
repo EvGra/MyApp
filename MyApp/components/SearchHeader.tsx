@@ -16,6 +16,7 @@ import HeaderButton from './CategoryScreen/HeaderButton';
 
 interface Params {
   onPickText: (inputText: string) => void;
+  onPress: string;
 }
 
 type StackParamList = {
@@ -24,17 +25,24 @@ type StackParamList = {
 
 type NavigationProps = StackNavigationProp<StackParamList>;
 
-const SearchHeader = ({onPickText}: Params) => {
+const SearchHeader = ({onPickText, onPress}: Params) => {
   const [inputText, setInputText] = useState('');
   const navigation = useNavigation<NavigationProps>();
 
   const windowHeight = Dimensions.get('window').height;
 
-  const confirmInputHandler = () => {
-    onPickText(inputText);
+  const onPressHandler = () => {
+    switch (onPress) {
+      case 'search':
+        onPickText(inputText);
+        break;
+      case 'navigationSearchScreen':
+        navigation.navigate('HomeScreens', {
+          screen: 'SearchScreen',
+        });
+        break;
+    }
   };
-
-  const onPress = () => {};
 
   return (
     <View>
@@ -56,15 +64,7 @@ const SearchHeader = ({onPickText}: Params) => {
               styles.searchButton,
               pressed ? styles.buttonPressed : null,
             ]}
-            onPress={
-              navigation
-                ? () => {
-                    navigation.navigate('HomeScreens', {
-                      screen: 'SearchScreen',
-                    });
-                  }
-                : confirmInputHandler
-            }>
+            onPress={onPressHandler}>
             <Ionicons name="search-outline" size={20} color="white" />
           </Pressable>
         </View>

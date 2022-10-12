@@ -86,7 +86,10 @@ const Home = () => {
     <ScrollView directionalLockEnabled={false}>
       <View style={styles.homeWrapper}>
         <View style={styles.header}>
-          <SearchHeader onPickText={pickedTextHandler} />
+          <SearchHeader
+            onPickText={pickedTextHandler}
+            onPress={'navigationSearchScreen'}
+          />
           <View>
             <Text style={styles.categoryText}>Category</Text>
             <FlatList
