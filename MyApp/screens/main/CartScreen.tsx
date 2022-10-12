@@ -23,10 +23,6 @@ const CartScreen = () => {
 
   const cartItems = items.filter(item => cartItemNames.includes(item.name));
 
-  if (cartItems.length === 0) {
-    return <Text>You have no favorite items yet</Text>;
-  }
-
   return (
     <View style={styles.screenWrapper}>
       <View style={styles.headerWrapper}>

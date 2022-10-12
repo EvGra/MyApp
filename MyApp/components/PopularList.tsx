@@ -10,7 +10,7 @@ interface Props {
   };
 }
 
-const PopularList = ({popularList}: {popularList: []}) => {
+const PopularList = ({popularList}: {popularList: any[]}) => {
   const RenderPopularItem = (itemData: Props) => {
     return <PopularItem item={itemData.item} />;
   };

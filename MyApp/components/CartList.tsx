@@ -7,11 +7,12 @@ const CartList = ({cartList}: {cartList: []}) => {
     return <CartItem item={itemData.item} />;
   };
   return (
-    <View>
+    <View style={styles.cartItemsWrapper}>
       <FlatList
         data={cartList}
         keyExtractor={(_, index) => 'key' + index}
         renderItem={RenderCartItem}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );
@@ -19,4 +20,8 @@ const CartList = ({cartList}: {cartList: []}) => {
 
 export default CartList;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  cartItemsWrapper: {
+    marginBottom: 200,
+  },
+});

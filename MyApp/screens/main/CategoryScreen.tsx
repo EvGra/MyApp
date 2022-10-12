@@ -19,16 +19,31 @@ const CategoryScreen = () => {
   const [category] = useState(route.params?.category);
 
   const categoryItems = [];
+  const categoryNameItems: any[] = [];
   const categoryItemsPopular = [];
 
   for (let i = 0; i < items.length; i++) {
-    if (items[i].category[0] == category) {
+    if (
+      items[i].category[0] == category &&
+      !categoryNameItems.includes(items[i].category[1])
+    ) {
       categoryItems.push(items[i]);
+      categoryNameItems.push(items[i].category[1]);
       if (items[i].popular == 'true') {
         categoryItemsPopular.push(items[i]);
       }
     }
   }
+
+  const numberOfItems = (elem: string) => {
+    let number = 0;
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].category[1] == elem) {
+        number++;
+      }
+    }
+    return number;
+  };
 
   useLayoutEffect(() => {
     const categoryTitle = category;
@@ -45,7 +60,7 @@ const CategoryScreen = () => {
       <SubCategory
         title={itemData.item.category[1]}
         image={itemData.item.imageUrl[0]}
-        number="0"
+        number={numberOfItems(itemData.item.category[1]).toString()}
       />
     );
   };

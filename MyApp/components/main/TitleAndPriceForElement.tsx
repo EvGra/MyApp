@@ -12,7 +12,7 @@ const TitleAndPriceForElement = ({
   return (
     <View style={styles.itemInfoWrapper}>
       <View>
-        <Text>{title}</Text>
+        <Text style={styles.itemName}>{title}</Text>
         <Text>rating</Text>
       </View>
       <Text style={styles.itemPrice}>
@@ -31,6 +31,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     marginTop: 5,
+  },
+  itemName: {
+    fontSize: 18,
+    color: COLORS.grayDark,
   },
   itemPrice: {
     fontWeight: '600',
