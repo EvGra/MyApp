@@ -1,7 +1,11 @@
 import {StyleSheet, Text, View, Image, Pressable} from 'react-native';
 import React, {useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {GestureHandlerRootView, Swipeable} from 'react-native-gesture-handler';
+import {useDispatch} from 'react-redux';
+
 import {COLORS} from '../../src/data';
+import {removeCart} from '../../src/redux/cartItems';
 
 interface Props {
   item: {
@@ -17,65 +21,89 @@ const CartItem: React.FC<Props> = ({item}) => {
   const [agreeCheckBox, setAgreeCheckBox] = useState(false);
   const [quality, setQuality] = useState(1);
 
-  return (
-    <View style={styles.itemCart}>
-      <View style={styles.mainInfoWrapper}>
-        <Pressable onPress={() => setAgreeCheckBox(!agreeCheckBox)}>
-          <View>
-            <View style={styles.checkBox}></View>
-            {agreeCheckBox && (
-              <View style={styles.checkBoxLine}>
-                <Image source={require('../../src/images/cart/Checklis.png')} />
-              </View>
-            )}
-          </View>
-        </Pressable>
-        <View>
-          <Image style={styles.itemImage} source={{uri: item.imageUrl[0]}} />
+  const subTotalPrice = quality * +item.price;
+
+  const dispatch = useDispatch();
+
+  const deleteItemHendler = () => {
+    dispatch(removeCart({name: item.name}));
+  };
+
+  const leftSwipe = () => {
+    return (
+      <Pressable onPress={deleteItemHendler}>
+        <View style={styles.deleteBox}>
+          <Ionicons name={'trash-outline'} size={25} color="gray" />
         </View>
-        <View style={styles.itemAndTrashWrapper}>
-          <View>
-            <Text>{item.name}</Text>
-            <Text>Color: {item.color ? item.color : 'No color'}</Text>
-            <Text>Size: {item.size ? item.size : 'No size'}</Text>
-            <Text style={styles.itemPrice}>
-              {'\u0024'}
-              {item.price}
-            </Text>
-            <View style={styles.buttonsWrapper}>
-              <View style={styles.buttonQualityElem}>
-                <Pressable
-                  onPress={() =>
-                    quality > 1 ? setQuality(quality - 1) : null
-                  }>
-                  <Text>-</Text>
-                </Pressable>
+      </Pressable>
+    );
+  };
+
+  return (
+    <GestureHandlerRootView>
+      <Swipeable renderRightActions={leftSwipe} overshootRight={false}>
+        <View style={styles.itemCart}>
+          <View style={styles.mainInfoWrapper}>
+            <Pressable onPress={() => setAgreeCheckBox(!agreeCheckBox)}>
+              <View>
+                <View style={styles.checkBox}></View>
+                {agreeCheckBox && (
+                  <View style={styles.checkBoxLine}>
+                    <Image
+                      source={require('../../src/images/cart/Checklis.png')}
+                    />
+                  </View>
+                )}
               </View>
-              <View style={styles.qualityWrapper}>
-                <Text>{quality}</Text>
-              </View>
-              <View style={styles.buttonQualityElem}>
-                <Pressable onPress={() => setQuality(quality + 1)}>
-                  <Text>+</Text>
-                </Pressable>
+            </Pressable>
+
+            <View>
+              <Image
+                style={styles.itemImage}
+                source={{uri: item.imageUrl[0]}}
+              />
+            </View>
+            <View style={styles.itemAndTrashWrapper}>
+              <View>
+                <Text>{item.name}</Text>
+                <Text>Color: {item.color ? item.color : 'No color'}</Text>
+                <Text>Size: {item.size ? item.size : 'No size'}</Text>
+                <Text style={styles.itemPrice}>
+                  {'\u0024'}
+                  {item.price}
+                </Text>
+                <View style={styles.buttonsWrapper}>
+                  <View style={styles.buttonQualityElem}>
+                    <Pressable
+                      onPress={() =>
+                        quality > 1 ? setQuality(quality - 1) : null
+                      }>
+                      <Text>-</Text>
+                    </Pressable>
+                  </View>
+                  <View style={styles.qualityWrapper}>
+                    <Text>{quality}</Text>
+                  </View>
+                  <View style={styles.buttonQualityElem}>
+                    <Pressable onPress={() => setQuality(quality + 1)}>
+                      <Text>+</Text>
+                    </Pressable>
+                  </View>
+                </View>
               </View>
             </View>
           </View>
-          <View style={styles.trashButton}>
-            <Pressable>
-              <Ionicons name={'trash-outline'} size={25} color="gray" />
-            </Pressable>
+          <View style={styles.borderLine}></View>
+          <View style={styles.subTotalWrapper}>
+            <Text>Sub Total:</Text>
+            <Text style={styles.subTotalPrice}>
+              {'\u0024'}
+              {subTotalPrice}
+            </Text>
           </View>
         </View>
-      </View>
-      <View style={styles.borderLine}></View>
-      <View style={styles.subTotalWrapper}>
-        <Text>
-          Sub Total {'\u0024'}
-          {quality * +item.price}
-        </Text>
-      </View>
-    </View>
+      </Swipeable>
+    </GestureHandlerRootView>
   );
 };
 
@@ -135,7 +163,13 @@ const styles = StyleSheet.create({
   buttonQualityElem: {
     paddingHorizontal: 10,
   },
-  trashButton: {},
+  deleteBox: {
+    backgroundColor: COLORS.red,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 50,
+    height: 160,
+  },
   borderLine: {
     marginTop: 10,
     marginBottom: 5,
@@ -145,5 +179,12 @@ const styles = StyleSheet.create({
   subTotalWrapper: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  subTotalPrice: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: COLORS.red,
+    marginLeft: 40,
   },
 });

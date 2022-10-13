@@ -39,7 +39,6 @@ const ItemScreen = () => {
   let position = Animated.divide(scrollX, windowWidth);
 
   const [quality, setQuality] = useState(1);
-  const [imgActive, setImgActive] = useState(0);
   const [sizeActive, setSizeActive] = useState('');
 
   const Description = () => {

@@ -1,9 +1,9 @@
 import {StyleSheet, Pressable, View} from 'react-native';
-import React, {useState} from 'react';
+import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {addCart, removeCart} from '../src/redux/cartItems';
+import {addCart} from '../src/redux/cartItems';
 import {COLORS} from '../src/data';
 
 interface Props {

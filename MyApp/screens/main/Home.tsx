@@ -36,7 +36,7 @@ const Home = () => {
   const Context = useContext(AuthContext);
   const [inputText, setInputText] = useState('');
 
-  const items: any[] = Context.items;
+  const items: [] = Context.items;
 
   let saleList: [] = [];
   let popularList: [] = [];
