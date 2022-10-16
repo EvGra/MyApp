@@ -1,11 +1,11 @@
 import {StyleSheet, Text, View, Image, Pressable} from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {GestureHandlerRootView, Swipeable} from 'react-native-gesture-handler';
 import {useDispatch} from 'react-redux';
 
 import {COLORS} from '../../src/data';
-import {removeCart} from '../../src/redux/cartItems';
+import {getTotals, removeCart} from '../../src/redux/cartItems';
 
 interface Props {
   item: {
@@ -28,6 +28,17 @@ const CartItem: React.FC<Props> = ({item}) => {
   const deleteItemHendler = () => {
     dispatch(removeCart({name: item.name}));
   };
+
+  useEffect(() => {
+    dispatch(
+      getTotals({
+        name: item.name,
+        quantity: quality,
+        agreeCheckBox: agreeCheckBox,
+        price: +item.price,
+      }),
+    );
+  }, [quality, dispatch, agreeCheckBox]);
 
   const leftSwipe = () => {
     return (
@@ -186,5 +197,6 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: COLORS.red,
     marginLeft: 40,
+    paddingRight: 20,
   },
 });

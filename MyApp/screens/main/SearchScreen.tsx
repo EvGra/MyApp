@@ -40,7 +40,7 @@ const SearchScreen = () => {
 
   return (
     <View style={styles.searchPageWrapper}>
-      <SearchHeader onPickText={pickedTextHandler} onPress={'search'} />
+      <SearchHeader onPickText={pickedTextHandler} />
       <View>
         <View style={styles.headerWrapper}>
           <Text>

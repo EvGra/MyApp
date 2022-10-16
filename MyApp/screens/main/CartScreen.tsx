@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, Pressable, Image} from 'react-native';
+import {StyleSheet, Text, View, Pressable} from 'react-native';
 import React, {useContext} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -20,8 +20,32 @@ const CartScreen = () => {
   const items: any[] = Context.items;
 
   const cartItemNames = useSelector(state => state.cartItems.names);
+  const cartItemNamesQuantity = useSelector(
+    state => state.cartItems.cartItemsQuantity,
+  );
 
   const cartItems = items.filter(item => cartItemNames.includes(item.name));
+
+  const totalItems: any[] = [];
+
+  cartItems.map(elem => {
+    for (let i = 0; i < cartItemNamesQuantity.length; i++) {
+      if (elem.name == cartItemNamesQuantity[i].name) {
+        totalItems.push(cartItemNamesQuantity[i]);
+        return;
+      }
+    }
+  });
+
+  console.log(totalItems);
+
+  const subTotalSum = totalItems.reduce((sum, item) => {
+    let sumItem = 0;
+    if (item.agreeCheckBox) {
+      sumItem = item.price * item.quantity;
+    }
+    return sum + sumItem;
+  }, 0);
 
   return (
     <View style={styles.screenWrapper}>
@@ -45,7 +69,10 @@ const CartScreen = () => {
       <View style={styles.checkOutWrapper}>
         <View style={styles.priceWrapper}>
           <Text style={styles.textSubtotal}>Subtotal</Text>
-          <Text style={styles.textPrice}>{'\u0024'}0</Text>
+          <Text style={styles.textPrice}>
+            {'\u0024'}
+            {subTotalSum}
+          </Text>
         </View>
         <View style={styles.checkButton}>
           <Button text="CHECK OUT" textColorWhite={true} colorBg={true} />

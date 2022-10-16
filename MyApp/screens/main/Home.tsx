@@ -82,13 +82,20 @@ const Home = () => {
     return <SaleDiscountElement item={item} />;
   };
 
+  const pressHandlerToSearchScreen = () => {
+    navigation.navigate('HomeScreens', {
+      screen: 'SearchScreen',
+      params: {},
+    });
+  };
+
   return (
     <ScrollView directionalLockEnabled={false}>
       <View style={styles.homeWrapper}>
         <View style={styles.header}>
           <SearchHeader
             onPickText={pickedTextHandler}
-            onPress={'navigationSearchScreen'}
+            onPress={pressHandlerToSearchScreen}
           />
           <View>
             <Text style={styles.categoryText}>Category</Text>

@@ -1,5 +1,5 @@
-import React, {useContext, useEffect, createContext} from 'react';
-import {StatusBar, StyleSheet, View} from 'react-native';
+import React, {useContext, useEffect, useState} from 'react';
+import {StatusBar, StyleSheet} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -25,6 +25,7 @@ import ItemScreen from './screens/main/ItemScreen';
 import HeaderButton from './components/CategoryScreen/HeaderButton';
 import FavoriteScreen from './screens/profile/FavoriteScreen';
 import {store} from './src/redux/store';
+import Loading from './screens/Loading';
 
 export type StackParams = {
   OnboardingPageFirst: undefined;
@@ -43,6 +44,7 @@ export type StackParams = {
   ItemScreen: undefined;
   PopularItem: undefined;
   FavoriteScreen: undefined;
+  Loading: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParams>();
@@ -204,18 +206,25 @@ const Root = () => {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Group>
+          {/* {
+            <Stack.Screen
+              name="Loading"
+              component={Loading}
+              options={headerSettings}
+            />
+          } */}
           {!authCtx.isAuthenticated && PreviewScreens()}
           {authCtx.isAuthenticated && (
             <>
               <Stack.Screen
                 name="AuthenticatedScreen"
                 component={AuthenticatedScreen}
-                options={{headerShown: false}}
+                options={headerSettings}
               />
               <Stack.Screen
                 name="HomeScreens"
                 component={HomeScreens}
-                options={{headerShown: false}}
+                options={headerSettings}
               />
             </>
           )}
@@ -226,6 +235,7 @@ const Root = () => {
 };
 
 const App: React.FC = () => {
+  const [loading, setLoading] = useState(false);
   return (
     <>
       <StatusBar barStyle="dark-content" backgroundColor="#FFF" />

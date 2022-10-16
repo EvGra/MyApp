@@ -7,6 +7,7 @@ export const AuthContext = createContext({
   authenticate: (token: string) => {},
   logout: () => {},
   items: {},
+  totalPrice: 0,
 });
 
 export const AuthContextProvider = ({children}) => {
@@ -15,6 +16,8 @@ export const AuthContextProvider = ({children}) => {
   const URI = 'https://6332f8cc573c03ab0b551d3e.mockapi.io/items';
 
   const [items, setItems] = useState([]);
+
+  const [totalPrice, setTotalPrice] = useState();
 
   useEffect(() => {
     fetch(URI)
@@ -41,6 +44,7 @@ export const AuthContextProvider = ({children}) => {
     authenticate: authenticate,
     logout: logout,
     items: items,
+    totalPrice: totalPrice,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
