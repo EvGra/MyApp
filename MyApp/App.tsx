@@ -24,6 +24,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import ItemScreen from './screens/main/ItemScreen';
 import HeaderButton from './components/CategoryScreen/HeaderButton';
 import FavoriteScreen from './screens/profile/FavoriteScreen';
+import CheckOutScreen from './screens/main/CheckOutScreen';
 import {store} from './src/redux/store';
 import Loading from './screens/Loading';
 
@@ -45,6 +46,7 @@ export type StackParams = {
   PopularItem: undefined;
   FavoriteScreen: undefined;
   Loading: undefined;
+  CheckOutScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParams>();
@@ -110,6 +112,11 @@ const HomeScreens = () => {
         name="CategoryScreen"
         component={CategoryScreen}
         options={categoryScreenOptions}
+      />
+      <Stack.Screen
+        name="CheckOutScreen"
+        component={CheckOutScreen}
+        options={headerSettings}
       />
       <Stack.Screen
         name="SearchScreen"
@@ -206,13 +213,6 @@ const Root = () => {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Group>
-          {/* {
-            <Stack.Screen
-              name="Loading"
-              component={Loading}
-              options={headerSettings}
-            />
-          } */}
           {!authCtx.isAuthenticated && PreviewScreens()}
           {authCtx.isAuthenticated && (
             <>

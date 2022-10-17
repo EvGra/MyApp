@@ -6,16 +6,19 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useSelector} from 'react-redux';
 
 import {AuthContext} from '../../src/auth-context';
-import {StackParams} from '../../App';
 import HeaderButton from '../../components/CategoryScreen/HeaderButton';
-import Button from '../../components/sign/Button';
 import {COLORS} from '../../src/data';
 import CartList from '../../components/CartList';
+import TotalPriceElement from '../../components/main/TotalPriceElement';
 
-type favouriteScreenProp = StackNavigationProp<StackParams, 'FavoriteScreen'>;
+type StackParamList = {
+  HomeScreens: {screen: string; params: {}} | undefined;
+};
+
+type NavigationProps = StackNavigationProp<StackParamList>;
 
 const CartScreen = () => {
-  const navigation = useNavigation<favouriteScreenProp>();
+  const navigation = useNavigation<NavigationProps>();
   const Context = useContext(AuthContext);
   const items: any[] = Context.items;
 
@@ -37,7 +40,9 @@ const CartScreen = () => {
     }
   });
 
-  console.log(totalItems);
+  for (let i = 0; i < cartItems.length; i++) {
+    cartItems[i].params = totalItems[i];
+  }
 
   const subTotalSum = totalItems.reduce((sum, item) => {
     let sumItem = 0;
@@ -47,6 +52,18 @@ const CartScreen = () => {
     return sum + sumItem;
   }, 0);
 
+  const checkOutPressHandler = () => {
+    subTotalSum &&
+      navigation.navigate('HomeScreens', {
+        screen: 'CheckOutScreen',
+        params: {
+          subTotalSum,
+          cartItems,
+          totalItems,
+        },
+      });
+  };
+
   return (
     <View style={styles.screenWrapper}>
       <View style={styles.headerWrapper}>
@@ -54,7 +71,7 @@ const CartScreen = () => {
           <HeaderButton
             name="arrow-back-outline"
             onPress={() => {
-              navigation.navigate('Home');
+              navigation.goBack();
             }}
           />
         </View>
@@ -66,18 +83,12 @@ const CartScreen = () => {
         </Pressable>
       </View>
       {cartItems && <CartList cartList={cartItems} />}
-      <View style={styles.checkOutWrapper}>
-        <View style={styles.priceWrapper}>
-          <Text style={styles.textSubtotal}>Subtotal</Text>
-          <Text style={styles.textPrice}>
-            {'\u0024'}
-            {subTotalSum}
-          </Text>
-        </View>
-        <View style={styles.checkButton}>
-          <Button text="CHECK OUT" textColorWhite={true} colorBg={true} />
-        </View>
-      </View>
+      <TotalPriceElement
+        textHeader="Subtotal"
+        onPress={checkOutPressHandler}
+        price={subTotalSum}
+        textBotton="CHECK OUT"
+      />
     </View>
   );
 };
@@ -100,34 +111,5 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 14,
     fontWeight: '700',
-  },
-  checkOutWrapper: {
-    position: 'absolute',
-    bottom: 0,
-    height: 145,
-    borderTopColor: COLORS.grayLight,
-    borderLeftColor: COLORS.grayLight,
-    borderRightColor: COLORS.grayLight,
-    borderTopWidth: 0.5,
-    borderLeftWidth: 0.5,
-    borderRightWidth: 0.5,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    color: 'white',
-    paddingTop: 20,
-  },
-  textSubtotal: {fontSize: 14},
-  textPrice: {
-    fontSize: 20,
-    color: COLORS.red,
-  },
-  priceWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-  },
-  checkButton: {
-    marginTop: 10,
   },
 });

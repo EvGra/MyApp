@@ -1,5 +1,6 @@
 import {StyleSheet, FlatList, View} from 'react-native';
 import React from 'react';
+
 import CartItem from './main/CartItem';
 
 const CartList = ({cartList}: {cartList: any[]}) => {
@@ -22,6 +23,6 @@ export default CartList;
 
 const styles = StyleSheet.create({
   cartItemsWrapper: {
-    marginBottom: 200,
+    marginBottom: 205,
   },
 });
