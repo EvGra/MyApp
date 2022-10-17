@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export const AuthContext = createContext({
   token: '',
   isAuthenticated: false,
+  loadingScreen: false,
   authenticate: (token: string) => {},
   logout: () => {},
   items: {},
@@ -12,6 +13,8 @@ export const AuthContext = createContext({
 
 export const AuthContextProvider = ({children}) => {
   const [authToken, setAuthToken] = useState();
+
+  const [loading, setLoading] = useState(false);
 
   const URI = 'https://6332f8cc573c03ab0b551d3e.mockapi.io/items';
 
@@ -30,12 +33,15 @@ export const AuthContextProvider = ({children}) => {
   }, []);
 
   const authenticate = token => {
+    setLoading(true);
     setAuthToken(token);
     AsyncStorage.setItem('token', token);
+    setLoading(false);
   };
 
   const logout = () => {
     setAuthToken(null);
+    AsyncStorage.removeItem('token');
   };
 
   const value = {
@@ -43,6 +49,7 @@ export const AuthContextProvider = ({children}) => {
     isAuthenticated: !!authToken,
     authenticate: authenticate,
     logout: logout,
+    loadingScreen: loading,
     items: items,
     totalPrice: totalPrice,
   };

@@ -54,6 +54,12 @@ const Tab = createBottomTabNavigator<StackParams>();
 
 const headerSettings = {headerShown: false};
 
+const LoadingScreen = () => {
+  return (
+    <Stack.Screen name="Loading" component={Loading} options={headerSettings} />
+  );
+};
+
 const PreviewScreens = () => {
   return (
     <Stack.Group>
@@ -196,6 +202,8 @@ const AuthenticatedScreen = () => {
 };
 
 const Root = () => {
+  const [isTryingLogin, setIsTryingLogin] = useState(true);
+
   const authCtx = useContext(AuthContext);
 
   useEffect(() => {
@@ -205,9 +213,15 @@ const Root = () => {
       if (storedToken) {
         authCtx.authenticate(storedToken);
       }
+
+      setIsTryingLogin(false);
     };
     fetchToken();
   }, []);
+
+  if (isTryingLogin) {
+    return LoadingScreen();
+  }
 
   return (
     <NavigationContainer>
@@ -235,7 +249,6 @@ const Root = () => {
 };
 
 const App: React.FC = () => {
-  const [loading, setLoading] = useState(false);
   return (
     <>
       <StatusBar barStyle="dark-content" backgroundColor="#FFF" />
