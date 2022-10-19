@@ -27,6 +27,7 @@ import FavoriteScreen from './screens/profile/FavoriteScreen';
 import CheckOutScreen from './screens/main/CheckOutScreen';
 import {store} from './src/redux/store';
 import Loading from './screens/Loading';
+import CategoryItemScreen from './screens/main/CategoryItemScreen';
 
 export type StackParams = {
   OnboardingPageFirst: undefined;
@@ -47,6 +48,7 @@ export type StackParams = {
   FavoriteScreen: undefined;
   Loading: undefined;
   CheckOutScreen: undefined;
+  CategoryItemScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParams>();
@@ -118,6 +120,11 @@ const HomeScreens = () => {
         name="CategoryScreen"
         component={CategoryScreen}
         options={categoryScreenOptions}
+      />
+      <Stack.Screen
+        name="CategoryItemScreen"
+        component={CategoryItemScreen}
+        options={headerSettings}
       />
       <Stack.Screen
         name="CheckOutScreen"

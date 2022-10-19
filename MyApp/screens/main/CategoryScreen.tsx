@@ -1,24 +1,34 @@
-import {StyleSheet, Text, View, FlatList, StatusBar} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  StatusBar,
+  Pressable,
+} from 'react-native';
 import React, {useState, useLayoutEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {useRoute} from '@react-navigation/native';
 
-import {StackParams} from '../../App';
 import SubCategory from '../../components/CategoryScreen/SubCategory';
 import PopularList from '../../components/PopularList';
 import {COLORS} from '../../src/data';
 
-type categoryScreenProp = StackNavigationProp<StackParams, 'CategoryScreen'>;
+type StackParamList = {
+  HomeScreens: {screen: string; params: {}} | undefined;
+};
+
+type NavigationProps = StackNavigationProp<StackParamList>;
 
 const CategoryScreen = () => {
-  const navigation = useNavigation<categoryScreenProp>();
+  const navigation = useNavigation<NavigationProps>();
 
   const route = useRoute();
-  const [items] = useState(route.params?.items);
-  const [category] = useState(route.params?.category);
 
-  const categoryItems = [];
+  const [{items, category}] = useState(route.params);
+
+  const categoryItems: any[] = [];
   const categoryNameItems: any[] = [];
   const categoryItemsPopular = [];
 
@@ -53,15 +63,27 @@ const CategoryScreen = () => {
     });
   }, [navigation]);
 
+  const pressHandler = (itemName: string) => {
+    navigation.navigate('HomeScreens', {
+      screen: 'CategoryItemScreen',
+      params: {
+        items: categoryItems,
+        title: itemName,
+      },
+    });
+  };
+
   const renderSubCategory = (itemData: {
     item: {category: string; imageUrl: string; id: string};
   }) => {
     return (
-      <SubCategory
-        title={itemData.item.category[1]}
-        image={itemData.item.imageUrl[0]}
-        number={numberOfItems(itemData.item.category[1]).toString()}
-      />
+      <Pressable onPress={() => pressHandler(itemData.item.category[1])}>
+        <SubCategory
+          title={itemData.item.category[1]}
+          image={itemData.item.imageUrl[0]}
+          number={numberOfItems(itemData.item.category[1]).toString()}
+        />
+      </Pressable>
     );
   };
 

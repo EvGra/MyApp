@@ -1,18 +1,9 @@
-import {StyleSheet, Text, View, Pressable, FlatList} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React, {useContext, useState} from 'react';
 
 import SearchHeader from '../../components/SearchHeader';
 import {AuthContext} from '../../src/auth-context';
-import SearchItem from '../../components/main/SearchItem';
-
-interface Props {
-  item: {
-    imageUrl: string;
-    name: string;
-    price: string;
-    id: string;
-  };
-}
+import ItemsList from '../../components/main/ItemsList';
 
 const SearchScreen = () => {
   const Context = useContext(AuthContext);
@@ -20,15 +11,11 @@ const SearchScreen = () => {
 
   let items = Context.items;
 
-  const renderItem = (itemData: Props) => {
-    return <SearchItem item={itemData.item} />;
-  };
-
   const pickedTextHandler = (pickedText: string) => {
     setInputText(pickedText);
   };
 
-  const newItems: any[] = [];
+  const newItems: [] = [];
 
   if (inputText) {
     items.filter((item: {name: string}) => {
@@ -41,25 +28,7 @@ const SearchScreen = () => {
   return (
     <View style={styles.searchPageWrapper}>
       <SearchHeader onPickText={pickedTextHandler} />
-      <View>
-        <View style={styles.headerWrapper}>
-          <Text>
-            {newItems.length ? newItems.length : items.length} Items Found
-          </Text>
-          <Pressable>
-            <Text>Filters</Text>
-          </Pressable>
-        </View>
-        <View style={styles.itemsWrapper}>
-          <FlatList
-            data={inputText ? newItems : items}
-            keyExtractor={item => item.id}
-            renderItem={renderItem}
-            numColumns={2}
-            showsVerticalScrollIndicator={false}
-          />
-        </View>
-      </View>
+      <ItemsList newItems={newItems} items={items} inputText={inputText} />
     </View>
   );
 };
@@ -72,13 +41,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginTop: 10,
     marginBottom: 120,
-  },
-  headerWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 15,
-  },
-  itemsWrapper: {
-    marginTop: 15,
   },
 });

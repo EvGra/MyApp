@@ -29,7 +29,7 @@ const ItemScreen = () => {
   const navigation = useNavigation<itemScreenProp>();
 
   const route = useRoute();
-  const [item] = useState(route.params?.item);
+  const [{item}] = useState(route.params);
 
   const windowWidth = Dimensions.get('window').width;
   const windowHeight = Dimensions.get('window').height;
