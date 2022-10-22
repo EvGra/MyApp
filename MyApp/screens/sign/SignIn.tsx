@@ -1,5 +1,7 @@
-import {StyleSheet, Text, View, TextInput, Alert} from 'react-native';
-import React, {useState, useContext} from 'react';
+import {StyleSheet, Text, View, Alert} from 'react-native';
+import React, {useState, useContext, useEffect} from 'react';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import auth from '@react-native-firebase/auth';
 
 import {COLORS} from '../../src/data';
 import Button from '../../components/sign/Button';
@@ -10,6 +12,14 @@ import {AuthContext} from '../../src/auth-context';
 import {login} from '../../src/auth';
 
 const SignIn = () => {
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId:
+        '496971317703-dqi5rj26kqalah6rmsv2u5lss94md1kf.apps.googleusercontent.com',
+      offlineAccess: true,
+    });
+  }, []);
+
   const [isAuthenticating, setIsAuthenticating] = useState(false);
 
   const authCtx = useContext(AuthContext);
@@ -31,6 +41,19 @@ const SignIn = () => {
     }
   };
 
+  const onGoogleButtonPress = async () => {
+    // Check if your device supports Google Play
+    await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
+    // Get the users ID token
+    const {idToken} = await GoogleSignin.signIn();
+
+    // Create a Google credential with the token
+    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+    // Sign-in the user with the credential
+    return auth().signInWithCredential(googleCredential);
+  };
+
   if (isAuthenticating) {
     return <LoadingOverlay message="Login up..." />;
   }
@@ -47,6 +70,13 @@ const SignIn = () => {
             text="CONTINUE WITH GOOGLE"
             textColorWhite={false}
             colorBg={false}
+            onPress={() =>
+              onGoogleButtonPress()
+                .then(res => {
+                  console.log(res);
+                })
+                .catch(err => console.log(err))
+            }
           />
         </View>
         <Button

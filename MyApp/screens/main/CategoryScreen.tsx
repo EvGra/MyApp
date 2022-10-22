@@ -99,7 +99,9 @@ const CategoryScreen = () => {
           renderItem={renderSubCategory}
         />
       </View>
-      <PopularList popularList={categoryItemsPopular} />
+      <View style={styles.popularListWrapper}>
+        <PopularList popularList={categoryItemsPopular} />
+      </View>
     </View>
   );
 };
@@ -114,5 +116,9 @@ const styles = StyleSheet.create({
   categoryText: {
     marginVertical: 20,
     fontSize: 20,
+  },
+  popularListWrapper: {
+    paddingLeft: 20,
+    marginBottom: 50,
   },
 });

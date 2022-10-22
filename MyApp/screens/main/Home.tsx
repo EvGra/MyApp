@@ -155,7 +155,10 @@ const Home = () => {
             />
           </View>
         </View>
-        <PopularList popularList={popularList} />
+        <View style={styles.popularListWrapper}>
+          <Text style={styles.categoryText}>Popular</Text>
+          <PopularList popularList={popularList} />
+        </View>
       </View>
     </ScrollView>
   );
@@ -204,5 +207,9 @@ const styles = StyleSheet.create({
   },
   buttonPressed: {
     opacity: 0.7,
+  },
+  popularListWrapper: {
+    paddingLeft: 20,
+    marginBottom: 50,
   },
 });
