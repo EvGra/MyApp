@@ -7,6 +7,7 @@ interface Props {
     imageUrl: string;
     name: string;
     price: string;
+    rating: number;
   };
 }
 
@@ -17,7 +18,7 @@ const PopularList = ({popularList}: {popularList: any[]}) => {
   return (
     <FlatList
       data={popularList}
-      keyExtractor={(item, index) => 'key' + index}
+      keyExtractor={(_, index) => 'key' + index}
       renderItem={RenderPopularItem}
     />
   );

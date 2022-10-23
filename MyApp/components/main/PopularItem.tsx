@@ -6,6 +6,7 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {COLORS} from '../../src/data';
 import HeartButton from '../HeartButton';
 import AddToCartButton from '../AddToCartButton';
+import RatingItem from './RatingItem';
 
 type StackParamList = {
   HomeScreens: {screen: string; params: {}} | undefined;
@@ -18,6 +19,7 @@ interface Props {
     imageUrl: string;
     name: string;
     price: string;
+    rating: number;
   };
 }
 
@@ -51,7 +53,7 @@ const PopularItem: React.FC<Props> = ({item}) => {
             {'\u0024'}
             {item.price}
           </Text>
-          <Text>rating</Text>
+          <RatingItem rating={item.rating} />
         </View>
         <View style={styles.infoButtons}>
           <Pressable>
@@ -73,6 +75,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 130,
     marginBottom: 15,
+    backgroundColor: '#FFF',
   },
   imageWrapper: {backgroundColor: COLORS.grayBackground, width: 90},
   popularImage: {
@@ -100,6 +103,7 @@ const styles = StyleSheet.create({
     color: COLORS.blueDark,
     fontSize: 18,
   },
+
   infoButtons: {
     alignItems: 'flex-end',
     marginRight: 18,

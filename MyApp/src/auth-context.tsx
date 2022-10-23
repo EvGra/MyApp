@@ -7,7 +7,7 @@ export const AuthContext = createContext({
   loadingScreen: false,
   authenticate: (token: string) => {},
   logout: () => {},
-  items: {},
+  items: [],
   totalPrice: 0,
 });
 

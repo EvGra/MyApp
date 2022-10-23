@@ -9,7 +9,7 @@ const SearchScreen = () => {
   const Context = useContext(AuthContext);
   const [inputText, setInputText] = useState('');
 
-  let items = Context.items;
+  const items = Context.items;
 
   const pickedTextHandler = (pickedText: string) => {
     setInputText(pickedText);
@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 20,
     marginTop: 10,
-    marginBottom: 120,
+    paddingBottom: 120,
+    backgroundColor: '#FFF',
   },
 });

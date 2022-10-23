@@ -75,7 +75,7 @@ const ItemScreen = () => {
             {useNativeDriver: false},
           )}
           showsHorizontalScrollIndicator={false}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item}
           renderItem={({item}) => <ItemSlider item={item} />}
         />
         <View style={styles.dotWrapper}>
@@ -87,7 +87,7 @@ const ItemScreen = () => {
             });
             return (
               <Animated.View
-                key={index}
+                key={index + 'key'}
                 style={{
                   width: 10,
                   height: 10,
@@ -125,19 +125,25 @@ const ItemScreen = () => {
         </View>
         <View>
           <View style={styles.titleWrapper}>
-            <TitleAndPriceForElement title={item.name} price={item.price} />
+            <TitleAndPriceForElement
+              title={item.name}
+              price={item.price}
+              rating={item.rating}
+            />
           </View>
           <View style={styles.sizeInfoWrapper}>
             <Text>Size:</Text>
             <View style={styles.sizesRow}>
               {item.sizes.map((size: string) => (
-                <Pressable onPress={() => setSizeActive(size)}>
+                <Pressable
+                  key={size + 'key'}
+                  onPress={() => setSizeActive(size)}>
                   <View
                     style={[
                       styles.sizeItemAndQualityButton,
                       sizeActive == size ? styles.sizeItemPressed : null,
                     ]}>
-                    <Text key={size + 'key'}>{size}</Text>
+                    <Text>{size}</Text>
                   </View>
                 </Pressable>
               ))}
@@ -147,9 +153,12 @@ const ItemScreen = () => {
             <Text>Choose a color:</Text>
             <View>
               {item.color.map((color: string) => (
-                <Pressable style={[styles.colorItem, {backgroundColor: color}]}>
-                  <View></View>
-                </Pressable>
+                <Pressable
+                  key={color + 'key'}
+                  style={[
+                    styles.colorItem,
+                    {backgroundColor: color},
+                  ]}></Pressable>
               ))}
             </View>
           </View>
@@ -181,7 +190,7 @@ const ItemScreen = () => {
                 onPress={addToCartHendler}
                 text="ADD TO CART"
                 textColorWhite={true}
-                colorBg={true}
+                colorBg="#126881"
               />
             </View>
           </Pressable>

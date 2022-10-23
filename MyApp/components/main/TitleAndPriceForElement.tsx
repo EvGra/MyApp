@@ -1,19 +1,22 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {COLORS} from '../../src/data';
+import RatingItem from './RatingItem';
 
 const TitleAndPriceForElement = ({
   title,
   price,
+  rating,
 }: {
   title: string;
   price: string;
+  rating: number;
 }) => {
   return (
     <View style={styles.itemInfoWrapper}>
       <View>
         <Text style={styles.itemName}>{title}</Text>
-        <Text>rating</Text>
+        <RatingItem rating={rating} />
       </View>
       <Text style={styles.itemPrice}>
         {'\u0024'}

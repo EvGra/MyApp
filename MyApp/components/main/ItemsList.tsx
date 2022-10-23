@@ -9,11 +9,12 @@ interface RenderItemProps {
     name: string;
     price: string;
     id: string;
+    rating: number;
   };
 }
 
 interface Props {
-  newItems?: undefined;
+  newItems?: [];
   items: [];
   inputText?: string;
 }
@@ -23,10 +24,15 @@ const ItemsList: React.FC<Props> = ({newItems, items, inputText}) => {
     return <SearchItem item={itemData.item} />;
   };
 
+  console.log(newItems?.length);
+  console.log(items.length);
+
   return (
     <View>
       <View style={styles.headerWrapper}>
-        <Text>{newItems ? newItems.length : items.length} Items Found</Text>
+        <Text>
+          {newItems?.length ? newItems.length : items.length} Items Found
+        </Text>
         <Pressable>
           <Text>Filters</Text>
         </Pressable>
