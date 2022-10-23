@@ -1,34 +1,42 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Pressable,
-  FlatList,
-  StatusBar,
-} from 'react-native';
+import {StyleSheet, Text, View, Pressable, FlatList} from 'react-native';
 import {ScrollView} from 'react-native-virtualized-view';
-import React, {useState, useEffect} from 'react';
+import React, {useContext, useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
 
 import {CATEGORIES, COLORS} from '../../src/data';
 import CategoryElement from '../../components/main/CategoryElement';
 import SaleDiscountElement from '../../components/main/SaleDiscountElement';
-import RenderPopularItem from '../../components/main/RenderPopularItem';
 import PopularList from '../../components/PopularList';
+import SearchHeader from '../../components/SearchHeader';
+import {AuthContext} from '../../src/auth-context';
 
-export default function Home({navigation}) {
-  const [items, setItems] = useState([]);
+type StackParamList = {
+  HomeScreens: {screen: string; params: {}} | undefined;
+};
 
-  useEffect(() => {
-    fetch('https://6332f8cc573c03ab0b551d3e.mockapi.io/items')
-      .then(res => {
-        return res.json();
-      })
-      .then(arr => {
-        setItems(arr);
-      });
-  }, []);
+type NavigationProps = StackNavigationProp<StackParamList>;
+
+interface renderSaleItemProps {
+  item: {
+    imageUrl: string;
+    name: string;
+    price: string;
+    id: string;
+  };
+}
+
+interface renderCategoryItemProps {
+  item: {id: string};
+}
+
+const Home = () => {
+  const navigation = useNavigation<NavigationProps>();
+  const Context = useContext(AuthContext);
+  const [inputText, setInputText] = useState('');
+
+  const items: [] = Context.items;
 
   let saleList: [] = [];
   let popularList: [] = [];
@@ -41,7 +49,21 @@ export default function Home({navigation}) {
       popularList.push(items[i]);
     }
   }
-  const renderCategoryItem = itemData => {
+  const pickedTextHandler = (pickedText: string) => {
+    setInputText(pickedText);
+  };
+
+  const newItems: [] = [];
+
+  if (inputText) {
+    items.filter(item => {
+      if (item.name.toLowerCase().includes(inputText.toLowerCase())) {
+        newItems.push(item);
+      }
+    });
+  }
+
+  const renderCategoryItem: React.FC<renderCategoryItemProps> = itemData => {
     const pressHandler = () => {
       navigation.navigate('HomeScreens', {
         screen: 'CategoryScreen',
@@ -55,57 +77,26 @@ export default function Home({navigation}) {
     return <CategoryElement title={itemData.item.id} onPress={pressHandler} />;
   };
 
-  const renderSaleItem = itemData => {
-    const pressHandler = () => {};
-    return (
-      <SaleDiscountElement
-        title={itemData.item.name}
-        price={itemData.item.price}
-        image={itemData.item.imageUrl[0]}
-        onPress={pressHandler}
-      />
-    );
+  const renderSaleItem: React.FC<renderSaleItemProps> = itemData => {
+    const item = itemData.item;
+    return <SaleDiscountElement item={item} />;
+  };
+
+  const pressHandlerToSearchScreen = () => {
+    navigation.navigate('HomeScreens', {
+      screen: 'SearchScreen',
+      params: {},
+    });
   };
 
   return (
     <ScrollView directionalLockEnabled={false}>
       <View style={styles.homeWrapper}>
         <View style={styles.header}>
-          <StatusBar backgroundColor={COLORS.grayBackground} />
-          <View style={styles.buttons}>
-            <View style={styles.searchWrapper}>
-              <TextInput
-                placeholder="Search"
-                style={{
-                  width: 200,
-                }}
-              />
-              <Pressable
-                style={({pressed}) => [
-                  styles.searchButton,
-                  pressed ? styles.buttonPressed : null,
-                ]}
-                onPress={() => {
-                  navigation.navigate('HomeScreens', {
-                    screen: 'SearchScreen',
-                  });
-                }}>
-                <Ionicons name="search-outline" size={20} color="white" />
-              </Pressable>
-            </View>
-            <Pressable
-              style={({pressed}) => [
-                styles.cartButton,
-                pressed ? styles.buttonPressed : null,
-              ]}
-              onPress={() => {
-                navigation.navigate('HomeScreens', {
-                  screen: 'CartScreen',
-                });
-              }}>
-              <Ionicons name="cart-outline" size={25} color="white" />
-            </Pressable>
-          </View>
+          <SearchHeader
+            onPickText={pickedTextHandler}
+            onPress={pressHandlerToSearchScreen}
+          />
           <View>
             <Text style={styles.categoryText}>Category</Text>
             <FlatList
@@ -168,7 +159,9 @@ export default function Home({navigation}) {
       </View>
     </ScrollView>
   );
-}
+};
+
+export default Home;
 
 const styles = StyleSheet.create({
   homeWrapper: {},
@@ -185,30 +178,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     paddingRight: 10,
-  },
-  searchWrapper: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    border: 1,
-    borderColor: COLORS.blueLight,
-    borderRadius: 5,
-  },
-  searchButton: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 5,
-    width: 50,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: COLORS.blueLight,
-  },
-  cartButton: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: COLORS.blueLight,
   },
   categoryText: {
     marginVertical: 20,

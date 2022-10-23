@@ -1,47 +1,64 @@
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, View, Pressable, Text} from 'react-native';
 import React from 'react';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
 
 import {COLORS} from '../../src/data';
+import HeartButton from '../HeartButton';
+import AddToCartButton from '../AddToCartButton';
 
-const PopularItem = ({
-  title,
-  price,
-  image,
-  onPress,
-}: {
-  title: string;
-  price: string;
-  image: string;
-  onPress: () => void;
-}) => {
+type StackParamList = {
+  HomeScreens: {screen: string; params: {}} | undefined;
+};
+
+type NavigationProps = StackNavigationProp<StackParamList>;
+
+interface Props {
+  item: {
+    imageUrl: string;
+    name: string;
+    price: string;
+  };
+}
+
+const PopularItem: React.FC<Props> = ({item}) => {
+  const navigation = useNavigation<NavigationProps>();
+
   return (
     <View style={styles.popularElementWrapper}>
-      <View style={{backgroundColor: COLORS.grayBackground, width: 90}}>
-        <Image
-          source={{
-            uri: image,
-          }}
-          style={styles.popularImage}
-        />
-      </View>
+      <Pressable
+        onPress={() => {
+          navigation.navigate('HomeScreens', {
+            screen: 'ItemScreen',
+            params: {
+              item: item,
+            },
+          });
+        }}>
+        <View style={styles.imageWrapper}>
+          <Image
+            source={{
+              uri: item.imageUrl[0],
+            }}
+            style={styles.popularImage}
+          />
+        </View>
+      </Pressable>
       <View style={styles.infoWrapper}>
         <View style={styles.infoItem}>
-          <Text style={styles.infoItemName}>{title}</Text>
+          <Text style={styles.infoItemName}>{item.name}</Text>
           <Text style={styles.infoItemPrice}>
             {'\u0024'}
-            {price}
+            {item.price}
           </Text>
           <Text>rating</Text>
         </View>
         <View style={styles.infoButtons}>
           <Pressable>
-            <Ionicons name="heart-outline" size={25} color={COLORS.red} />
+            <HeartButton name={item.name} color={COLORS.red} />
           </Pressable>
           <Pressable>
-            <View style={styles.cartButton}>
-              <Ionicons name="cart-outline" size={25} color="white" />
-            </View>
+            <AddToCartButton name={item.name} />
           </Pressable>
         </View>
       </View>
@@ -57,6 +74,7 @@ const styles = StyleSheet.create({
     height: 130,
     marginBottom: 15,
   },
+  imageWrapper: {backgroundColor: COLORS.grayBackground, width: 90},
   popularImage: {
     height: '100%',
     borderRadius: 5,
@@ -85,11 +103,5 @@ const styles = StyleSheet.create({
   infoButtons: {
     alignItems: 'flex-end',
     marginRight: 18,
-  },
-  cartButton: {
-    backgroundColor: COLORS.blueLight,
-    marginTop: 30,
-    paddingHorizontal: 15,
-    borderRadius: 20,
   },
 });

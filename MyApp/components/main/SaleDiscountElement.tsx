@@ -1,24 +1,40 @@
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+
 import {COLORS} from '../../src/data';
 
-const SaleDiscountElement = ({
-  title,
-  price,
-  image,
-  onPress,
-}: {
-  title: string;
-  price: string;
-  image: string;
-  onPress: () => void;
-}) => {
+type StackParamList = {
+  HomeScreens: {screen: string; params: {}} | undefined;
+};
+
+type NavigationProps = StackNavigationProp<StackParamList>;
+
+interface Props {
+  item: {
+    imageUrl: string;
+    name: string;
+    price: string;
+  };
+}
+
+const SaleDiscountElement: React.FC<Props> = ({item}) => {
+  const navigation = useNavigation<NavigationProps>();
   return (
-    <Pressable onPress={onPress}>
+    <Pressable
+      onPress={() => {
+        navigation.navigate('HomeScreens', {
+          screen: 'ItemScreen',
+          params: {
+            item: item,
+          },
+        });
+      }}>
       <View style={styles.saleElementWrapper}>
         <Image
           source={{
-            uri: image,
+            uri: item.imageUrl[0],
           }}
           style={{height: '100%'}}
         />
@@ -26,15 +42,15 @@ const SaleDiscountElement = ({
           <Image source={require('../../src/images/home/Discount.png')} />
           <Text style={styles.discountFlagText}>Disc 50%</Text>
         </View>
-        <Text style={styles.textName}>{title}</Text>
+        <Text style={styles.textName}>{item.name}</Text>
         <View style={styles.priceWrapper}>
           <Text style={styles.textPrice}>
             {'\u0024'}
-            {price}
+            {item.price}
           </Text>
           <Text style={styles.priceWithoutDiscount}>
             {'\u0024'}
-            {+price * 2}
+            {+item.price * 2}
           </Text>
         </View>
       </View>

@@ -1,10 +1,25 @@
-import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import {FlatList, Pressable, StyleSheet, Text, View} from 'react-native';
+import React, {useState} from 'react';
 import axios from 'axios';
-import {COLORS, PROFILEBUTTONS} from '../../src/data';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+import {COLORS, PROFILEBUTTONS} from '../../src/data';
+
+type StackParamList = {
+  HomeScreens: {screen: string} | undefined;
+};
+
+interface Props {
+  item: {icon: string; text: string};
+}
+
+type NavigationProps = StackNavigationProp<StackParamList>;
+
 const Profile = () => {
+  const navigation = useNavigation<NavigationProps>();
+
   const [fetchedMail, setFetchedMail] = useState('mail');
 
   // useEffect(() => {
@@ -15,18 +30,22 @@ const Profile = () => {
   //     });
   // }, []);
 
-  const pressHandler = () => {
-    console.log('click profile button');
-  };
+  const ProfileButton = (itemData: Props) => {
+    const pressHandler = (name: string) => {
+      if (name == 'My Favourites') {
+        navigation.navigate('HomeScreens', {
+          screen: 'FavoriteScreen',
+        });
+      }
+    };
 
-  const ProfileButton = (itemData: any) => {
     return (
       <Pressable
         style={({pressed}) => [
           styles.buttonWrapper,
           pressed && styles.buttonPressed,
         ]}
-        onPress={pressHandler}>
+        onPress={() => pressHandler(itemData.item.text)}>
         <View style={styles.button}>
           <Ionicons
             name={itemData.item.icon}

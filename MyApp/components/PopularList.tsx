@@ -1,14 +1,25 @@
 import {StyleSheet, Text, View, FlatList} from 'react-native';
 import React from 'react';
-import RenderPopularItem from './main/RenderPopularItem';
+import PopularItem from './main/PopularItem';
 
-const PopularList = ({popularList}: {popularList: []}) => {
+interface Props {
+  item: {
+    imageUrl: string;
+    name: string;
+    price: string;
+  };
+}
+
+const PopularList = ({popularList}: {popularList: any[]}) => {
+  const RenderPopularItem = (itemData: Props) => {
+    return <PopularItem item={itemData.item} />;
+  };
   return (
-    <View style={{paddingLeft: 20}}>
+    <View style={styles.popularListWrapper}>
       <Text style={styles.categoryText}>Popular</Text>
       <FlatList
         data={popularList}
-        keyExtractor={item => item.id}
+        keyExtractor={(item, index) => 'key' + index}
         renderItem={RenderPopularItem}
       />
     </View>
@@ -18,6 +29,10 @@ const PopularList = ({popularList}: {popularList: []}) => {
 export default PopularList;
 
 const styles = StyleSheet.create({
+  popularListWrapper: {
+    paddingLeft: 20,
+    marginBottom: 50,
+  },
   categoryText: {
     marginVertical: 20,
     fontSize: 20,
