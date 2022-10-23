@@ -100,7 +100,7 @@ const AuthForm = ({isLogin, onSubmit, credentialsInvalid}: Params) => {
       <View>
         <Button
           textColorWhite={true}
-          colorBg={true}
+          colorBg="#126881"
           onPress={submitHandler}
           text={isLogin ? 'SIGN IN' : 'SIGN UP'}
         />

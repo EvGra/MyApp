@@ -33,10 +33,8 @@ export const AuthContextProvider = ({children}) => {
   }, []);
 
   const authenticate = token => {
-    setLoading(true);
     setAuthToken(token);
     AsyncStorage.setItem('token', token);
-    setLoading(false);
   };
 
   const logout = () => {

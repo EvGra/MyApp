@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, Alert} from 'react-native';
+import {StyleSheet, Text, View, Alert, Image} from 'react-native';
 import React, {useState, useContext, useEffect} from 'react';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
@@ -69,7 +69,8 @@ const SignIn = () => {
           <Button
             text="CONTINUE WITH GOOGLE"
             textColorWhite={false}
-            colorBg={false}
+            colorBg="#ACBAC3"
+            logoSrc={0}
             onPress={() =>
               onGoogleButtonPress()
                 .then(res => {
@@ -82,7 +83,8 @@ const SignIn = () => {
         <Button
           text="CONTINUE WITH FACEBOOK"
           textColorWhite={true}
-          colorBg={false}
+          colorBg="#1877F2"
+          logoSrc={1}
         />
       </View>
     </View>

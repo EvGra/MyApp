@@ -36,7 +36,15 @@ const Preview = ({image, header, link}: Params) => {
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer maximus
         accumsan erat id facilisis.
       </Text>
-      <View></View>
+      <View style={styles.dotsBlock}>
+        {imageUrl.map((item, i) =>
+          i == image ? (
+            <View key={item + 'key'} style={styles.dotActive} />
+          ) : (
+            <View key={item + 'key'} style={styles.dot} />
+          ),
+        )}
+      </View>
       <View style={styles.buttonWrapper}>
         <Pressable
           style={({pressed}) => (pressed ? styles.buttonPressed : null)}
@@ -81,6 +89,24 @@ const styles = StyleSheet.create({
     marginHorizontal: 45,
     marginTop: 39,
     textAlign: 'center',
+  },
+  dotsBlock: {
+    marginTop: 45,
+    flexDirection: 'row',
+  },
+  dot: {
+    height: 6,
+    width: 6,
+    borderRadius: 3,
+    marginHorizontal: 8,
+    backgroundColor: COLORS.grayLight,
+  },
+  dotActive: {
+    width: 23,
+    height: 6,
+    borderRadius: 3,
+    marginHorizontal: 8,
+    backgroundColor: COLORS.blueLight,
   },
   buttonWrapper: {
     position: 'absolute',
