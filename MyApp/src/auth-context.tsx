@@ -1,5 +1,23 @@
-import {createContext, useState, useEffect} from 'react';
+import {createContext, useState, useEffect, ReactNode} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+interface Props {
+  children: ReactNode;
+}
+
+export interface IItem {
+  category: [];
+  color: [];
+  description: string;
+  imageUrl: [];
+  name: string;
+  params?: {};
+  popular: boolean;
+  price: number;
+  rating: number;
+  sale: boolean;
+  sizes: [];
+}
 
 export const AuthContext = createContext({
   token: '',
@@ -11,8 +29,8 @@ export const AuthContext = createContext({
   totalPrice: 0,
 });
 
-export const AuthContextProvider = ({children}) => {
-  const [authToken, setAuthToken] = useState();
+export const AuthContextProvider = ({children}: Props) => {
+  const [authToken, setAuthToken] = useState('');
 
   const [loading, setLoading] = useState(false);
 
@@ -20,7 +38,7 @@ export const AuthContextProvider = ({children}) => {
 
   const [items, setItems] = useState([]);
 
-  const [totalPrice, setTotalPrice] = useState();
+  const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
     fetch(URI)
@@ -32,13 +50,13 @@ export const AuthContextProvider = ({children}) => {
       });
   }, []);
 
-  const authenticate = token => {
+  const authenticate = (token: string) => {
     setAuthToken(token);
     AsyncStorage.setItem('token', token);
   };
 
   const logout = () => {
-    setAuthToken(null);
+    setAuthToken('');
     AsyncStorage.removeItem('token');
   };
 

@@ -4,7 +4,6 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {useNavigation} from '@react-navigation/native';
 import {Provider} from 'react-redux';
 
 import OnboardingPageFirst from './screens/preview/OnboardingPageFirst';
@@ -40,6 +39,7 @@ export type StackParams = {
   Profile: undefined;
   AuthenticatedScreen: undefined;
   CategoryScreen: undefined;
+  PreviewScreens: undefined;
   HomeScreens: undefined;
   SearchScreen: undefined;
   CartScreen: undefined;
@@ -64,7 +64,7 @@ const LoadingScreen = () => {
 
 const PreviewScreens = () => {
   return (
-    <Stack.Group>
+    <Stack.Navigator>
       <Stack.Screen
         name="OnboardingPageFirst"
         component={OnboardingPageFirst}
@@ -82,44 +82,17 @@ const PreviewScreens = () => {
       />
       <Stack.Screen name="SignIn" component={SignIn} options={headerSettings} />
       <Stack.Screen name="SignUp" component={SignUp} options={headerSettings} />
-    </Stack.Group>
+    </Stack.Navigator>
   );
 };
 
 const HomeScreens = () => {
-  const navigation = useNavigation();
-
-  const categoryScreenOptions = {
-    headerRight: () => (
-      <HeaderButton
-        name="cart-outline"
-        onPress={() => {
-          navigation.navigate('CartScreen');
-        }}
-      />
-    ),
-    headerLeft: () => (
-      <HeaderButton
-        name="arrow-back-outline"
-        onPress={() => {
-          navigation.navigate('Home');
-        }}
-      />
-    ),
-    headerStyle: {
-      backgroundColor: '#transparent',
-    },
-    headerTitleStyle: {
-      color: COLORS.grayDark,
-    },
-  };
-
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="CategoryScreen"
         component={CategoryScreen}
-        options={categoryScreenOptions}
+        options={headerSettings}
       />
       <Stack.Screen
         name="CategoryItemScreen"
@@ -234,7 +207,13 @@ const Root = () => {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Group>
-          {!authCtx.isAuthenticated && PreviewScreens()}
+          {!authCtx.isAuthenticated && (
+            <Stack.Screen
+              name="PreviewScreens"
+              component={PreviewScreens}
+              options={headerSettings}
+            />
+          )}
           {authCtx.isAuthenticated && (
             <>
               <Stack.Screen

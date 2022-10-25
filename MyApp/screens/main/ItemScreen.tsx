@@ -13,6 +13,7 @@ import SwipeUpDown from 'react-native-swipe-up-down';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {useRoute} from '@react-navigation/native';
+import {RouteProp} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 
 import TitleAndPriceForElement from '../../components/main/TitleAndPriceForElement';
@@ -21,14 +22,40 @@ import {COLORS} from '../../src/data';
 import Button from '../../components/sign/Button';
 import HeaderButton from '../../components/CategoryScreen/HeaderButton';
 import HeartButton from '../../components/HeartButton';
-import {addCart} from '../../src/redux/cartItems';
+import {addCart, getChooseItemParams} from '../../src/redux/cartItems';
 
 type itemScreenProp = StackNavigationProp<StackParams, 'ItemScreen'>;
+
+interface Props {
+  state: {};
+  cartItems: {
+    names: [];
+    item: {
+      name: string;
+    };
+  };
+}
 
 const ItemScreen = () => {
   const navigation = useNavigation<itemScreenProp>();
 
-  const route = useRoute();
+  const route: RouteProp<
+    {
+      params: {
+        item: {
+          name: string;
+          description: string;
+          imageUrl: [];
+          price: string;
+          rating: number;
+          sizes: [];
+          color: [];
+        };
+      };
+    },
+    'params'
+  > = useRoute();
+
   const [{item}] = useState(route.params);
 
   const windowWidth = Dimensions.get('window').width;
@@ -104,15 +131,22 @@ const ItemScreen = () => {
   };
 
   const Item = ({description}: {description: boolean}) => {
-    const cartItemNames = useSelector(state => state.cartItems.names);
+    const cartItemNames: any[] = useSelector(
+      (state: Props) => state.cartItems.names,
+    );
 
     const dispatch = useDispatch();
 
-    const itemCart = cartItemNames.includes(item.name);
-
     const addToCartHendler = () => {
-      if (!itemCart) {
+      if (!cartItemNames.includes(item.name)) {
         dispatch(addCart({name: item.name}));
+        dispatch(
+          getChooseItemParams({
+            name: item.name,
+            quantity: quality,
+            size: sizeActive,
+          }),
+        );
       }
     };
 

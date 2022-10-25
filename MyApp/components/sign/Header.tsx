@@ -1,19 +1,22 @@
 import {StyleSheet, Text, View, StatusBar, Pressable} from 'react-native';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
-import {StackParams} from '../../App';
 import {COLORS} from '../../src/data';
+import {StackNavigationProp} from '@react-navigation/stack';
 
 interface Params {
   button: string;
   header: string;
   link: string;
 }
+type StackParamList = {
+  PreviewScreens: {screen: string} | undefined;
+};
+type NavigationProps = StackNavigationProp<StackParamList>;
 
 const Header = ({button, header, link}: Params) => {
-  const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
+  const navigation = useNavigation<NavigationProps>();
 
   return (
     <View style={styles.headerContainer}>
@@ -22,7 +25,9 @@ const Header = ({button, header, link}: Params) => {
         <Pressable
           style={({pressed}) => (pressed ? {opacity: 0.7} : null)}
           onPress={() => {
-            navigation.navigate(link);
+            navigation.navigate('PreviewScreens', {
+              screen: link,
+            });
           }}>
           <Text style={styles.signUpButton}>{button}</Text>
         </Pressable>

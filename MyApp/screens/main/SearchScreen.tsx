@@ -9,13 +9,13 @@ const SearchScreen = () => {
   const Context = useContext(AuthContext);
   const [inputText, setInputText] = useState('');
 
-  const items = Context.items;
+  const items: any[] = Context.items;
 
   const pickedTextHandler = (pickedText: string) => {
     setInputText(pickedText);
   };
 
-  const newItems: [] = [];
+  const newItems: any[] = [];
 
   if (inputText) {
     items.filter((item: {name: string}) => {

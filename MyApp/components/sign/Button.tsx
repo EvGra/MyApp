@@ -23,6 +23,7 @@ const Button = ({text, textColorWhite, logoSrc, colorBg, onPress}: Params) => {
         onPress={onPress}
         style={({pressed}) => [
           styles.buttonWrapper,
+
           colorBg ? {backgroundColor: colorBg} : null,
           pressed ? styles.buttonPressed : null,
         ]}>
@@ -46,7 +47,7 @@ export default Button;
 const styles = StyleSheet.create({
   buttonWrapper: {
     width: 300,
-    paddingHorizontal: 20,
+    marginHorizontal: 20,
     borderRadius: 30,
     flexDirection: 'row',
     justifyContent: 'space-around',

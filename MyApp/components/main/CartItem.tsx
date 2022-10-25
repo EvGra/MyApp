@@ -14,12 +14,18 @@ interface Props {
     price: string;
     color?: string;
     size?: string;
+    itemParams?: {
+      size: number;
+      quantity: number;
+    };
   };
 }
 
 const CartItem: React.FC<Props> = ({item}) => {
   const [agreeCheckBox, setAgreeCheckBox] = useState(false);
-  const [quality, setQuality] = useState(1);
+  const [quality, setQuality] = useState(
+    item.itemParams?.quantity ? item.itemParams.quantity : 1,
+  );
 
   const subTotalPrice = quality * +item.price;
 
@@ -78,7 +84,10 @@ const CartItem: React.FC<Props> = ({item}) => {
               <View>
                 <Text>{item.name}</Text>
                 <Text>Color: {item.color ? item.color : 'No color'}</Text>
-                <Text>Size: {item.size ? item.size : 'No size'}</Text>
+                <Text>
+                  Size:{' '}
+                  {item.itemParams?.size ? item.itemParams.size : 'No size'}
+                </Text>
                 <Text style={styles.itemPrice}>
                   {'\u0024'}
                   {item.price}

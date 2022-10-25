@@ -8,7 +8,7 @@ const OnboadingPageFirst = () => {
     <Preview
       image={0}
       header="SHOPPING FROM HOME"
-      link="OnboardingPageSecond"
+      link={'OnboardingPageSecond'}
     />
   );
 };

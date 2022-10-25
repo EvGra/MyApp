@@ -13,6 +13,7 @@ import React, {useState} from 'react';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {RouteProp} from '@react-navigation/native';
 
 import {StackParams} from '../../App';
 import HeaderButton from '../../components/CategoryScreen/HeaderButton';
@@ -29,7 +30,7 @@ interface Props {
     imageUrl: string;
     name: string;
     price: string;
-    color: string;
+    color: [];
     params: {
       agreeCheckBox: boolean;
       quantity: number;
@@ -40,7 +41,15 @@ interface Props {
 const CheckOutScreen = () => {
   const navigation = useNavigation<checkOutScreenScreenProp>();
 
-  const route = useRoute();
+  const route: RouteProp<
+    {
+      params: {
+        cartItems: [];
+        subTotalSum: number;
+      };
+    },
+    'params'
+  > = useRoute();
   const [{cartItems, subTotalSum}] = useState(route.params);
 
   const [droppshipperButton, setDroppshipperButton] = useState(false);
@@ -126,7 +135,7 @@ const CheckOutScreen = () => {
           <View>
             <FlatList
               data={cartItems}
-              keyExtractor={(elem, i) => 'key' + i}
+              keyExtractor={(_, i) => 'key' + i}
               renderItem={RenderItem}
               showsVerticalScrollIndicator={false}
             />

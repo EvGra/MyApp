@@ -14,8 +14,8 @@ interface RenderItemProps {
 }
 
 interface Props {
-  newItems?: [];
-  items: [];
+  newItems?: any[];
+  items: any[];
   inputText?: string;
 }
 
@@ -23,9 +23,6 @@ const ItemsList: React.FC<Props> = ({newItems, items, inputText}) => {
   const renderItem = (itemData: RenderItemProps) => {
     return <SearchItem item={itemData.item} />;
   };
-
-  console.log(newItems?.length);
-  console.log(items.length);
 
   return (
     <View>

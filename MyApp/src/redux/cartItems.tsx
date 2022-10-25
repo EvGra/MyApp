@@ -4,6 +4,7 @@ const cartSlice = createSlice({
   name: 'cartItems',
   initialState: {
     names: [],
+    itemParams: [],
     cartItemsQuantity: [],
   },
   reducers: {
@@ -22,10 +23,18 @@ const cartSlice = createSlice({
         price: action.payload.price,
       });
     },
+    getChooseItemParams(state, action) {
+      state.itemParams.unshift({
+        name: action.payload.name,
+        quantity: action.payload.quantity,
+        size: action.payload.size,
+      });
+    },
   },
 });
 
 export const addCart = cartSlice.actions.addCart;
 export const removeCart = cartSlice.actions.removeCart;
 export const getTotals = cartSlice.actions.getTotals;
+export const getChooseItemParams = cartSlice.actions.getChooseItemParams;
 export default cartSlice.reducer;

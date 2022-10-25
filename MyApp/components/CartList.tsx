@@ -3,8 +3,19 @@ import React from 'react';
 
 import CartItem from './main/CartItem';
 
+interface Props {
+  item: {
+    imageUrl: string;
+    name: string;
+    price: string;
+    color?: string;
+    size?: string;
+    itemParams?: {size: number; quantity: number};
+  };
+}
+
 const CartList = ({cartList}: {cartList: any[]}) => {
-  const RenderCartItem = (itemData: {item: {}}) => {
+  const RenderCartItem = (itemData: Props) => {
     return <CartItem item={itemData.item} />;
   };
   return (

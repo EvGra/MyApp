@@ -1,9 +1,8 @@
 import {StyleSheet, Pressable, View} from 'react-native';
-import React, {useState, useContext} from 'react';
+import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {AuthContext} from '../src/auth-context';
 import {addFavorite, removeFavorite} from '../src/redux/favorites';
 
 interface Props {
@@ -11,12 +10,16 @@ interface Props {
   name: string;
 }
 
+interface StateProps {
+  favoriteItems: {
+    names: string;
+  };
+}
+
 const HeartButton: React.FC<Props> = ({name, color}) => {
-  const Context = useContext(AuthContext);
-
-  const items: any[] = Context.items;
-
-  const favoriteItemNames = useSelector(state => state.favoriteItems.names);
+  const favoriteItemNames = useSelector(
+    (state: StateProps) => state.favoriteItems.names,
+  );
 
   const dispatch = useDispatch();
 

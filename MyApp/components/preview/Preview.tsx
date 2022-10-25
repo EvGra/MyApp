@@ -13,6 +13,7 @@ interface Params {
 
 type StackParamList = {
   SignIn: {screen: string} | undefined;
+  PreviewScreens: {screen: string} | undefined;
 };
 
 type NavigationProps = StackNavigationProp<StackParamList>;
@@ -59,7 +60,9 @@ const Preview = ({image, header, link}: Params) => {
             pressed ? styles.buttonPressed : null,
           ]}
           onPress={() => {
-            navigation.navigate(link);
+            navigation.navigate('PreviewScreens', {
+              screen: link,
+            });
           }}>
           <Text style={styles.buttonText}>NEXT</Text>
         </Pressable>

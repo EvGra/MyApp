@@ -9,11 +9,13 @@ import {
 import React, {useState, useLayoutEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
 import {useRoute} from '@react-navigation/native';
 
 import SubCategory from '../../components/CategoryScreen/SubCategory';
 import PopularList from '../../components/PopularList';
 import {COLORS} from '../../src/data';
+import Header from '../../components/main/Header';
 
 type StackParamList = {
   HomeScreens: {screen: string; params: {}} | undefined;
@@ -24,13 +26,21 @@ type NavigationProps = StackNavigationProp<StackParamList>;
 const CategoryScreen = () => {
   const navigation = useNavigation<NavigationProps>();
 
-  const route = useRoute();
+  const route: RouteProp<
+    {
+      params: {
+        items: any[];
+        category: string;
+      };
+    },
+    'params'
+  > = useRoute();
 
   const [{items, category}] = useState(route.params);
 
   const categoryItems: any[] = [];
   const categoryNameItems: any[] = [];
-  const categoryItemsPopular = [];
+  const categoryItemsPopular: any[] = [];
 
   for (let i = 0; i < items.length; i++) {
     if (
@@ -91,6 +101,7 @@ const CategoryScreen = () => {
     <View>
       <StatusBar backgroundColor="#F6F6F7" />
       <View style={styles.categoryWrapper}>
+        <Header title={category} />
         <Text style={styles.categoryText}>Category</Text>
         <FlatList
           horizontal={true}
@@ -100,6 +111,7 @@ const CategoryScreen = () => {
         />
       </View>
       <View style={styles.popularListWrapper}>
+        <Text style={styles.categoryText}>Popular</Text>
         <PopularList popularList={categoryItemsPopular} />
       </View>
     </View>
@@ -110,7 +122,7 @@ export default CategoryScreen;
 
 const styles = StyleSheet.create({
   categoryWrapper: {
-    paddingLeft: 20,
+    paddingHorizontal: 20,
     backgroundColor: COLORS.grayBackground,
   },
   categoryText: {
@@ -120,5 +132,16 @@ const styles = StyleSheet.create({
   popularListWrapper: {
     paddingLeft: 20,
     marginBottom: 50,
+  },
+  headerWrapper: {
+    paddingVertical: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    color: 'white',
+  },
+  headerTitle: {
+    fontSize: 16,
+    fontWeight: '700',
   },
 });
