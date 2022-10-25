@@ -58,7 +58,7 @@ const CategoryScreen = () => {
   const numberOfItems = (elem: string) => {
     let number = 0;
     for (let i = 0; i < items.length; i++) {
-      if (items[i].category[1] == elem) {
+      if (items[i].category == elem) {
         number++;
       }
     }
@@ -91,7 +91,7 @@ const CategoryScreen = () => {
         <SubCategory
           title={itemData.item.category[1]}
           image={itemData.item.imageUrl[0]}
-          number={numberOfItems(itemData.item.category[1]).toString()}
+          number={numberOfItems(itemData.item.category).toString()}
         />
       </Pressable>
     );
