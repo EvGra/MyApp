@@ -20,13 +20,7 @@ const AuthenticatedScreen = () => {
           tabBarInactiveTintColor: COLORS.grayLight,
           tabBarActiveTintColor: COLORS.blueDark,
           tabBarStyle: {
-            position: 'absolute',
-            bottom: 0,
-            marginHorizontal: 30,
-            borderRadius: 50,
-            borderColor: COLORS.grayDark,
-            height: 60,
-            elevation: 0,
+            ...styles.tabBarStyle,
           },
         }}>
         <Tab.Screen
@@ -66,4 +60,14 @@ const AuthenticatedScreen = () => {
 
 export default AuthenticatedScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  tabBarStyle: {
+    position: 'absolute',
+    bottom: 0,
+    marginHorizontal: 30,
+    borderRadius: 50,
+    borderColor: COLORS.grayDark,
+    height: 60,
+    elevation: 0,
+  },
+});

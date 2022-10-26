@@ -12,26 +12,33 @@ import OnboadingPageThird from '../screens/preview/OnboadingPageThird';
 const PreviewScreens = () => {
   const Stack = createNativeStackNavigator<StackParams>();
 
-  const headerSettings = {headerShown: false};
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="OnboardingPageFirst"
         component={OnboardingPageFirst}
-        options={headerSettings}
+        options={{headerShown: false}}
       />
       <Stack.Screen
         name="OnboardingPageSecond"
         component={OnboardingPageSecond}
-        options={headerSettings}
+        options={{headerShown: false}}
       />
       <Stack.Screen
         name="OnboadingPageThird"
         component={OnboadingPageThird}
-        options={headerSettings}
+        options={{headerShown: false}}
       />
-      <Stack.Screen name="SignIn" component={SignIn} options={headerSettings} />
-      <Stack.Screen name="SignUp" component={SignUp} options={headerSettings} />
+      <Stack.Screen
+        name="SignIn"
+        component={SignIn}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="SignUp"
+        component={SignUp}
+        options={{headerShown: false}}
+      />
     </Stack.Navigator>
   );
 };

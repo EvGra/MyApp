@@ -14,44 +14,42 @@ import FavoriteScreen from '../screens/profile/FavoriteScreen';
 const HomeScreens = () => {
   const Stack = createNativeStackNavigator<StackParams>();
 
-  const headerSettings = {headerShown: false};
-
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="CategoryScreen"
         component={CategoryScreen}
-        options={headerSettings}
+        options={{headerShown: false}}
       />
       <Stack.Screen
         name="CategoryItemScreen"
         component={CategoryItemScreen}
-        options={headerSettings}
+        options={{headerShown: false}}
       />
       <Stack.Screen
         name="CheckOutScreen"
         component={CheckOutScreen}
-        options={headerSettings}
+        options={{headerShown: false}}
       />
       <Stack.Screen
         name="SearchScreen"
         component={SearchScreen}
-        options={headerSettings}
+        options={{headerShown: false}}
       />
       <Stack.Screen
         name="CartScreen"
         component={CartScreen}
-        options={headerSettings}
+        options={{headerShown: false}}
       />
       <Stack.Screen
         name="ItemScreen"
         component={ItemScreen}
-        options={headerSettings}
+        options={{headerShown: false}}
       />
       <Stack.Screen
         name="FavoriteScreen"
         component={FavoriteScreen}
-        options={headerSettings}
+        options={{headerShown: false}}
       />
     </Stack.Navigator>
   );
