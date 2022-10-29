@@ -5,11 +5,17 @@ import SearchHeader from '../../components/SearchHeader';
 import {AuthContext} from '../../src/auth-context';
 import ItemsList from '../../components/main/ItemsList';
 
+// export type Items = {
+//   name: string;
+// };
+
 const SearchScreen = () => {
   const Context = useContext(AuthContext);
   const [inputText, setInputText] = useState('');
 
   const items: any[] = Context.items;
+
+  console.log(items);
 
   const pickedTextHandler = (pickedText: string) => {
     setInputText(pickedText);

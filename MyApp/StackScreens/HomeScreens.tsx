@@ -10,6 +10,7 @@ import SearchScreen from '../screens/main/SearchScreen';
 import CartScreen from '../screens/main/CartScreen';
 import ItemScreen from '../screens/main/ItemScreen';
 import FavoriteScreen from '../screens/profile/FavoriteScreen';
+import SuccessPaymentScreen from '../screens/main/SuccessPaymentScreen';
 
 const HomeScreens = () => {
   const Stack = createNativeStackNavigator<StackParams>();
@@ -29,6 +30,11 @@ const HomeScreens = () => {
       <Stack.Screen
         name="CheckOutScreen"
         component={CheckOutScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="SuccessPaymentScreen"
+        component={SuccessPaymentScreen}
         options={{headerShown: false}}
       />
       <Stack.Screen

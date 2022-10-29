@@ -14,7 +14,6 @@ import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {useRoute} from '@react-navigation/native';
 import {RouteProp} from '@react-navigation/native';
-import {useDispatch, useSelector} from 'react-redux';
 
 import TitleAndPriceForElement from '../../components/main/TitleAndPriceForElement';
 import {StackParams} from '../../App';
@@ -23,18 +22,9 @@ import Button from '../../components/sign/Button';
 import HeaderButton from '../../components/CategoryScreen/HeaderButton';
 import HeartButton from '../../components/HeartButton';
 import {addCart, getChooseItemParams} from '../../src/redux/cartItems';
+import {useAppDispatch, useAppSelector} from '../../src/hook';
 
 type itemScreenProp = StackNavigationProp<StackParams, 'ItemScreen'>;
-
-interface Props {
-  state: {};
-  cartItems: {
-    names: [];
-    item: {
-      name: string;
-    };
-  };
-}
 
 const ItemScreen = () => {
   const navigation = useNavigation<itemScreenProp>();
@@ -131,11 +121,9 @@ const ItemScreen = () => {
   };
 
   const Item = ({description}: {description: boolean}) => {
-    const cartItemNames: any[] = useSelector(
-      (state: Props) => state.cartItems.names,
-    );
+    const cartItemNames: any[] = useAppSelector(state => state.cartItems.names);
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const addToCartHendler = () => {
       if (!cartItemNames.includes(item.name)) {

@@ -1,16 +1,36 @@
 import {createSlice} from '@reduxjs/toolkit';
 
+export type ItemParams = {
+  name: string;
+  quantity: number;
+  size: string;
+};
+
+export type ItemQuantity = {
+  name: string;
+  quantity: number;
+  agreeCheckBox: boolean;
+  price: number;
+};
+
+export type CartState = {
+  names: string[];
+  itemParams: ItemParams[];
+  cartItemsQuantity: ItemQuantity[];
+};
+
+const initialState: CartState = {
+  names: [],
+  itemParams: [],
+  cartItemsQuantity: [],
+};
+
 const cartSlice = createSlice({
   name: 'cartItems',
-  initialState: {
-    names: [],
-    itemParams: [],
-    cartItemsQuantity: [],
-  },
+  initialState,
   reducers: {
     addCart: (state, action) => {
-      const cartName = action.payload.name;
-      state.names.push(cartName);
+      state.names.push(action.payload.name);
     },
     removeCart: (state, action) => {
       state.names.splice(state.names.indexOf(action.payload.name), 1);

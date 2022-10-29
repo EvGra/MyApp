@@ -38,7 +38,7 @@ function AuthContent({isLogin, onAuthenticate}: Params) {
     email = email.trim();
     password = password.trim();
 
-    const emailIsValid = email.includes('@');
+    const emailIsValid = email.trim().includes('@');
     const passwordIsValid = password.length > 3;
     const emailsAreEqual = email === confirmEmail;
     const passwordsAreEqual = password === confirmPassword;

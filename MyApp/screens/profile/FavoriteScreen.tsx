@@ -1,15 +1,15 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React, {useContext} from 'react';
 
-import {useSelector} from 'react-redux';
 import {AuthContext} from '../../src/auth-context';
 import PopularList from '../../components/PopularList';
+import {useAppSelector} from '../../src/hook';
 
 const FavoriteScreen = () => {
   const Context = useContext(AuthContext);
   const items: any[] = Context.items;
 
-  const favoriteItemNames = useSelector(state => state.favoriteItems.names);
+  const favoriteItemNames = useAppSelector(state => state.favoriteItems.names);
 
   const favoriteItems = items.filter(item =>
     favoriteItemNames.includes(item.name),

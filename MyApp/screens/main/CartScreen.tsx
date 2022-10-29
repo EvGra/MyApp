@@ -3,13 +3,13 @@ import React, {useContext} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {useSelector} from 'react-redux';
 
 import {AuthContext} from '../../src/auth-context';
 import HeaderButton from '../../components/CategoryScreen/HeaderButton';
 import {COLORS} from '../../src/data';
 import CartList from '../../components/CartList';
 import TotalPriceElement from '../../components/main/TotalPriceElement';
+import {useAppSelector} from '../../src/hook';
 
 type StackParamList = {
   HomeScreens: {screen: string; params: {}} | undefined;
@@ -17,28 +17,18 @@ type StackParamList = {
 
 type NavigationProps = StackNavigationProp<StackParamList>;
 
-interface Props {
-  cartItems: {
-    names: [];
-    cartItemsQuantity: [];
-    itemParams: [];
-  };
-}
-
 const CartScreen = () => {
   const navigation = useNavigation<NavigationProps>();
   const Context = useContext(AuthContext);
   const items: any[] = Context.items;
 
-  const cartItemNames: any[] = useSelector(
-    (state: Props) => state.cartItems.names,
-  );
-  const cartItemNamesQuantity: any[] = useSelector(
-    (state: Props) => state.cartItems.cartItemsQuantity,
+  const cartItemNames: any[] = useAppSelector(state => state.cartItems.names);
+  const cartItemNamesQuantity: any[] = useAppSelector(
+    state => state.cartItems.cartItemsQuantity,
   );
 
-  const cartItemParams: any[] = useSelector(
-    (state: Props) => state.cartItems.itemParams,
+  const cartItemParams: any[] = useAppSelector(
+    state => state.cartItems.itemParams,
   );
 
   const cartItems = items.filter(item => cartItemNames.includes(item.name));
