@@ -17,6 +17,7 @@ interface Props {
     imageUrl: string;
     name: string;
     price: string;
+    rating: number;
   };
 }
 
@@ -44,7 +45,11 @@ const SearchItem: React.FC<Props> = ({item}) => {
             <HeartButton name={item.name} color="white" />
           </View>
         </View>
-        <TitleAndPriceForElement title={item.name} price={item.price} />
+        <TitleAndPriceForElement
+          title={item.name}
+          price={item.price}
+          rating={item.rating}
+        />
       </Pressable>
     </View>
   );

@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, Dimensions} from 'react-native';
 import React from 'react';
 
 import {COLORS} from '../../src/data';
@@ -15,8 +15,10 @@ const TotalPriceElement = ({
   textBotton: string;
   onPress: () => void;
 }) => {
+  const width = Dimensions.get('window').width;
+
   return (
-    <View style={styles.checkOutWrapper}>
+    <View style={[styles.checkOutWrapper, {width: width}]}>
       <View style={styles.priceWrapper}>
         <Text style={styles.textSubtotal}>{textHeader}</Text>
         <Text style={styles.textPrice}>
@@ -29,7 +31,7 @@ const TotalPriceElement = ({
           onPress={onPress}
           text={textBotton}
           textColorWhite={true}
-          colorBg={true}
+          colorBg={COLORS.blueDark}
         />
       </View>
     </View>

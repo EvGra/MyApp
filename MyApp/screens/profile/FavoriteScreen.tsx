@@ -16,10 +16,14 @@ const FavoriteScreen = () => {
   );
 
   if (favoriteItems.length === 0) {
-    return <Text>You have no favorite items yet</Text>;
+    return (
+      <View style={styles.noItemsText}>
+        <Text>You have no favorite items yet</Text>
+      </View>
+    );
   }
   return (
-    <View>
+    <View style={styles.popularListWrapper}>
       <PopularList popularList={favoriteItems} />
     </View>
   );
@@ -27,4 +31,15 @@ const FavoriteScreen = () => {
 
 export default FavoriteScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  noItemsText: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  popularListWrapper: {
+    paddingTop: 10,
+    paddingLeft: 20,
+    marginBottom: 50,
+  },
+});

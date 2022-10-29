@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, Pressable} from 'react-native';
+import {StyleSheet, Text, View, Pressable, Image} from 'react-native';
 import React, {useState} from 'react';
 
 import {COLORS} from '../../src/data';
@@ -6,20 +6,30 @@ import {COLORS} from '../../src/data';
 interface Params {
   text: string;
   textColorWhite: boolean;
-  colorBg?: boolean;
+  colorBg?: string;
+  logoSrc?: number;
   onPress?: () => void;
 }
 
-const Button = ({text, textColorWhite, colorBg, onPress}: Params) => {
+const Button = ({text, textColorWhite, logoSrc, colorBg, onPress}: Params) => {
+  const [imgSrc, setImgSrc] = useState([
+    require('../../src/images/preview/googlelogo.png'),
+    require('../../src/images/preview/FacebookLogo.png'),
+  ]);
+
   return (
     <View>
       <Pressable
         onPress={onPress}
         style={({pressed}) => [
           styles.buttonWrapper,
-          colorBg ? styles.colorBgblueDark : styles.colorBgBlueLight,
+
+          colorBg ? {backgroundColor: colorBg} : null,
           pressed ? styles.buttonPressed : null,
         ]}>
+        {logoSrc != undefined && (
+          <Image source={imgSrc[logoSrc]} style={styles.logo} />
+        )}
         <Text
           style={[
             styles.text,
@@ -36,12 +46,12 @@ export default Button;
 
 const styles = StyleSheet.create({
   buttonWrapper: {
-    marginHorizontal: 30,
     width: 300,
-    paddingVertical: 20,
+    marginHorizontal: 20,
     borderRadius: 30,
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
+    alignItems: 'center',
   },
   buttonPressed: {
     opacity: 0.7,
@@ -52,8 +62,12 @@ const styles = StyleSheet.create({
   colorBgBlueLight: {
     backgroundColor: COLORS.blueLight,
   },
+  logo: {
+    height: 30,
+  },
   text: {
     fontSize: 14,
+    paddingVertical: 20,
   },
   textColorWhite: {
     color: '#FFF',

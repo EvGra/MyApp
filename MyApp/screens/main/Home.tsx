@@ -36,10 +36,10 @@ const Home = () => {
   const Context = useContext(AuthContext);
   const [inputText, setInputText] = useState('');
 
-  const items: [] = Context.items;
+  const items: any[] = Context.items;
 
-  let saleList: [] = [];
-  let popularList: [] = [];
+  const saleList: any[] = [];
+  const popularList: any[] = [];
 
   for (let i = 0; i < items.length; i++) {
     if (items[i].sale == 'true') {
@@ -53,10 +53,10 @@ const Home = () => {
     setInputText(pickedText);
   };
 
-  const newItems: [] = [];
+  const newItems: any[] = [];
 
   if (inputText) {
-    items.filter(item => {
+    items.filter((item: {name: string}) => {
       if (item.name.toLowerCase().includes(inputText.toLowerCase())) {
         newItems.push(item);
       }
@@ -155,7 +155,10 @@ const Home = () => {
             />
           </View>
         </View>
-        <PopularList popularList={popularList} />
+        <View style={styles.popularListWrapper}>
+          <Text style={styles.categoryText}>Popular</Text>
+          <PopularList popularList={popularList} />
+        </View>
       </View>
     </ScrollView>
   );
@@ -204,5 +207,9 @@ const styles = StyleSheet.create({
   },
   buttonPressed: {
     opacity: 0.7,
+  },
+  popularListWrapper: {
+    paddingLeft: 20,
+    marginBottom: 50,
   },
 });

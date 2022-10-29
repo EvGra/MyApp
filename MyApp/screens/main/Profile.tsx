@@ -1,11 +1,12 @@
 import {FlatList, Pressable, StyleSheet, Text, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {COLORS, PROFILEBUTTONS} from '../../src/data';
+import {AuthContext} from '../../src/auth-context';
 
 type StackParamList = {
   HomeScreens: {screen: string} | undefined;
@@ -18,6 +19,8 @@ interface Props {
 type NavigationProps = StackNavigationProp<StackParamList>;
 
 const Profile = () => {
+  const authCtx = useContext(AuthContext);
+
   const navigation = useNavigation<NavigationProps>();
 
   const [fetchedMail, setFetchedMail] = useState('mail');
@@ -69,6 +72,21 @@ const Profile = () => {
         keyExtractor={item => item.id}
         renderItem={ProfileButton}
       />
+      <Pressable
+        onPress={authCtx.logout}
+        style={({pressed}) => [
+          styles.buttonWrapper,
+          pressed && styles.buttonPressed,
+        ]}>
+        <View style={styles.button}>
+          <Ionicons
+            name="chevron-back-outline"
+            size={25}
+            color={COLORS.blueDark}
+          />
+          <Text style={styles.buttonText}>Log Out</Text>
+        </View>
+      </Pressable>
     </View>
   );
 };
@@ -78,7 +96,7 @@ export default Profile;
 const styles = StyleSheet.create({
   personWrapper: {
     alignItems: 'center',
-    marginTop: 80,
+    marginTop: 30,
   },
   personPhoto: {
     height: 80,

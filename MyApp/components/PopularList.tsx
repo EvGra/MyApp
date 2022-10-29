@@ -7,6 +7,7 @@ interface Props {
     imageUrl: string;
     name: string;
     price: string;
+    rating: number;
   };
 }
 
@@ -15,24 +16,17 @@ const PopularList = ({popularList}: {popularList: any[]}) => {
     return <PopularItem item={itemData.item} />;
   };
   return (
-    <View style={styles.popularListWrapper}>
-      <Text style={styles.categoryText}>Popular</Text>
-      <FlatList
-        data={popularList}
-        keyExtractor={(item, index) => 'key' + index}
-        renderItem={RenderPopularItem}
-      />
-    </View>
+    <FlatList
+      data={popularList}
+      keyExtractor={(_, index) => 'key' + index}
+      renderItem={RenderPopularItem}
+    />
   );
 };
 
 export default PopularList;
 
 const styles = StyleSheet.create({
-  popularListWrapper: {
-    paddingLeft: 20,
-    marginBottom: 50,
-  },
   categoryText: {
     marginVertical: 20,
     fontSize: 20,

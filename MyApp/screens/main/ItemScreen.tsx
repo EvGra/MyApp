@@ -13,6 +13,7 @@ import SwipeUpDown from 'react-native-swipe-up-down';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {useRoute} from '@react-navigation/native';
+import {RouteProp} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 
 import TitleAndPriceForElement from '../../components/main/TitleAndPriceForElement';
@@ -21,15 +22,41 @@ import {COLORS} from '../../src/data';
 import Button from '../../components/sign/Button';
 import HeaderButton from '../../components/CategoryScreen/HeaderButton';
 import HeartButton from '../../components/HeartButton';
-import {addCart} from '../../src/redux/cartItems';
+import {addCart, getChooseItemParams} from '../../src/redux/cartItems';
 
 type itemScreenProp = StackNavigationProp<StackParams, 'ItemScreen'>;
+
+interface Props {
+  state: {};
+  cartItems: {
+    names: [];
+    item: {
+      name: string;
+    };
+  };
+}
 
 const ItemScreen = () => {
   const navigation = useNavigation<itemScreenProp>();
 
-  const route = useRoute();
-  const [item] = useState(route.params?.item);
+  const route: RouteProp<
+    {
+      params: {
+        item: {
+          name: string;
+          description: string;
+          imageUrl: [];
+          price: string;
+          rating: number;
+          sizes: [];
+          color: [];
+        };
+      };
+    },
+    'params'
+  > = useRoute();
+
+  const [{item}] = useState(route.params);
 
   const windowWidth = Dimensions.get('window').width;
   const windowHeight = Dimensions.get('window').height;
@@ -75,7 +102,7 @@ const ItemScreen = () => {
             {useNativeDriver: false},
           )}
           showsHorizontalScrollIndicator={false}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item}
           renderItem={({item}) => <ItemSlider item={item} />}
         />
         <View style={styles.dotWrapper}>
@@ -87,7 +114,7 @@ const ItemScreen = () => {
             });
             return (
               <Animated.View
-                key={index}
+                key={index + 'key'}
                 style={{
                   width: 10,
                   height: 10,
@@ -104,15 +131,22 @@ const ItemScreen = () => {
   };
 
   const Item = ({description}: {description: boolean}) => {
-    const cartItemNames = useSelector(state => state.cartItems.names);
+    const cartItemNames: any[] = useSelector(
+      (state: Props) => state.cartItems.names,
+    );
 
     const dispatch = useDispatch();
 
-    const itemCart = cartItemNames.includes(item.name);
-
     const addToCartHendler = () => {
-      if (!itemCart) {
+      if (!cartItemNames.includes(item.name)) {
         dispatch(addCart({name: item.name}));
+        dispatch(
+          getChooseItemParams({
+            name: item.name,
+            quantity: quality,
+            size: sizeActive,
+          }),
+        );
       }
     };
 
@@ -125,19 +159,25 @@ const ItemScreen = () => {
         </View>
         <View>
           <View style={styles.titleWrapper}>
-            <TitleAndPriceForElement title={item.name} price={item.price} />
+            <TitleAndPriceForElement
+              title={item.name}
+              price={item.price}
+              rating={item.rating}
+            />
           </View>
           <View style={styles.sizeInfoWrapper}>
             <Text>Size:</Text>
             <View style={styles.sizesRow}>
               {item.sizes.map((size: string) => (
-                <Pressable onPress={() => setSizeActive(size)}>
+                <Pressable
+                  key={size + 'key'}
+                  onPress={() => setSizeActive(size)}>
                   <View
                     style={[
                       styles.sizeItemAndQualityButton,
                       sizeActive == size ? styles.sizeItemPressed : null,
                     ]}>
-                    <Text key={size + 'key'}>{size}</Text>
+                    <Text>{size}</Text>
                   </View>
                 </Pressable>
               ))}
@@ -147,9 +187,12 @@ const ItemScreen = () => {
             <Text>Choose a color:</Text>
             <View>
               {item.color.map((color: string) => (
-                <Pressable style={[styles.colorItem, {backgroundColor: color}]}>
-                  <View></View>
-                </Pressable>
+                <Pressable
+                  key={color + 'key'}
+                  style={[
+                    styles.colorItem,
+                    {backgroundColor: color},
+                  ]}></Pressable>
               ))}
             </View>
           </View>
@@ -181,7 +224,7 @@ const ItemScreen = () => {
                 onPress={addToCartHendler}
                 text="ADD TO CART"
                 textColorWhite={true}
-                colorBg={true}
+                colorBg="#126881"
               />
             </View>
           </Pressable>

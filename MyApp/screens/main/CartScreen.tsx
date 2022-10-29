@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, Pressable} from 'react-native';
+import {StyleSheet, Text, View, Pressable, Alert} from 'react-native';
 import React, {useContext} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -17,14 +17,28 @@ type StackParamList = {
 
 type NavigationProps = StackNavigationProp<StackParamList>;
 
+interface Props {
+  cartItems: {
+    names: [];
+    cartItemsQuantity: [];
+    itemParams: [];
+  };
+}
+
 const CartScreen = () => {
   const navigation = useNavigation<NavigationProps>();
   const Context = useContext(AuthContext);
   const items: any[] = Context.items;
 
-  const cartItemNames = useSelector(state => state.cartItems.names);
-  const cartItemNamesQuantity = useSelector(
-    state => state.cartItems.cartItemsQuantity,
+  const cartItemNames: any[] = useSelector(
+    (state: Props) => state.cartItems.names,
+  );
+  const cartItemNamesQuantity: any[] = useSelector(
+    (state: Props) => state.cartItems.cartItemsQuantity,
+  );
+
+  const cartItemParams: any[] = useSelector(
+    (state: Props) => state.cartItems.itemParams,
   );
 
   const cartItems = items.filter(item => cartItemNames.includes(item.name));
@@ -44,6 +58,14 @@ const CartScreen = () => {
     cartItems[i].params = totalItems[i];
   }
 
+  for (let i = 0; i < cartItemParams.length; i++) {
+    for (let j = 0; j < cartItems.length; j++) {
+      if (cartItems[j].name == cartItemParams[i].name) {
+        cartItems[j].itemParams = cartItemParams[i];
+      }
+    }
+  }
+
   const subTotalSum = totalItems.reduce((sum, item) => {
     let sumItem = 0;
     if (item.agreeCheckBox) {
@@ -53,15 +75,16 @@ const CartScreen = () => {
   }, 0);
 
   const checkOutPressHandler = () => {
-    subTotalSum &&
-      navigation.navigate('HomeScreens', {
-        screen: 'CheckOutScreen',
-        params: {
-          subTotalSum,
-          cartItems,
-          totalItems,
-        },
-      });
+    subTotalSum
+      ? navigation.navigate('HomeScreens', {
+          screen: 'CheckOutScreen',
+          params: {
+            subTotalSum,
+            cartItems,
+            totalItems,
+          },
+        })
+      : Alert.alert('Choose a product');
   };
 
   return (

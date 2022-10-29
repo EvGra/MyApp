@@ -45,15 +45,17 @@ const SignUp = () => {
           <Text style={styles.textSocial}>Or Sign in with social media</Text>
           <View style={styles.buttonMargin}>
             <Button
+              logoSrc={0}
               text="CONTINUE WITH GOOGLE"
               textColorWhite={false}
-              colorBg={false}
+              colorBg="#ACBAC3"
             />
           </View>
           <Button
+            logoSrc={1}
             text="CONTINUE WITH FACEBOOK"
             textColorWhite={true}
-            colorBg={false}
+            colorBg="#1877F2"
           />
         </View>
       </View>

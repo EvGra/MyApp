@@ -1,26 +1,46 @@
-import {StyleSheet, Text, View, FlatList, StatusBar} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  StatusBar,
+  Pressable,
+} from 'react-native';
 import React, {useState, useLayoutEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
 import {useRoute} from '@react-navigation/native';
 
-import {StackParams} from '../../App';
 import SubCategory from '../../components/CategoryScreen/SubCategory';
 import PopularList from '../../components/PopularList';
 import {COLORS} from '../../src/data';
+import Header from '../../components/main/Header';
 
-type categoryScreenProp = StackNavigationProp<StackParams, 'CategoryScreen'>;
+type StackParamList = {
+  HomeScreens: {screen: string; params: {}} | undefined;
+};
+
+type NavigationProps = StackNavigationProp<StackParamList>;
 
 const CategoryScreen = () => {
-  const navigation = useNavigation<categoryScreenProp>();
+  const navigation = useNavigation<NavigationProps>();
 
-  const route = useRoute();
-  const [items] = useState(route.params?.items);
-  const [category] = useState(route.params?.category);
+  const route: RouteProp<
+    {
+      params: {
+        items: any[];
+        category: string;
+      };
+    },
+    'params'
+  > = useRoute();
 
-  const categoryItems = [];
+  const [{items, category}] = useState(route.params);
+
+  const categoryItems: any[] = [];
   const categoryNameItems: any[] = [];
-  const categoryItemsPopular = [];
+  const categoryItemsPopular: any[] = [];
 
   for (let i = 0; i < items.length; i++) {
     if (
@@ -38,7 +58,7 @@ const CategoryScreen = () => {
   const numberOfItems = (elem: string) => {
     let number = 0;
     for (let i = 0; i < items.length; i++) {
-      if (items[i].category[1] == elem) {
+      if (items[i].category == elem) {
         number++;
       }
     }
@@ -53,15 +73,27 @@ const CategoryScreen = () => {
     });
   }, [navigation]);
 
+  const pressHandler = (itemName: string) => {
+    navigation.navigate('HomeScreens', {
+      screen: 'CategoryItemScreen',
+      params: {
+        items: categoryItems,
+        title: itemName,
+      },
+    });
+  };
+
   const renderSubCategory = (itemData: {
     item: {category: string; imageUrl: string; id: string};
   }) => {
     return (
-      <SubCategory
-        title={itemData.item.category[1]}
-        image={itemData.item.imageUrl[0]}
-        number={numberOfItems(itemData.item.category[1]).toString()}
-      />
+      <Pressable onPress={() => pressHandler(itemData.item.category[1])}>
+        <SubCategory
+          title={itemData.item.category[1]}
+          image={itemData.item.imageUrl[0]}
+          number={numberOfItems(itemData.item.category).toString()}
+        />
+      </Pressable>
     );
   };
 
@@ -69,6 +101,7 @@ const CategoryScreen = () => {
     <View>
       <StatusBar backgroundColor="#F6F6F7" />
       <View style={styles.categoryWrapper}>
+        <Header title={category} />
         <Text style={styles.categoryText}>Category</Text>
         <FlatList
           horizontal={true}
@@ -77,7 +110,10 @@ const CategoryScreen = () => {
           renderItem={renderSubCategory}
         />
       </View>
-      <PopularList popularList={categoryItemsPopular} />
+      <View style={styles.popularListWrapper}>
+        <Text style={styles.categoryText}>Popular</Text>
+        <PopularList popularList={categoryItemsPopular} />
+      </View>
     </View>
   );
 };
@@ -86,11 +122,26 @@ export default CategoryScreen;
 
 const styles = StyleSheet.create({
   categoryWrapper: {
-    paddingLeft: 20,
+    paddingHorizontal: 20,
     backgroundColor: COLORS.grayBackground,
   },
   categoryText: {
     marginVertical: 20,
     fontSize: 20,
+  },
+  popularListWrapper: {
+    paddingLeft: 20,
+    marginBottom: 50,
+  },
+  headerWrapper: {
+    paddingVertical: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    color: 'white',
+  },
+  headerTitle: {
+    fontSize: 16,
+    fontWeight: '700',
   },
 });

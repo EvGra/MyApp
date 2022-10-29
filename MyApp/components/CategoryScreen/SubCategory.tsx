@@ -1,15 +1,13 @@
 import {StyleSheet, Text, View, Image} from 'react-native';
 import React from 'react';
 
-const SubCategory = ({
-  image,
-  title,
-  number,
-}: {
+interface Props {
   image: string;
   title: string;
   number: string;
-}) => {
+}
+
+const SubCategory: React.FC<Props> = ({image, title, number}) => {
   return (
     <View style={styles.subCategoryItem}>
       <Image
