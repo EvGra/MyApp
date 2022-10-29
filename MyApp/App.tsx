@@ -35,6 +35,7 @@ export type StackParams = {
   CategoryItemScreen: undefined;
   SuccessPaymentScreen: undefined;
   TopUpScreen: undefined;
+  AddCardScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParams>();

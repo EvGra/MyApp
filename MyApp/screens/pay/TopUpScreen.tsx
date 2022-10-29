@@ -1,19 +1,22 @@
-import {StyleSheet, Text, View, TextInput, Image} from 'react-native';
+import {StyleSheet, Text, View, TextInput, Pressable} from 'react-native';
 import React, {useState} from 'react';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {useNavigation} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import {StackParams} from '../../App';
-import HeaderButton from '../../components/CategoryScreen/HeaderButton';
 import {COLORS} from '../../src/data';
 import CoinButton from '../../components/pay/СoinButton';
 import Button from '../../components/sign/Button';
+import PayScreensHeader from '../../components/pay/PayScreensHeader';
 
-type topUpScreenScreenProp = StackNavigationProp<StackParams, 'TopUpScreen'>;
+type StackParamList = {
+  HomeScreens: {screen: string} | undefined;
+};
+
+type NavigationProps = StackNavigationProp<StackParamList>;
 
 const TopUpScreen = () => {
-  const navigation = useNavigation<topUpScreenScreenProp>();
+  const navigation = useNavigation<NavigationProps>();
 
   const [text, setText] = useState('0');
 
@@ -28,10 +31,7 @@ const TopUpScreen = () => {
   return (
     <>
       <View style={styles.topUpWrapper}>
-        <View style={styles.headerWrapper}>
-          <HeaderButton name="arrow-back-outline" onPress={goBackButtonPress} />
-          <Text>Top Up</Text>
-        </View>
+        <PayScreensHeader onPress={goBackButtonPress} />
         <View style={styles.inputWrapper}>
           <Text style={styles.text}>Nominal input</Text>
           <View>
@@ -70,20 +70,32 @@ const TopUpScreen = () => {
             />
           </View>
         </View>
-        <View style={styles.addCard}>
-          <View style={styles.cardWrapper}>
-            <Ionicons name="card-outline" size={25} color={COLORS.blueDark} />
-            <View style={styles.addCardTextWrapper}>
-              <Text style={styles.addCardHeader}>Add a debit card</Text>
-              <Text style={styles.addCardText}>
-                Can this balance directly from here
-              </Text>
+        <Pressable
+          onPress={() => {
+            navigation.navigate('HomeScreens', {
+              screen: 'AddCardScreen',
+            });
+          }}
+          style={({pressed}) => [pressed ? styles.addCardPressed : null]}>
+          <View style={styles.addCard}>
+            <View style={styles.cardWrapper}>
+              <Ionicons name="card-outline" size={25} color={COLORS.blueDark} />
+              <View style={styles.addCardTextWrapper}>
+                <Text style={styles.addCardHeader}>Add a debit card</Text>
+                <Text style={styles.addCardText}>
+                  Can this balance directly from here
+                </Text>
+              </View>
+            </View>
+            <View style={styles.arrow}>
+              <Ionicons
+                name="chevron-forward-outline"
+                size={20}
+                color="white"
+              />
             </View>
           </View>
-          <View style={styles.arrow}>
-            <Ionicons name="chevron-forward-outline" size={20} color="white" />
-          </View>
-        </View>
+        </Pressable>
       </View>
       <View style={styles.button}>
         <Button text="CONTINUE" textColorWhite={true} colorBg="#ACBAC3" />
@@ -99,16 +111,10 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 20,
   },
-  headerWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 10,
-  },
   inputWrapper: {
     height: 220,
     width: '100%',
     paddingHorizontal: 25,
-
     borderRadius: 20,
     backgroundColor: COLORS.grayBackground,
   },
@@ -152,6 +158,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 25,
     backgroundColor: COLORS.grayBackground,
+  },
+  addCardPressed: {
+    opacity: 0.7,
   },
   addCardTextWrapper: {
     marginLeft: 20,
