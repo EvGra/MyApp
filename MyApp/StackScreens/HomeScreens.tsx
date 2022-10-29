@@ -11,6 +11,7 @@ import CartScreen from '../screens/main/CartScreen';
 import ItemScreen from '../screens/main/ItemScreen';
 import FavoriteScreen from '../screens/profile/FavoriteScreen';
 import SuccessPaymentScreen from '../screens/main/SuccessPaymentScreen';
+import TopUpScreen from '../screens/pay/TopUpScreen';
 
 const HomeScreens = () => {
   const Stack = createNativeStackNavigator<StackParams>();
@@ -55,6 +56,11 @@ const HomeScreens = () => {
       <Stack.Screen
         name="FavoriteScreen"
         component={FavoriteScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="TopUpScreen"
+        component={TopUpScreen}
         options={{headerShown: false}}
       />
     </Stack.Navigator>
