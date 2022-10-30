@@ -35,6 +35,7 @@ const SignIn = () => {
     try {
       const token = await login(email, password);
       authCtx.authenticate(token);
+      authCtx.getUserName(email);
     } catch (error) {
       Alert.alert('Failed');
       setIsAuthenticating(false);

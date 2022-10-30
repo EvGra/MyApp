@@ -1,5 +1,11 @@
 import {useState} from 'react';
-import {View, TextInput, StyleSheet, KeyboardTypeOptions} from 'react-native';
+import {
+  View,
+  TextInput,
+  StyleSheet,
+  KeyboardTypeOptions,
+  Dimensions,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 interface Params {
@@ -10,6 +16,8 @@ interface Params {
   isInvalid: boolean;
   placeHolder: string;
 }
+
+const windowWidth = Dimensions.get('window').width;
 
 const Input = ({
   keyboardType,
@@ -57,8 +65,8 @@ const styles = StyleSheet.create({
   },
   secureMargin: {marginLeft: 20},
   input: {
-    width: 300,
     height: 60,
+    width: windowWidth * 0.8,
   },
   inputInvalid: {
     borderColor: 'red',

@@ -1,4 +1,11 @@
-import {StyleSheet, Text, View, Pressable, Image} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+  Image,
+  Dimensions,
+} from 'react-native';
 import React, {useState} from 'react';
 
 import {COLORS} from '../../src/data';
@@ -10,6 +17,8 @@ interface Params {
   logoSrc?: number;
   onPress?: () => void;
 }
+
+const windowWidth = Dimensions.get('window').width;
 
 const Button = ({text, textColorWhite, logoSrc, colorBg, onPress}: Params) => {
   const [imgSrc, setImgSrc] = useState([
@@ -46,7 +55,7 @@ export default Button;
 
 const styles = StyleSheet.create({
   buttonWrapper: {
-    width: 300,
+    width: windowWidth * 0.85,
     marginHorizontal: 20,
     borderRadius: 30,
     flexDirection: 'row',
