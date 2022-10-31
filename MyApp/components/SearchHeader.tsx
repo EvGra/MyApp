@@ -29,7 +29,7 @@ const SearchHeader = ({onPickText, onPress}: Params) => {
   const [inputText, setInputText] = useState('');
   const navigation = useNavigation<NavigationProps>();
 
-  const windowHeight = Dimensions.get('window').height;
+  const windowWidth = Dimensions.get('window').width;
 
   const onPressHandler = () => {
     onPickText(inputText);
@@ -43,7 +43,7 @@ const SearchHeader = ({onPickText, onPress}: Params) => {
           <TextInput
             placeholder="Search"
             style={{
-              width: 200,
+              width: windowWidth * 0.55,
             }}
             autoCapitalize="none"
             autoCorrect={false}

@@ -129,6 +129,12 @@ const Home = () => {
             </View>
           </Pressable>
           <Pressable
+            onPress={() => {
+              navigation.navigate('HomeScreens', {
+                screen: 'TopUpScreen',
+                params: {},
+              });
+            }}
             style={({pressed}) => (pressed ? styles.buttonPressed : null)}>
             <View style={styles.buttonsInUserInfo}>
               <Ionicons name="add-circle-outline" size={20} color="white" />

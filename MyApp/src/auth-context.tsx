@@ -25,6 +25,8 @@ export const AuthContext = createContext({
   loadingScreen: false,
   authenticate: (token: string) => {},
   logout: () => {},
+  userName: '',
+  getUserName: (userName: string) => {},
   items: [],
   totalPrice: 0,
 });
@@ -33,6 +35,8 @@ export const AuthContextProvider = ({children}: Props) => {
   const [authToken, setAuthToken] = useState('');
 
   const [loading, setLoading] = useState(false);
+
+  const [user, setUser] = useState('');
 
   const URI = 'https://6332f8cc573c03ab0b551d3e.mockapi.io/items';
 
@@ -60,11 +64,17 @@ export const AuthContextProvider = ({children}: Props) => {
     AsyncStorage.removeItem('token');
   };
 
+  const getUserName = (userName: string) => {
+    setUser(userName);
+  };
+
   const value = {
     token: authToken,
     isAuthenticated: !!authToken,
     authenticate: authenticate,
     logout: logout,
+    userName: user,
+    getUserName: getUserName,
     loadingScreen: loading,
     items: items,
     totalPrice: totalPrice,

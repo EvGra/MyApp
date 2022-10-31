@@ -1,19 +1,19 @@
 import {StyleSheet, Pressable, View} from 'react-native';
 import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {useDispatch, useSelector} from 'react-redux';
 
 import {addCart} from '../src/redux/cartItems';
 import {COLORS} from '../src/data';
+import {useAppDispatch, useAppSelector} from '../src/hook';
 
 interface Props {
   name: string;
 }
 
 const AddToCartButton: React.FC<Props> = ({name}) => {
-  const cartItemNames = useSelector(state => state.cartItems.names);
+  const cartItemNames = useAppSelector(state => state.cartItems.names);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const itemCart = cartItemNames.includes(name);
 

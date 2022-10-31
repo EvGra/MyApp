@@ -14,8 +14,8 @@ interface RenderItemProps {
 }
 
 interface Props {
-  newItems?: any[];
-  items: any[];
+  newItems?: [];
+  items: [];
   inputText?: string;
 }
 

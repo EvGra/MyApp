@@ -6,6 +6,7 @@ import {useDispatch} from 'react-redux';
 
 import {COLORS} from '../../src/data';
 import {getTotals, removeCart} from '../../src/redux/cartItems';
+import {useAppDispatch} from '../../src/hook';
 
 interface Props {
   item: {
@@ -29,7 +30,7 @@ const CartItem: React.FC<Props> = ({item}) => {
 
   const subTotalPrice = quality * +item.price;
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const deleteItemHendler = () => {
     dispatch(removeCart({name: item.name}));

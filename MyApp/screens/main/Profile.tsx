@@ -21,17 +21,9 @@ type NavigationProps = StackNavigationProp<StackParamList>;
 const Profile = () => {
   const authCtx = useContext(AuthContext);
 
+  const email: string = authCtx.userName;
+
   const navigation = useNavigation<NavigationProps>();
-
-  const [fetchedMail, setFetchedMail] = useState('mail');
-
-  // useEffect(() => {
-  //   axios
-  //     .get('')
-  //     .then(response => {
-  //       setFetchedMail(response.data);
-  //     });
-  // }, []);
 
   const ProfileButton = (itemData: Props) => {
     const pressHandler = (name: string) => {
@@ -65,7 +57,7 @@ const Profile = () => {
     <View>
       <View style={styles.personWrapper}>
         <View style={styles.personPhoto} />
-        <Text style={styles.personText}>{fetchedMail}</Text>
+        <Text style={styles.personText}>{email}</Text>
       </View>
       <FlatList
         data={PROFILEBUTTONS}

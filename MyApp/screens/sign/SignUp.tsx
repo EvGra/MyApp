@@ -25,6 +25,7 @@ const SignUp = () => {
     try {
       const token = await createUser(email, password);
       authCtx.authenticate(token);
+      authCtx.getUserName(email);
     } catch (error) {
       Alert.alert('Failed');
       setIsAuthenticating(false);

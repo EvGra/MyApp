@@ -29,9 +29,7 @@ const Header: React.FC<Props> = ({title}) => {
           }}
         />
       </View>
-      <Text style={[styles.headerTitle, {marginLeft: windowWidth / 30}]}>
-        {title}
-      </Text>
+      <Text style={styles.headerTitle}>{title}</Text>
       <View>
         <HeaderButton
           name="cart-outline"
