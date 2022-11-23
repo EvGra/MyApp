@@ -1,6 +1,6 @@
 import {StyleSheet, Text, View, Pressable, FlatList} from 'react-native';
 import {ScrollView} from 'react-native-virtualized-view';
-import React, {useContext, useState} from 'react';
+import React, {useContext, useMemo, useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -41,14 +41,17 @@ const Home = () => {
   const saleList: any[] = [];
   const popularList: any[] = [];
 
-  for (let i = 0; i < items.length; i++) {
-    if (items[i].sale == 'true') {
-      saleList.push(items[i]);
+  useMemo(() => {
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].sale == 'true') {
+        saleList.push(items[i]);
+      }
+      if (items[i].popular == 'true') {
+        popularList.push(items[i]);
+      }
     }
-    if (items[i].popular == 'true') {
-      popularList.push(items[i]);
-    }
-  }
+  }, [items]);
+
   const pickedTextHandler = (pickedText: string) => {
     setInputText(pickedText);
   };

@@ -17,6 +17,7 @@ const AuthenticatedScreen = () => {
       <Tab.Navigator
         screenOptions={{
           tabBarShowLabel: false,
+          tabBarHideOnKeyboard: true,
           tabBarInactiveTintColor: COLORS.grayLight,
           tabBarActiveTintColor: COLORS.blueDark,
           tabBarStyle: {
