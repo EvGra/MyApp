@@ -1,5 +1,5 @@
 import {StyleSheet, Text, View, Pressable, Alert} from 'react-native';
-import React, {useContext} from 'react';
+import React, {useContext, useMemo} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -44,17 +44,19 @@ const CartScreen = () => {
     }
   });
 
-  for (let i = 0; i < cartItems.length; i++) {
-    cartItems[i].params = totalItems[i];
-  }
+  useMemo(() => {
+    for (let i = 0; i < cartItems.length; i++) {
+      cartItems[i].params = totalItems[i];
+    }
 
-  for (let i = 0; i < cartItemParams.length; i++) {
-    for (let j = 0; j < cartItems.length; j++) {
-      if (cartItems[j].name == cartItemParams[i].name) {
-        cartItems[j].itemParams = cartItemParams[i];
+    for (let i = 0; i < cartItemParams.length; i++) {
+      for (let j = 0; j < cartItems.length; j++) {
+        if (cartItems[j].name == cartItemParams[i].name) {
+          cartItems[j].itemParams = cartItemParams[i];
+        }
       }
     }
-  }
+  }, [cartItems]);
 
   const subTotalSum = totalItems.reduce((sum, item) => {
     let sumItem = 0;

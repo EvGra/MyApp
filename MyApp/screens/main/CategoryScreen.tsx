@@ -6,7 +6,7 @@ import {
   StatusBar,
   Pressable,
 } from 'react-native';
-import React, {useState, useLayoutEffect} from 'react';
+import React, {useState, useLayoutEffect, useMemo} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp} from '@react-navigation/native';
@@ -42,18 +42,20 @@ const CategoryScreen = () => {
   const categoryNameItems: any[] = [];
   const categoryItemsPopular: any[] = [];
 
-  for (let i = 0; i < items.length; i++) {
-    if (
-      items[i].category[0] == category &&
-      !categoryNameItems.includes(items[i].category[1])
-    ) {
-      categoryItems.push(items[i]);
-      categoryNameItems.push(items[i].category[1]);
-      if (items[i].popular == 'true') {
-        categoryItemsPopular.push(items[i]);
+  useMemo(() => {
+    for (let i = 0; i < items.length; i++) {
+      if (
+        items[i].category[0] == category &&
+        !categoryNameItems.includes(items[i].category[1])
+      ) {
+        categoryItems.push(items[i]);
+        categoryNameItems.push(items[i].category[1]);
+        if (items[i].popular == 'true') {
+          categoryItemsPopular.push(items[i]);
+        }
       }
     }
-  }
+  }, [items]);
 
   const numberOfItems = (elem: string) => {
     let number = 0;
